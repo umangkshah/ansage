@@ -3,7 +3,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.Session;
-
+import javax.persistence.TypedQuery;
 import org.hibernate.cfg.Configuration;
 import java.util.*;
 public class Main {
@@ -24,8 +24,8 @@ public class Main {
 			throw new ExceptionInInitializerError(ex);
 		}
 		
-		
 		login();
+	
 		
 		sessionfactory.close();
 		
@@ -72,12 +72,9 @@ public class Main {
 		try
 		{
 			tx=session.beginTransaction();
-			List reglist=session.createQuery("FROM registration").list();
-			for(Iterator iterator=reglist.iterator();iterator.hasNext();)
-			{
-				Userreg reg=(Userreg)iterator.next();
-				System.out.println(reg.getProfileid());
-			}
+			Userreg reg=new Userreg();
+			reg=(Userreg)session.get(Userreg.class,1);
+			System.out.println(reg.getName());
 			tx.commit();
 		}
 		catch(HibernateException e)

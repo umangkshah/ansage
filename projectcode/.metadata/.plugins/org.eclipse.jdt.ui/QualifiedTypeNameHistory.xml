@@ -11,4 +11,7 @@
 <fullyQualifiedTypeName name="javax.persistence.TemporalType"/>
 <fullyQualifiedTypeName name="javax.persistence.GeneratedValue"/>
 <fullyQualifiedTypeName name="javax.persistence.GenerationType"/>
+<fullyQualifiedTypeName name="org.hibernate.Cache"/>
+<fullyQualifiedTypeName name="org.hibernate.HibernateException"/>
+<fullyQualifiedTypeName name="javax.persistence.TypedQuery"/>
 </qualifiedTypeNameHistroy>
