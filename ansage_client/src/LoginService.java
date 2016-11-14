@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 
 /**
  * Servlet implementation class LoginService
@@ -37,7 +40,14 @@ public class LoginService extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
+		Client cl = Client.create();
 		String username = request.getParameter("emailid");
+		try{
+		 WebResource ws = cl.resource("http://localhost:9080/webSvcs/loginservices/availableusername/" + username);
+		 ClientResponse e = ws.accept("").get(ClientResponse.class);
+		 if (e.getStatus() != 200) {
+		 throw new RuntimeException("Failed : HTTP error code : " + e.getStatus());
+		 }
 		//String pass = request.getParameter("passwd");
 		/*
 		 * LoginBean lb= new LoginBean();
@@ -45,9 +55,12 @@ public class LoginService extends HttpServlet {
 		 * lb.password = pass;
 		 * web svc call (localhost:8080/ansage/doLogin/) 
 		 */
+		 username = e.getEntity(String.class);
 		HttpSession s = request.getSession();
 		s.setAttribute("USER",username);
 		response.sendRedirect("index.jsp");
+		}
+		catch(Exception e){}
 	}
 
 }

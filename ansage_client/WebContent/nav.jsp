@@ -22,7 +22,7 @@
                     <li>
                         <a href="#">Contact</a>
                     </li>
-                    <% if(session.getAttribute("USER") == null) { %>  
+                    <% if(session.getAttribute("USER") != null) { %>  
                     <li class="dropdown navbar-right">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
                       <ul class="dropdown-menu">
