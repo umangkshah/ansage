@@ -29,10 +29,23 @@ public class LoginServices {
 	
 	@Path("/availableusername/{username}")
 	@GET
-	@Produces(MediaType.TEXT_HTML)
+	@Produces(MediaType.TEXT_PLAIN)
 	public String availableUsername(@PathParam("username") String username) {
 		
-		return "<p>" + username + "001 </p>";
+		hibernatemethod hmethod=new hibernatemethod();
+		hibernatepojo check=hmethod.login(username);
+	   if(check==null)
+		{
+			return "false";
+		
+		}
+		else
+		{
+			return check.getName()+" "+check.getEmail();
+		}
+	
+		
+		
 	}
 }
 
