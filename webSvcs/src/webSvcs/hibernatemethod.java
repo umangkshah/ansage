@@ -7,13 +7,17 @@ import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import java.util.*;
 import org.hibernate.*;
+import org.json.simple.JSONObject;
+
+
+
 
 public class hibernatemethod {
 
     private static SessionFactory sessionfactory;
-	
-	
-	public void registration()
+    
+   
+	public static String registration(JSONObject regdata)
 	{
 		
 		try
@@ -27,13 +31,29 @@ public class hibernatemethod {
 		}
 		
 		
+		
+		
+	   
+	    String username=regdata.get("username").toString();
+		String email=regdata.get("email").toString();
+		String tagline=regdata.get("tagline").toString();
+		String bio=regdata.get("bio").toString();
+		String password=regdata.get("password").toString();
+		String con=regdata.get("coins").toString();
+		String skills=regdata.get("skills").toString();
+		int coins=Integer.parseInt(con);
 		hibernatepojo reg=new hibernatepojo();
-		reg.setCountry("USA");
-		reg.setPassword("usacoun");
-		reg.setEmail("uaewef@gmail.com");
-		reg.setName("John");
-		reg.setProfileid(9);
-		reg.setBirthdate(new Date());
+		
+		login logdet=new login();
+		logdet.setEmail(email);
+		logdet.setPassword(password);
+		
+		reg.setName(username);
+		reg.setEmail(email);
+		reg.setTagline(tagline);
+		reg.setBioinfo(bio);
+	     reg.setCoins(coins);
+	     
 		
 		Session session=sessionfactory.openSession();
 		Transaction tx=null;
@@ -41,6 +61,7 @@ public class hibernatemethod {
 		{
 		tx = session.beginTransaction();
 		session.save(reg);
+		session.save(logdet);
 		tx.commit();
 		}
 		catch(Exception e)
@@ -48,19 +69,30 @@ public class hibernatemethod {
 			if(tx!=null)
 				tx.rollback();
 			e.printStackTrace();
-				
+				return "Failed";
 		}
 		finally
 		{
 			session.close();
 		}
-		sessionfactory.close();
+	
 		
-	}
+		
+		
+		sessionfactory.close();
+		return "success";
+		
+}
 	
 	@SuppressWarnings("deprecation")
-	public  hibernatepojo login(String email)
+	public  hibernatepojo  login(JSONObject logindet)
 	{
+		 hibernatepojo reg=null;	
+		 login prof=null;
+		String email=logindet.get("email").toString();
+		String password=logindet.get("password").toString();
+		
+		
 		
 		try
 		{
@@ -81,25 +113,13 @@ public class hibernatemethod {
 		{
 			tx=session.beginTransaction();
 		     @SuppressWarnings("rawtypes")
-			Query query=session.createQuery("from hibernatepojo where email=:email");
+		     Query query=session.createQuery("from login where email=:email and password=:password");
 		    query.setParameter("email",email);
-		   
+		    query.setParameter("password",password);
 		    
-		     List<hibernatepojo> reg=(List<hibernatepojo>)query.list();
-		     if(!reg.isEmpty())
-		     {
-		    for(hibernatepojo u:reg)
-		    {	 
-		    
-		     return u;
-		     }
-		     }
-		     else
-		     {
-		    	 return null;
-		    	 
-		     }
-             tx.commit();
+		     prof=(login)query.uniqueResult();
+		     
+		     tx.commit();
 		}
 		catch(HibernateException e)
 		{
@@ -114,8 +134,35 @@ public class hibernatemethod {
 			session.close();
 			
 		}
+		int profileid=prof.getProfileid();
+		try
+		{
+		session=sessionfactory.openSession();
+		tx=session.beginTransaction();
+		@SuppressWarnings("rawtypes")
+		Query query=session.createQuery("from hibernatepojo where profileid=:profileid");
+		query.setParameter("profileid",profileid);
+		reg=(hibernatepojo)query.uniqueResult();
+		tx.commit();
+		
+		}
+		catch(HibernateException e)
+		{
+			
+			if(tx!=null)
+				tx.rollback();
+			e.printStackTrace();
+		}
+		finally
+		{
+			
+			session.close();
+			
+		}
+		
+		
 		sessionfactory.close();
-		return null;
+		return reg;
 	}
 	
 }

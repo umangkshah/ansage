@@ -2,41 +2,70 @@ package webSvcs;
 
 
 	
-	import javax.persistence.Entity;
-	import java.util.*;
-	import javax.persistence.Id;
-	import javax.persistence.Table;
-	import javax.persistence.TemporalType;
-	import javax.persistence.Column;
-	import javax.persistence.Temporal;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import java.util.*;
+import javax.persistence.Id;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
+import javax.persistence.SecondaryTables;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.TemporalType;
+import javax.persistence.Column;
+import javax.persistence.Temporal;
 
 	@Entity
 	@Table(name="REGISTRATION")
+	
 	public class hibernatepojo{
 	    
 		@Id
-		
-	     private int profileid;
-	    
-		private String password;
-	    
-		private String country;
-		
+		@GeneratedValue(strategy = GenerationType.SEQUENCE)
+        private int profileid;
 		@Column(unique=true)
 		private String email;
 		
-		private String name;
+	    private String name;
+		private int coins;
+		private String tagline;
+	    private String bioinfo;
+	    private String skills;
 	   
-	    @Temporal(TemporalType.DATE)
-	    private Date birthdate;
-	    
-	    
-		public Date getBirthdate() {
-			return birthdate;
+	  
+	   
+
+		public String getSkills() {
+			return skills;
 		}
 
-		public void setBirthdate(Date birthdate) {
-			this.birthdate = birthdate;
+		public void setSkills(String skills) {
+			this.skills = skills;
+		}
+
+		public int getCoins() {
+			return coins;
+		}
+
+		public void setCoins(int coins) {
+			this.coins = coins;
+		}
+	    
+	   public String getTagline() {
+			return tagline;
+		}
+
+		public void setTagline(String tagline) {
+			this.tagline = tagline;
+		}
+
+		public String getBioinfo() {
+			return bioinfo;
+		}
+
+		public void setBioinfo(String bioinfo) {
+			this.bioinfo = bioinfo;
 		}
 
 		public String getName() {
@@ -63,21 +92,9 @@ package webSvcs;
 			this.profileid = profileid;
 		}
 
-		public String getCountry() {
-			return country;
-		}
+		
 
-		public void setCountry(String country) {
-			this.country = country;
-		}
-
-		public String getPassword() {
-			return password;
-		}
-
-		public void setPassword(String password) {
-			this.password = password;
-		}
+		
 		
 	
 	
