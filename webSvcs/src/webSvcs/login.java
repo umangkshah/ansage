@@ -16,7 +16,7 @@ import javax.persistence.Column;
 import javax.persistence.Temporal;
 
 	@Entity
-	@Table(name="LOGIN")
+	@Table(name="login")
 
 				
 public class login {

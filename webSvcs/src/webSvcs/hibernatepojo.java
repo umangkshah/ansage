@@ -17,7 +17,7 @@ import javax.persistence.Column;
 import javax.persistence.Temporal;
 
 	@Entity
-	@Table(name="REGISTRATION")
+	@Table(name="registration")
 	
 	public class hibernatepojo{
 	    
