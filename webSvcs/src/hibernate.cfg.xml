@@ -49,6 +49,7 @@
         
         <mapping class="webSvcs.Registrationpojo"/>
         <mapping class="webSvcs.Loginpojo"/>
+        <mapping class="webSvcs.Questionpojo"/>
         
     </session-factory>
  

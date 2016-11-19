@@ -1,6 +1,5 @@
 package webSvcs;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,19 +11,23 @@ import javax.persistence.SecondaryTables;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TemporalType;
-import org.hibernate.SessionFactory;
 import javax.persistence.Column;
 import javax.persistence.Temporal;
+
 @Entity
 @Table(name="question")
+
+
+
 public class Questionpojo {
+	
 	@Id
-	private int ownerid;
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	private int qid;
-	private String ques;
-	private String desc;
-	private String category;
+	private int ownerid;
+	private String qus;
+	private String descr;
+	private String catg;
 	
 	public int getOwnerid() {
 		return ownerid;
@@ -38,38 +41,26 @@ public class Questionpojo {
 	public void setQid(int qid) {
 		this.qid = qid;
 	}
-	public String getQues() {
-		return ques;
+	public String getQus() {
+		return qus;
 	}
-	public void setQues(String ques) {
-		this.ques = ques;
+	public void setQus(String qus) {
+		this.qus = qus;
 	}
-	public String getDesc() {
-		return desc;
+	public String getDescr() {
+		return descr;
 	}
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescr(String descr) {
+		this.descr = descr;
 	}
-	public String getCategory() {
-		return category;
+	public String getCatg() {
+		return catg;
 	}
-	public void setCategory(String category) {
-		this.category = category;
+	public void setCatg(String catg) {
+		this.catg = catg;
 	}
-	
-	
-	
 	
 	
 	
 
 }
-
-
-
-
-
-
-
-
-
