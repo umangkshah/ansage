@@ -31,8 +31,8 @@ public class RegServices {
 			e.printStackTrace();
 		}
 		
-		Registrationclass htm = new Registrationclass();
-		Registrationpojo check = htm.registration(json); 
+		hibernatemethod htm = new hibernatemethod();
+		hibernatepojo check = htm.registration(json); 
 		
 		 if(check==null)
 			{

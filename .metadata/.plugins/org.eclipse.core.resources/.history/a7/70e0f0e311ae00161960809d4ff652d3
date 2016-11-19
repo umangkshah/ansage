@@ -30,7 +30,7 @@ public class LoginServices {
 			e.printStackTrace();
 		}
 		
-		Registrationclass hmethod=new Registrationclass();
+		hibernatemethod hmethod=new hibernatemethod();
 		Registrationpojo check=hmethod.login(json);
 	
 	   if(check==null)
