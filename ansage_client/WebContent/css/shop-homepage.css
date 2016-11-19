@@ -63,6 +63,14 @@ body {
 }
 /* Login - Reg page*/
 
+/* View Question */
+.panel{
+	margin:5px;
+}
+.panel-body{
+	padding: 5px;
+	font-size:13px;
+}
 
 /*  Profile */
 

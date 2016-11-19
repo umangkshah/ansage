@@ -219,10 +219,10 @@
                     </div>
 
                     <div class="col-sm-4 col-lg-4 col-md-4">
-                        <h4><a href="#">Know the Answers?</a>
+                        <h4><a>Know the Answers?</a>
                         </h4>
-                        <p>Join Ansage by Registering <a target="_blank" href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">here</a> and join the community of Knowledge!</p>
-                        <a class="btn btn-primary" target="_blank" href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">View Tutorial</a>
+                        <p>Join Ansage by Registering <a href="register.jsp">here</a> and join the age of answers!</p>
+                        
                     </div>
 
                 </div>
