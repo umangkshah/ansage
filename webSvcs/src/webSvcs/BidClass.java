@@ -13,6 +13,19 @@ public class BidClass
 	{
 	
 	private static SessionFactory sessionfactory;
+	
+	/*public static void main(String[]args)
+	{
+		JSONObject json=new JSONObject();
+		json.put("qid",1);
+		json.put("offer", 100);
+		BidClass bi=new BidClass();
+		String check=bi.savebid(json);
+		System.out.println(check);
+		
+	}*/
+	
+	
 	public String savebid(JSONObject biddata)
 		{
 		try
@@ -33,6 +46,7 @@ public class BidClass
 		bid.setOffer(offer);
 		Session session=null;
 		Transaction tx=null;
+		String reqsid=null;
 		try
 			{
 			session=sessionfactory.openSession();
@@ -72,8 +86,26 @@ public class BidClass
 			{
 			session.close();
 			}
+			try
+			{
+				session=sessionfactory.openSession();
+				tx=session.beginTransaction();
+				Query query=session.createQuery("SELECT max(reqid) from Bidpojo" );
+				int reid=(int)query.uniqueResult();
+				 reqsid=String.valueOf(reid);
+			}
+			catch(Exception e)
+			{
+			if(tx!=null)
+			tx.rollback();
+			return "false";
+			}
+			finally
+			{
+				session.close();
+			}
 		sessionfactory.close();
-		return "true"; 
+		return reqsid; 
 		}
 	
 		public JSONArray retbids(String id)
