@@ -1,7 +1,6 @@
-import java.io.IOException;
-import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
+
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,25 +9,26 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.MediaType;
 
-import org.json.simple.*;
-import com.fasterxml.jackson.*;
+import org.json.simple.JSONObject;
+
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.sun.jersey.api.client.*;
+import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.*;;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 /**
- * Servlet implementation class LoginService
+ * Servlet implementation class Question
  */
-@WebServlet("/LoginService")
-public class LoginService extends HttpServlet {
+@WebServlet("/Question")
+public class Question extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginService() {
+    public Question() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,7 +38,7 @@ public class LoginService extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 	}
 
 	/**
@@ -46,11 +46,12 @@ public class LoginService extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
-		
-		JSONObject loginform = new JSONObject();
-		loginform.put("username", request.getParameter("emailid"));
-		loginform.put("password", request.getParameter("passwd"));
+		JSONObject qsn = new JSONObject();
+		HttpSession s = request.getSession();
+		qsn.put("ownerid",s.getAttribute("PROID"));
+		qsn.put("mainQ",request.getParameter("mainQ"));
+		qsn.put("descrQ",request.getParameter("descrQ"));
+		//qsn.put("category", value);
 		
 		String proto = "http://";
 		ClientConfig cfg = new DefaultClientConfig();
@@ -59,24 +60,17 @@ public class LoginService extends HttpServlet {
 		
 		WebResource wsvc = cl.resource(proto+"localhost:9080/webSvcs");
 		
-		ClientResponse c = wsvc.path("loginservices").path("checkuservalidity").
+		ClientResponse c = wsvc.path("qservices").path("add").
 				type(MediaType.TEXT_PLAIN).accept(MediaType.TEXT_PLAIN).
-				post(ClientResponse.class, loginform.toString());
+				post(ClientResponse.class, qsn.toString());
+		
 		if (c.getStatus() != 200) {
-			response.getOutputStream().print("Error");
+		response.getOutputStream().print("Error");
 		}
 		else{
-			String respn = c.getEntity(String.class);
-			String g[] = respn.split(" ");
-			HttpSession s = request.getSession();
-			s.setAttribute("USER",g[2]);
-			s.setAttribute("PROID",g[1]);
-			s.setAttribute("NAME",g[0]);
-			s.setAttribute("COINS",g[3]);
-			response.sendRedirect("index.jsp");
+			
+			response.sendRedirect("asked.jsp");
 		}
-		
-	
 	}
 
 }

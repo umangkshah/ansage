@@ -22,7 +22,7 @@
                         <input name="passwd" type="password" class="form-control" id="passwd" placeholder="Password" />
                         </div> 
                         
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-success">Submit</button>
                     </form>
                     <br/>
                     <p id="orreg">Or 
@@ -35,13 +35,14 @@
 				<%= session.getAttribute("NAME")%>
                 </div>
                 <div class="list-group">
-                    <% out.println("<a href=\'profile.jsp?userid=" + session.getAttribute("PROID") + "\'>"); %>
-                    <! --a href='profile.jsp?userid=12' class="list-group-item"-->My Profile</a>
-                    <a href="ask.html" class="list-group-item">Post Question</a>
-                    <a href="answer.html" class="list-group-item">Answer Questions</a>
-                    <a href="#" class="list-group-item">My Cents: 
-                    <%= session.getAttribute("COINS")%>
+                    <% out.println("<a class=\'list-group-item\' href=\'profile.jsp?userid=" + session.getAttribute("PROID") + "\'>"); %>
+                    My Profile</a>
+                    <a href="ask.jsp" class="list-group-item" id="askq">Post Question</a>
+                    <a href="search.jsp?q=all" class="list-group-item">Answer Questions</a>
+                    <a href="#" class="list-group-item">My Coins: 
+                    <%= session.getAttribute("COINS")%>                   
                     </a>
+                    <!--a href='profile.jsp?userid=12' class="list-group-item"-->
                 </div>
                 <% } %>
             </div>
