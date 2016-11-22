@@ -17,11 +17,11 @@ public class BidClass
 	/*public static void main(String[]args)
 	{
 		JSONObject json=new JSONObject();
-		json.put("qid",1);
-		json.put("offer", 100);
+		
 		BidClass bi=new BidClass();
-		String check=bi.savebid(json);
-		System.out.println(check);
+		List<Bidpojo>check=bi.retbids("1");
+		for(Bidpojo u:check)
+			System.out.println(u.getReqid());
 		
 	}*/
 	
@@ -108,10 +108,10 @@ public class BidClass
 		return reqsid; 
 		}
 	
-		public JSONArray retbids(String id)
+		public List<Bidpojo> retbids(String id)
 			{
 			int qid=Integer.parseInt(id);
-			JSONArray jsonobj=new JSONArray();
+			List<Bidpojo> bidlist=null;
 			try
 				{
 				sessionfactory=new Configuration().configure().buildSessionFactory();
@@ -129,19 +129,10 @@ public class BidClass
 				tx=session.beginTransaction();
 				Query query=session.createQuery("from Bidpojo where qid=:qid");
 				query.setParameter("qid",qid);
-				List<Bidpojo> bidlist=query.list();
+				 bidlist=query.list();
+				 if(bidlist==null)
+					 return null;
 				tx.commit();
-				for(Bidpojo bid:bidlist)
-					{
-					 JSONObject jobj=new JSONObject();
-					 int quesid=bid.getQid();
-					 int reqid=bid.getReqid();
-					 int offer=bid.getOffer();
-					 jobj.put("qid",quesid);
-					 jobj.put("reqid",reqid);
-					 jobj.put("offer",offer);
-					 jsonobj.add(jobj);				
-					}
 				}
 			catch(Exception e)
 				{
@@ -152,11 +143,20 @@ public class BidClass
 			finally
 				{
 				 session.close();
-				
 				}
-			return jsonobj;
+			return bidlist;
 			}
-	}
+	
+
+	
+		
+	
+	
+	
+	
+	
+	
+}
 	
 	
 	
