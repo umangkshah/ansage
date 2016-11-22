@@ -18,7 +18,7 @@ public class QServices {
 	@Path("/add")
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
-    public Response isValidUser(String jon) {
+    public Response addQuestion(String jon) {
 		JSONParser parser = new JSONParser();
 		JSONObject json = new JSONObject();
 		
@@ -30,7 +30,7 @@ public class QServices {
 			e.printStackTrace();
 		}
 		
-		QuestionClass qc = new QuestionClass();
+		/*QuestionClass qc = new QuestionClass();
 		Questionpojo check = qc.quesdetails(json);
 	
 	   if(check==null)
@@ -40,11 +40,18 @@ public class QServices {
 		}
 		else
 		{
-			
+			*/
 			//check.getCoins();
 			return Response.status(200).entity("true").build();
-		}
+		//}
 	}
 	
+	@Path("/getq/{qid}")
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+    public Response getQuestion(@PathParam("qid")int qid) {
+		//some hibernate class calls getQDetails(qid)
+		return Response.status(200).entity("The json string").build();
+	}
 }
 

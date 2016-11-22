@@ -22,15 +22,21 @@
         <div class="row">
 
             <jsp:include page="sidebar.jsp" />
-
+			<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+			<c:set var = "oid" value="${qdets.oid}" scope="session" />
+			<c:if test="${oid == session.PROID}">
+				<c:set var = "admin" value="1" scope="session" />
+			</c:if>
                 
             <div class="col-md-9">
                 <div class="row">
-                    <p class="lead" id="loginmsg">Umang's Question.</p>
+                    <p class="lead" id="loginmsg"> ${qdets.oname}'s Question.</p>
                     
-                    <h4> How do you use chopsticks?</h4>
-                    <p>Please guide me on how the hands can be used to operate chopsticks.</p>
+                    <h4> ${qdets.question}</h4>
+                    <p>${qdets.descr}</p>
+                    <c:if test="${admin == 1 }">
                     <a class="btn btn-success" href="http://localhost:9080/webSvcs/QServices/close/161">Close</a>
+                	</c:if>
                 </div>
                 <h4>Bids:</h4>
                 <div class="row">
