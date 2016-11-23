@@ -22,7 +22,7 @@ import javax.persistence.Temporal;
 public class Questionpojo {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int qid;
 	private int ownerid;
 	private String qus;

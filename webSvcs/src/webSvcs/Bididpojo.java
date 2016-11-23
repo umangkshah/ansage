@@ -13,31 +13,27 @@ import javax.persistence.Table;
 import javax.persistence.TemporalType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Temporal;
+import java.io.Serializable;
 
 
-@Entity
-@Table(name="bid")
+@Embeddable
+public class Bididpojo implements Serializable {
+    private int reqid;
+	private int qid;
 
-public class Bidpojo {
+	public int getReqid() {
+		return reqid;
+	}
+	public void setReqid(int reqid) {
+		this.reqid = reqid;
+	}
+	public int getQid() {
+		return qid;
+	}
+	public void setQid(int qid) {
+		this.qid = qid;
+	}
 	
-	@EmbeddedId
-	private Bididpojo bidid; 
-	private int offer;
-	public Bididpojo getBidid() {
-		return bidid;
-	}
-	public void setBidid(Bididpojo bidid) {
-		this.bidid = bidid;
-	}
-	public int getOffer() {
-		return offer;
-	}
-	public void setOffer(int offer) {
-		this.offer = offer;
-	}
+
 }
-
-
-

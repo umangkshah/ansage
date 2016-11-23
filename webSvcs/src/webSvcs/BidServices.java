@@ -41,7 +41,7 @@ public class BidServices {
 			}
 			else
 			{
-			return Response.status(200).entity(check).build();
+			return Response.status(200).entity("true").build();
 			}
 		}
 	@SuppressWarnings("unchecked")

@@ -65,7 +65,7 @@ public class QuestionClass {
 		{
 		session=sessionfactory.openSession();
 		tx = session.beginTransaction();
-		session.save(que);
+		 id=(Integer)session.save(que);
 		tx.commit();
 		}
 		catch(Exception e)
@@ -78,27 +78,7 @@ public class QuestionClass {
 		{
 		session.close();
 		}
-		try
-		{
-		session=sessionfactory.openSession();
-		tx=session.beginTransaction();
-		Query query=session.createQuery("SELECT max(qid) from Questionpojo");
-		id=(int)query.uniqueResult();
-		tx.commit();
-		sqd=String.valueOf(id);
-		}
-		catch(Exception e)
-		{
-			if(tx!=null)
-			tx.rollback();
-			return null;
-			
-		}
-		finally
-		{
-			
-			session.close();		
-		}
+        sqd=String.valueOf(id);
 		
 		sessionfactory.close();
 		return sqd;

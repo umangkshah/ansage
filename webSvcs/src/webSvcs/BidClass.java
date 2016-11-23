@@ -16,12 +16,14 @@ public class BidClass
 	
 	/*public static void main(String[]args)
 	{
-		JSONObject json=new JSONObject();
-		
+		JSONObject jon=new JSONObject();
+		jon.put("qid","4");
+		jon.put("reqid","2");
+		jon.put("offer", "67");
 		BidClass bi=new BidClass();
-		List<Bidpojo>check=bi.retbids("1");
-		for(Bidpojo u:check)
-			System.out.println(u.getReqid());
+		String check=bi.savebid(jon);
+		
+			System.out.println(check);
 		
 	}*/
 	
@@ -39,14 +41,40 @@ public class BidClass
 			}
 		String id=biddata.get("qid").toString();
 		int qid=Integer.parseInt(id);
+		String reqid=biddata.get("reqid").toString();
+		int profileid=Integer.parseInt(reqid);
 		String coins=biddata.get("offer").toString();
 		int offer=Integer.parseInt(coins);
 		Bidpojo bid=new Bidpojo();
-		bid.setQid(qid);
+		Bididpojo bdid=new Bididpojo();
+		bdid.setQid(qid);
+		bdid.setReqid(profileid);
+		bid.setBidid(bdid);
 		bid.setOffer(offer);
 		Session session=null;
 		Transaction tx=null;
 		String reqsid=null;
+		try
+		{
+		session=sessionfactory.openSession();
+		tx=session.beginTransaction();
+		Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
+		query.setParameter("profileid",profileid);
+		tx.commit();
+		Registrationpojo qd=(Registrationpojo)query.uniqueResult();
+		if(qd==null)
+			return "false";
+		}
+		catch(HibernateException e)
+	 	{
+		 if(tx!=null)
+		 tx.rollback();
+		 return "false";
+	 	}
+		finally
+		{
+		session.close();
+		}
 		try
 			{
 			session=sessionfactory.openSession();
@@ -79,6 +107,7 @@ public class BidClass
 			{
 			if(tx!=null)
 			tx.rollback();
+			System.out.println(e.getMessage());
 			return "false";
 			
 			}
@@ -86,26 +115,9 @@ public class BidClass
 			{
 			session.close();
 			}
-			try
-			{
-				session=sessionfactory.openSession();
-				tx=session.beginTransaction();
-				Query query=session.createQuery("SELECT max(reqid) from Bidpojo" );
-				int reid=(int)query.uniqueResult();
-				 reqsid=String.valueOf(reid);
-			}
-			catch(Exception e)
-			{
-			if(tx!=null)
-			tx.rollback();
-			return "false";
-			}
-			finally
-			{
-				session.close();
-			}
+			
 		sessionfactory.close();
-		return reqsid; 
+		return "true"; 
 		}
 	
 		public List<Bidpojo> retbids(String id)
