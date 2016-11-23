@@ -21,8 +21,7 @@ import javax.persistence.Temporal;
 				
 public class Loginpojo {
 		@Id
-		@GeneratedValue(strategy = GenerationType.TABLE)
-        private int profileid;
+		private int profileid;
 		@Column(unique=true)
 		private String email;
 		private String password;

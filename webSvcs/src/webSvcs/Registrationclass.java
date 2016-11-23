@@ -13,10 +13,28 @@ import org.json.simple.*;
 
 
 
-public class Registrationclass {
+public class RegistrationClass {
 
     private static SessionFactory sessionfactory;
     
+  /* public static void main(String[] args)
+    
+    {
+    	JSONObject jon=new JSONObject();
+    	
+    	jon.put("username","aon@gmail.com");
+    	
+    	jon.put("password", "wdqw");
+    	
+    	RegistrationClass re=new RegistrationClass();
+    	JSONObject o=re.login(jon);    	
+    	String dat=o.get("date").toString();
+    	
+    	System.out.println(dat);
+	  // Date k=new Date();
+	   
+    	
+    }*/
     
     
    
@@ -44,7 +62,8 @@ public class Registrationclass {
 		Loginpojo logdet=new Loginpojo();
 		logdet.setEmail(email);
 		logdet.setPassword(password);
-		
+		Date date=new Date();
+		logdet.setLogindate(date);
 		reg.setName(name);
 		reg.setEmail(email);
 		reg.setTagline(tagline);
@@ -56,7 +75,8 @@ public class Registrationclass {
 		try
 		{
 		tx = session.beginTransaction();
-		session.save(reg);
+		int id=(Integer)session.save(reg);
+		logdet.setProfileid(id);
 		session.save(logdet);
 		tx.commit();
 		}
@@ -72,20 +92,19 @@ public class Registrationclass {
 		{
 			session.close();
 		}
-		
 		sessionfactory.close();
 		return reg;
 	}
 	
 	@SuppressWarnings("deprecation")
-	public  Registrationpojo  login(JSONObject logindet)
+	public  JSONObject  login(JSONObject logindet)
 	{
 		 Registrationpojo reg=null;	
 		 Loginpojo prof=null;
 		String email=logindet.get("username").toString();
 		String password=logindet.get("password").toString();
-		
-		
+		JSONObject logdet=new JSONObject();
+		Date date=null;
 		
 		try
 		{
@@ -115,7 +134,7 @@ public class Registrationclass {
 		     tx.commit();
 		     if(prof==null)
 		    	 return null;
-		     
+		      date=prof.getLogindate();
 		     
 		}
 		catch(HibernateException e)
@@ -124,6 +143,34 @@ public class Registrationclass {
 			if(tx!=null)
 				tx.rollback();
 			e.printStackTrace();
+		}
+		finally
+		{
+			
+			session.close();
+			
+		}
+		
+		
+		try
+		{  Date logindate=new Date();
+		System.out.println(logindate);
+			session=sessionfactory.openSession();
+			tx=session.beginTransaction();
+		     @SuppressWarnings("rawtypes")
+		     Query query=session.createQuery("UPDATE Loginpojo set logindate=:logindate WHERE email=:email and password=:password");
+		    query.setParameter("email",email);
+		    query.setParameter("password",password);
+		    query.setParameter("logindate",logindate);
+		    
+		     tx.commit();
+		 }
+		catch(HibernateException e)
+		{
+			
+			if(tx!=null)
+				tx.rollback();
+			
 		}
 		finally
 		{
@@ -143,7 +190,17 @@ public class Registrationclass {
 		tx.commit();
 		if(reg==null)
 			return null;
-		
+		int pid=reg.getProfileid();
+		String pd=String.valueOf(pid);
+		String mail=reg.getEmail();
+		String name=reg.getName();
+		int coin=reg.getCoins();
+		String coins=String.valueOf(coin);
+		logdet.put("date",date);
+		logdet.put("profileid",pd);
+		logdet.put("emailid",mail);
+		logdet.put("name",name);
+		logdet.put("coins",coins);
 		
 		}
 		catch(HibernateException e)
@@ -162,7 +219,7 @@ public class Registrationclass {
 		
 		
 		sessionfactory.close();
-		return reg;
+		return logdet;
 	}
 	
 	

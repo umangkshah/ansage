@@ -30,19 +30,21 @@ public class LoginServices {
 			e.printStackTrace();
 		}
 		
-		Registrationclass hmethod=new Registrationclass();
-		Registrationpojo check=hmethod.login(json);
-	
-	   if(check==null)
+		RegistrationClass hmethod=new RegistrationClass();
+		JSONObject check=hmethod.login(json);
+		if(check==null)
 		{
 		   return Response.status(202).entity("false").build();
 		
 		}
 		else
 		{
-			
-			//check.getCoins();
-			return Response.status(200).entity(check.getName() + " " + check.getProfileid() + " "+ check.getEmail()+ " "+ check.getCoins()).build();
+			String date=check.get("date").toString();
+			String id=check.get("profileid").toString();
+			String mail=check.get("emailid").toString();
+			String name=check.get("name").toString();
+			String coin=check.get("coins").toString();
+			return Response.status(200).entity(date + " " +id + " "+mail+ " "+name+""+coin).build();
 		}
 	}
 	
