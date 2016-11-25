@@ -12,16 +12,17 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TemporalType;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Temporal;
-import java.io.Serializable;
 
 
-@Embeddable
-public class Bididpojo implements Serializable {
-    private int reqid;
+@Entity
+@Table(name="answer")
+public class Answerpojo {
+
+	private int reqid;
 	private int qid;
-
+	private String answer;
 	public int getReqid() {
 		return reqid;
 	}
@@ -34,6 +35,13 @@ public class Bididpojo implements Serializable {
 	public void setQid(int qid) {
 		this.qid = qid;
 	}
+	public String getAnswer() {
+		return answer;
+	}
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+	
 	
 
 }

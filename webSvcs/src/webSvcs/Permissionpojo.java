@@ -12,32 +12,21 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TemporalType;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Temporal;
 
-
 @Entity
-@Table(name="bid")
-
-public class Bidpojo {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int bidid;
-	private int reqid;
+@Table(name="permission")
+public class Permissionpojo {
+	
 	private int qid;
-	private int offer;
-	public int getBidid() {
-		return bidid;
+	private int reqid;
+	private boolean permission;
+	public int getQid() {
+		return qid;
 	}
-	public void setBidid(int bidid) {
-		this.bidid = bidid;
-	}
-	public int getOffer() {
-		return offer;
-	}
-	public void setOffer(int offer) {
-		this.offer = offer;
+	public void setQid(int qid) {
+		this.qid = qid;
 	}
 	public int getReqid() {
 		return reqid;
@@ -45,19 +34,11 @@ public class Bidpojo {
 	public void setReqid(int reqid) {
 		this.reqid = reqid;
 	}
-	public int getQid() {
-		return qid;
+	public boolean isPermission() {
+		return permission;
 	}
-	public void setQid(int qid) {
-		this.qid = qid;
+	public void setPermission(boolean permission) {
+		this.permission = permission;
 	}
-	
-	
-	
-	
-	
 	
 }
-
-
-

@@ -14,11 +14,11 @@ public class BidClass
 	
 	private static SessionFactory sessionfactory;
 	
-	/*public static void main(String[]args)
+	/*public static void main(String [] args)
 	{
 		JSONObject jon=new JSONObject();
-		jon.put("qid","4");
-		jon.put("reqid","2");
+		jon.put("qid","1");
+		jon.put("reqid","303");
 		jon.put("offer", "67");
 		BidClass bi=new BidClass();
 		String check=bi.savebid(jon);
@@ -39,21 +39,43 @@ public class BidClass
 			System.err.println("Failed to create sessionFactory object." + ex);
 			throw new ExceptionInInitializerError(ex);
 			}
+		int retid;
+		String reid=null;
 		String id=biddata.get("qid").toString();
 		int qid=Integer.parseInt(id);
-		String reqid=biddata.get("reqid").toString();
-		int profileid=Integer.parseInt(reqid);
+		String rqid=biddata.get("reqid").toString();
+		int profileid=Integer.parseInt(rqid);
 		String coins=biddata.get("offer").toString();
 		int offer=Integer.parseInt(coins);
 		Bidpojo bid=new Bidpojo();
-		Bididpojo bdid=new Bididpojo();
-		bdid.setQid(qid);
-		bdid.setReqid(profileid);
-		bid.setBidid(bdid);
+		bid.setQid(qid);
+		bid.setReqid(profileid);
 		bid.setOffer(offer);
 		Session session=null;
 		Transaction tx=null;
-		String reqsid=null;
+		int reqid=profileid;
+		try
+		{
+		session=sessionfactory.openSession();
+		tx=session.beginTransaction();
+		Query query=session.createQuery("from Bidpojo WHERE qid=:qid AND reqid=:reqid");
+		query.setParameter("qid",qid);
+		query.setParameter("reqid",reqid);
+        tx.commit();
+		Bidpojo qd=(Bidpojo)query.uniqueResult();
+		if(qd!=null)
+			return "false";
+		}
+		catch(HibernateException e)
+	 	{
+		 if(tx!=null)
+		 tx.rollback();
+		 return "false";
+	 	}
+		finally
+		{
+		session.close();
+		}
 		try
 		{
 		session=sessionfactory.openSession();
@@ -100,7 +122,8 @@ public class BidClass
 			{
 			session=sessionfactory.openSession();
 			tx=session.beginTransaction();
-			session.save(bid);
+			 retid=(int)session.save(bid);
+			  reid=String.valueOf(retid);
 			tx.commit();
 			}
 		catch(Exception e)
@@ -117,7 +140,7 @@ public class BidClass
 			}
 			
 		sessionfactory.close();
-		return "true"; 
+		return reid; 
 		}
 	
 		public List<Bidpojo> retbids(String id)
