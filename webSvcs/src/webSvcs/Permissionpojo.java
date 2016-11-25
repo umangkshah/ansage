@@ -19,9 +19,18 @@ import javax.persistence.Temporal;
 @Table(name="permission")
 public class Permissionpojo {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private int permid;
 	private int qid;
 	private int reqid;
-	private boolean permission;
+    private String permissionvalue;
+	public int getPermid() {
+		return permid;
+	}
+	public void setPermid(int permid) {
+		this.permid = permid;
+	}
 	public int getQid() {
 		return qid;
 	}
@@ -34,11 +43,12 @@ public class Permissionpojo {
 	public void setReqid(int reqid) {
 		this.reqid = reqid;
 	}
-	public boolean isPermission() {
-		return permission;
+	public String getPermissionvalue() {
+		return permissionvalue;
 	}
-	public void setPermission(boolean permission) {
-		this.permission = permission;
+	public void setPermissionvalue(String permissionvalue) {
+		this.permissionvalue = permissionvalue;
 	}
+	
 	
 }

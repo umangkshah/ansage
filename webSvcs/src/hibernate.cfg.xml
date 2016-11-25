@@ -51,6 +51,8 @@
         <mapping class="webSvcs.Loginpojo"/>
         <mapping class="webSvcs.Questionpojo"/>
         <mapping class="webSvcs.Bidpojo"/>
+        <mapping class="webSvcs.Permissionpojo"/>
+        <mapping class="webSvcs.Answerpojo"/>
         
     </session-factory>
  

@@ -19,10 +19,19 @@ import javax.persistence.Temporal;
 @Entity
 @Table(name="answer")
 public class Answerpojo {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private int ansid;
 	private int reqid;
 	private int qid;
 	private String answer;
+	
+	public int getAnsid() {
+		return ansid;
+	}
+	public void setAnsid(int ansid) {
+		this.ansid = ansid;
+	}
 	public int getReqid() {
 		return reqid;
 	}
