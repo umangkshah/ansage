@@ -17,20 +17,20 @@ public class RegistrationClass {
 
     private static SessionFactory sessionfactory;
     
-  /* public static void main(String[] args)
+ /* public static void main(String [] args)
     
     {
     	JSONObject jon=new JSONObject();
     	
-    	jon.put("username","aon@gmail.com");
-    	
+    	jon.put("emailid","qq178@gmail.com");
+    	jon.put("name", "john");
+    	jon.put("tagline", "hjhjh");
+    	jon.put("bio", "jhjjh");
     	jon.put("password", "wdqw");
-    	
+    	jon.put("skills", "assa");
     	RegistrationClass re=new RegistrationClass();
-    	JSONObject o=re.login(jon);    	
-    	String dat=o.get("date").toString();
+    	Registrationpojo o=re.registration(jon);    	
     	
-    	System.out.println(dat);
 	  // Date k=new Date();
 	   
     	
@@ -162,8 +162,8 @@ public class RegistrationClass {
 		    query.setParameter("email",email);
 		    query.setParameter("password",password);
 		    query.setParameter("logindate",logindate);
-		    
-		     tx.commit();
+			query.executeUpdate();
+			tx.commit();
 		 }
 		catch(HibernateException e)
 		{

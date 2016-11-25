@@ -18,7 +18,7 @@ public class BidClass
 	{
 		JSONObject jon=new JSONObject();
 		jon.put("qid","1");
-		jon.put("reqid","303");
+		jon.put("reqid","1");
 		jon.put("offer", "67");
 		BidClass bi=new BidClass();
 		String check=bi.savebid(jon);
@@ -130,7 +130,6 @@ public class BidClass
 			{
 			if(tx!=null)
 			tx.rollback();
-			System.out.println(e.getMessage());
 			return "false";
 			
 			}
@@ -138,6 +137,31 @@ public class BidClass
 			{
 			session.close();
 			}
+		
+		try
+		{
+			session=sessionfactory.openSession();
+			tx=session.beginTransaction();
+			Permissionpojo perm=new Permissionpojo();
+			perm.setQid(qid);
+			perm.setReqid(reqid);
+			perm.setPermissionvalue("false");
+			session.save(perm);
+			tx.commit();
+			
+		}
+		catch(Exception e)
+		{
+		if(tx!=null)
+		tx.rollback();
+		System.out.println(e.getMessage()+"kklkl");
+		
+		
+		}
+		finally
+		{
+		session.close();
+		}
 			
 		sessionfactory.close();
 		return reid; 
@@ -181,16 +205,6 @@ public class BidClass
 				}
 			return bidlist;
 			}
-	
-
-	
-		
-	
-	
-	
-	
-	
-	
 }
 	
 	
