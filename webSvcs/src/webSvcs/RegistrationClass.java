@@ -13,21 +13,11 @@ import org.json.simple.*;
 
 
 
-public class hibernatemethod {
+public class RegistrationClass {
 
-    private static SessionFactory sessionfactory;
-    
-    public static void main(String agr[]){
-    	JSONObject regform = new JSONObject();
-		regform.put("username","pm@gmail.com");
-		regform.put("password","12345");
-		hibernatemethod h = new hibernatemethod();
-		hibernatepojo plojo = h.login(regform);
-		System.out.println(plojo.getName());
-    }
-    
+    private static SessionFactory sessionfactory;    
    
-	public  hibernatepojo registration(JSONObject regdata)
+	public  Registrationpojo registration(JSONObject regdata)
 	{
 		
 		try
@@ -36,8 +26,7 @@ public class hibernatemethod {
 		}
 		catch(Throwable ex)
 		{
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
+			return null;
 		}
 		String name=regdata.get("name").toString();
 		String email=regdata.get("emailid").toString();
@@ -47,11 +36,12 @@ public class hibernatemethod {
 		String skills=regdata.get("skills").toString();
 		int coins=25;
 		
-		hibernatepojo reg=new hibernatepojo();
-		login logdet=new login();
+		Registrationpojo reg=new Registrationpojo();
+		Loginpojo logdet=new Loginpojo();
 		logdet.setEmail(email);
 		logdet.setPassword(password);
-		
+		Date date=new Date();
+		logdet.setLogindate(date);
 		reg.setName(name);
 		reg.setEmail(email);
 		reg.setTagline(tagline);
@@ -63,7 +53,8 @@ public class hibernatemethod {
 		try
 		{
 		tx = session.beginTransaction();
-		session.save(reg);
+		int id=(Integer)session.save(reg);
+		logdet.setProfileid(id);
 		session.save(logdet);
 		tx.commit();
 		}
@@ -79,20 +70,19 @@ public class hibernatemethod {
 		{
 			session.close();
 		}
-		
 		sessionfactory.close();
 		return reg;
 	}
 	
 	@SuppressWarnings("deprecation")
-	public  hibernatepojo  login(JSONObject logindet)
+	public  JSONObject  login(JSONObject logindet)
 	{
-		 hibernatepojo reg=null;	
-		 login prof=null;
+		 Registrationpojo reg=null;	
+		 Loginpojo prof=null;
 		String email=logindet.get("username").toString();
 		String password=logindet.get("password").toString();
-		
-		
+		JSONObject logdet=new JSONObject();
+		Date date=null;
 		
 		try
 		{
@@ -100,8 +90,7 @@ public class hibernatemethod {
 		}
 		catch(Throwable ex)
 		{
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
+			return null;
 		}
 		
 		
@@ -113,16 +102,16 @@ public class hibernatemethod {
 		{
 			tx=session.beginTransaction();
 		     @SuppressWarnings("rawtypes")
-		     Query query=session.createQuery("from login where email=:email and password=:password");
+		     Query query=session.createQuery("from Loginpojo where email=:email and password=:password");
 		    query.setParameter("email",email);
 		    query.setParameter("password",password);
 		    
-		     prof=(login)query.uniqueResult();
+		     prof=(Loginpojo)query.uniqueResult();
 		     
 		     tx.commit();
 		     if(prof==null)
 		    	 return null;
-		     
+		      date=prof.getLogindate();
 		     
 		}
 		catch(HibernateException e)
@@ -130,7 +119,33 @@ public class hibernatemethod {
 			
 			if(tx!=null)
 				tx.rollback();
-			e.printStackTrace();
+			    return null;
+		}
+		finally
+		{
+			
+			session.close();
+			
+		}
+		try
+		{  Date logindate=new Date();
+		System.out.println(logindate);
+			session=sessionfactory.openSession();
+			tx=session.beginTransaction();
+		     @SuppressWarnings("rawtypes")
+		     Query query=session.createQuery("UPDATE Loginpojo set logindate=:logindate WHERE email=:email and password=:password");
+		    query.setParameter("email",email);
+		    query.setParameter("password",password);
+		    query.setParameter("logindate",logindate);
+			query.executeUpdate();
+			tx.commit();
+		 }
+		catch(HibernateException e)
+		{
+			
+			if(tx!=null)
+				tx.rollback();
+			
 		}
 		finally
 		{
@@ -144,13 +159,23 @@ public class hibernatemethod {
 		session=sessionfactory.openSession();
 		tx=session.beginTransaction();
 		@SuppressWarnings("rawtypes")
-		Query query=session.createQuery("from hibernatepojo where profileid=:profileid");
+		Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
 		query.setParameter("profileid",profileid);
-		reg=(hibernatepojo)query.uniqueResult();
+		reg=(Registrationpojo)query.uniqueResult();
 		tx.commit();
 		if(reg==null)
 			return null;
-		
+		int pid=reg.getProfileid();
+		String pd=String.valueOf(pid);
+		String mail=reg.getEmail();
+		String name=reg.getName();
+		int coin=reg.getCoins();
+		String coins=String.valueOf(coin);
+		logdet.put("date",date);
+		logdet.put("profileid",pd);
+		logdet.put("emailid",mail);
+		logdet.put("name",name);
+		logdet.put("coins",coins);
 		
 		}
 		catch(HibernateException e)
@@ -158,7 +183,7 @@ public class hibernatemethod {
 			
 			if(tx!=null)
 				tx.rollback();
-			e.printStackTrace();
+			return null;
 		}
 		finally
 		{
@@ -169,21 +194,20 @@ public class hibernatemethod {
 		
 		
 		sessionfactory.close();
-		return reg;
+		return logdet;
 	}
 	
 	
 	public String usercheck(String email)
 	{  
-		hibernatepojo check=null;
+		Registrationpojo check=null;
 		try
 		{
 		 sessionfactory=new Configuration().configure().buildSessionFactory();
 		}
 		catch(Throwable ex)
 		{
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
+			return "false";
 		}
 		Session session=sessionfactory.openSession();
 		Transaction tx=null;
@@ -191,9 +215,9 @@ public class hibernatemethod {
 		{
 			tx=session.beginTransaction();
 		     @SuppressWarnings("rawtypes")
-		     Query query=session.createQuery("from hibernatepojo where email=:email");
+		     Query query=session.createQuery("from Registrationpojo where email=:email");
 		     query.setParameter("email",email);
-		    check =(hibernatepojo)query.uniqueResult();
+		    check =(Registrationpojo)query.uniqueResult();
 		    tx.commit();
 		    if(check==null)
 		    	return "false";
@@ -211,7 +235,7 @@ public class hibernatemethod {
 		session.close();
 			
 		}
-		
+		sessionfactory.close();
 		return "true";
 	}
 	
@@ -226,8 +250,7 @@ public class hibernatemethod {
 		}
 		catch(Throwable ex)
 		{
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
+			
 		}
 		Session session=sessionfactory.openSession();
 		Transaction tx=null;
@@ -235,10 +258,10 @@ public class hibernatemethod {
 		{
 			tx=session.beginTransaction();
 		     @SuppressWarnings("rawtypes")
-		     Query query=session.createQuery("from hibernatepojo");
-		     List<hibernatepojo> reglist=query.list();
+		     Query query=session.createQuery("from Registrationpojo");
+		     List<Registrationpojo> reglist=query.list();
 		     tx.commit();
-		     for(hibernatepojo u:reglist)
+		     for(Registrationpojo u:reglist)
 		     {
 		    	 JSONObject jobj=new JSONObject();
 				String name=u.getName();
@@ -259,8 +282,7 @@ public class hibernatemethod {
 		}
 		catch(Throwable ex)
 		{
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
+			
 		}
 		finally
 		{
@@ -268,12 +290,10 @@ public class hibernatemethod {
 			
 		}
 		
-		
+		sessionfactory.close();
+
 		
 	}
-	
-	
-	
 	
 }
 

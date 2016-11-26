@@ -47,9 +47,13 @@
         <property name="cache.use_structured_entries">true</property>
         <property name="cache.region.factory_class">org.hibernate.cache.infinispan.InfinispanRegionFactory</property> -->
         
-        <mapping class="webSvcs.hibernatepojo"/>
-        <mapping class="webSvcs.login"/>
-        
+        <mapping class="webSvcs.Registrationpojo"/>
+        <mapping class="webSvcs.Loginpojo"/>
+        <mapping class="webSvcs.Questionpojo"/>
+        <mapping class="webSvcs.Bidpojo"/>
+        <mapping class="webSvcs.Permissionpojo"/>
+        <mapping class="webSvcs.Answerpojo"/>
+
     </session-factory>
  
 </hibernate-configuration>

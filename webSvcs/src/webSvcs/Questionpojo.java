@@ -12,38 +12,28 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TemporalType;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Temporal;
 
-
 @Entity
-@Table(name="bid")
+@Table(name="question")
 
-public class Bidpojo {
+
+
+public class Questionpojo {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int bidid;
-	private int reqid;
 	private int qid;
-	private int offer;
-	public int getBidid() {
-		return bidid;
+	private int ownerid;
+	private String qus;
+	private String descr;
+	private String catg;
+	
+	public int getOwnerid() {
+		return ownerid;
 	}
-	public void setBidid(int bidid) {
-		this.bidid = bidid;
-	}
-	public int getOffer() {
-		return offer;
-	}
-	public void setOffer(int offer) {
-		this.offer = offer;
-	}
-	public int getReqid() {
-		return reqid;
-	}
-	public void setReqid(int reqid) {
-		this.reqid = reqid;
+	public void setOwnerid(int ownerid) {
+		this.ownerid = ownerid;
 	}
 	public int getQid() {
 		return qid;
@@ -51,14 +41,26 @@ public class Bidpojo {
 	public void setQid(int qid) {
 		this.qid = qid;
 	}
+	public String getQus() {
+		return qus;
+	}
+	public void setQus(String qus) {
+		this.qus = qus;
+	}
+	public String getDescr() {
+		return descr;
+	}
+	public void setDescr(String descr) {
+		this.descr = descr;
+	}
+	public String getCatg() {
+		return catg;
+	}
+	public void setCatg(String catg) {
+		this.catg = catg;
+	}
 	
 	
 	
-	
-	
-	
+
 }
-
-
-
-

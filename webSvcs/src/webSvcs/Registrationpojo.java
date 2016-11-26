@@ -19,7 +19,7 @@ import javax.persistence.Temporal;
 	@Entity
 	@Table(name="registration")
 	
-	public class hibernatepojo{
+	public class Registrationpojo{
 	    
 		@Id
 		@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -91,13 +91,5 @@ import javax.persistence.Temporal;
 		public void setProfileid(int profileid) {
 			this.profileid = profileid;
 		}
-
-		
-
-		
-		
-	
-	
-	
 
 }

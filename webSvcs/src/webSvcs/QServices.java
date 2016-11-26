@@ -30,8 +30,8 @@ public class QServices {
 			e.printStackTrace();
 		}
 		
-		/*QuestionClass qc = new QuestionClass();
-		Questionpojo check = qc.quesdetails(json);
+		QuestionClass qc = new QuestionClass();
+		String check = qc.quesdetails(json);
 	
 	   if(check==null)
 		{
@@ -40,10 +40,9 @@ public class QServices {
 		}
 		else
 		{
-			*/
-			//check.getCoins();
-			return Response.status(200).entity("true").build();
-		//}
+			
+			return Response.status(200).entity(check).build();
+		}
 	}
 	
 	@Path("/getq/{qid}")
@@ -51,7 +50,9 @@ public class QServices {
 	@Consumes(MediaType.TEXT_PLAIN)
     public Response getQuestion(@PathParam("qid")int qid) {
 		//some hibernate class calls getQDetails(qid)
-		return Response.status(200).entity("The json string").build();
+		QuestionClass qc = new QuestionClass();
+		JSONObject jo = qc.retrievequs(qid); 
+		return Response.status(200).entity(jo.toString()).build();
 	}
 }
 

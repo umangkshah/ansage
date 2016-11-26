@@ -12,32 +12,25 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TemporalType;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Temporal;
 
 
 @Entity
-@Table(name="bid")
-
-public class Bidpojo {
+@Table(name="answer")
+public class Answerpojo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int bidid;
+	private int ansid;
 	private int reqid;
 	private int qid;
-	private int offer;
-	public int getBidid() {
-		return bidid;
+	private String answer;
+	
+	public int getAnsid() {
+		return ansid;
 	}
-	public void setBidid(int bidid) {
-		this.bidid = bidid;
-	}
-	public int getOffer() {
-		return offer;
-	}
-	public void setOffer(int offer) {
-		this.offer = offer;
+	public void setAnsid(int ansid) {
+		this.ansid = ansid;
 	}
 	public int getReqid() {
 		return reqid;
@@ -51,14 +44,13 @@ public class Bidpojo {
 	public void setQid(int qid) {
 		this.qid = qid;
 	}
+	public String getAnswer() {
+		return answer;
+	}
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
 	
 	
-	
-	
-	
-	
+
 }
-
-
-
-

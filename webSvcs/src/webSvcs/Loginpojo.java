@@ -19,14 +19,21 @@ import javax.persistence.Temporal;
 	@Table(name="login")
 
 				
-public class login {
+public class Loginpojo {
 		@Id
-		@GeneratedValue(strategy = GenerationType.TABLE)
-        private int profileid;
+		private int profileid;
 		@Column(unique=true)
 		private String email;
 		private String password;
+		private Date logindate;
 		
+		
+		public Date getLogindate() {
+			return logindate;
+		}
+		public void setLogindate(Date logindate) {
+			this.logindate = logindate;
+		}
 		public int getProfileid() {
 			return profileid;
 		}
