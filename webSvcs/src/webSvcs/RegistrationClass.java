@@ -140,7 +140,7 @@ public class RegistrationClass {
 			
 			if(tx!=null)
 				tx.rollback();
-			e.printStackTrace();
+			    return null;
 		}
 		finally
 		{
@@ -256,7 +256,7 @@ public class RegistrationClass {
 		session.close();
 			
 		}
-		
+		sessionfactory.close();
 		return "true";
 	}
 	
@@ -311,7 +311,8 @@ public class RegistrationClass {
 			
 		}
 		
-		
+		sessionfactory.close();
+
 		
 	}
 	

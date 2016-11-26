@@ -71,6 +71,36 @@ public class AnsServices {
 		
 	}
 	
+	@Path("/viewanswer")
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response viewans(String jon)
+	{
+		
+		JSONParser parser = new JSONParser();
+		JSONObject json = new JSONObject();
+		try {
+			json = (JSONObject) parser.parse(jon);
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		AnswerClass ans=new AnswerClass();
+		Answerpojo answer=ans.viewans(json);
+		if(answer==null)
+		{
+			return Response.status(202).entity("false").build();
+			
+		}
+		else
+		{
+		 return Response.status(200).entity(answer.getAnswer()).build();
+		 
+		}
+		
+	}
+	
 }
 
 

@@ -31,7 +31,7 @@ public class RegServices {
 			e.printStackTrace();
 		}
 		
-		Registrationclass htm = new Registrationclass();
+		RegistrationClass htm = new RegistrationClass();
 		Registrationpojo check = htm.registration(json); 
 		
 		 if(check==null)
