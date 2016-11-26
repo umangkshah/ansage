@@ -47,8 +47,7 @@ public class RegistrationClass {
 		}
 		catch(Throwable ex)
 		{
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
+			return null;
 		}
 		String name=regdata.get("name").toString();
 		String email=regdata.get("emailid").toString();
@@ -112,8 +111,7 @@ public class RegistrationClass {
 		}
 		catch(Throwable ex)
 		{
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
+			return null;
 		}
 		
 		
@@ -150,8 +148,6 @@ public class RegistrationClass {
 			session.close();
 			
 		}
-		
-		
 		try
 		{  Date logindate=new Date();
 		System.out.println(logindate);
@@ -208,7 +204,7 @@ public class RegistrationClass {
 			
 			if(tx!=null)
 				tx.rollback();
-			e.printStackTrace();
+			return null;
 		}
 		finally
 		{
@@ -232,8 +228,7 @@ public class RegistrationClass {
 		}
 		catch(Throwable ex)
 		{
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
+			return "false";
 		}
 		Session session=sessionfactory.openSession();
 		Transaction tx=null;
@@ -276,8 +271,7 @@ public class RegistrationClass {
 		}
 		catch(Throwable ex)
 		{
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
+			
 		}
 		Session session=sessionfactory.openSession();
 		Transaction tx=null;
@@ -309,8 +303,7 @@ public class RegistrationClass {
 		}
 		catch(Throwable ex)
 		{
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
+			
 		}
 		finally
 		{

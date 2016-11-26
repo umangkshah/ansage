@@ -32,10 +32,9 @@ public class AnswerClass {
 		{
 		sessionfactory=new Configuration().configure().buildSessionFactory();
 		}
-	catch(Throwable ex)
+	catch(Exception ex)
 		{
-		System.err.println("Failed to create sessionFactory object." + ex);
-		throw new ExceptionInInitializerError(ex);
+		return null;
 		}
 		String qd=permjson.get("qid").toString();
 		int qid=Integer.parseInt(qd);
@@ -85,8 +84,7 @@ public String saveans(JSONObject ans)
 	}
 	catch(Exception ex)
 	{
-		System.err.println("Failed to create sessionFactory object." + ex);
-		throw new ExceptionInInitializerError(ex);
+		return null;
 	}
 	String qd=ans.get("qid").toString();
 	int qid=Integer.parseInt(qd);

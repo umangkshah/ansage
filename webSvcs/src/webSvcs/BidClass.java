@@ -36,8 +36,7 @@ public class BidClass
 			}
 		catch(Throwable ex)
 			{
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
+			return "false";
 			}
 		int retid;
 		String reid=null;
@@ -177,8 +176,7 @@ public class BidClass
 				}
 			catch(Throwable ex)
 				{
-				System.err.println("Failed to create sessionFactory object." + ex);
-				throw new ExceptionInInitializerError(ex);
+				return null;
 				}
 			Session session=null;
 			Transaction tx=null;

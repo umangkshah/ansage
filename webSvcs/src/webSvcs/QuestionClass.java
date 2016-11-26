@@ -31,8 +31,7 @@ public class QuestionClass {
 		}
 		catch(Throwable ex)
 		{
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
+			return null;
 		}
 		Questionpojo que=new Questionpojo();
 		String owid=jsonobj.get("ownerid").toString();
@@ -83,5 +82,4 @@ public class QuestionClass {
 		sessionfactory.close();
 		return sqd;
 		}
-
 }

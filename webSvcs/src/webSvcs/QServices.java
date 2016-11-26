@@ -3,7 +3,6 @@ package webSvcs;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -31,7 +30,7 @@ public class QServices {
 		}
 		
 		QuestionClass qc = new QuestionClass();
-		Questionpojo check = qc.quesdetails(json);
+		String check = qc.quesdetails(json);
 	
 	   if(check==null)
 		{
@@ -42,7 +41,7 @@ public class QServices {
 		{
 			
 			//check.getCoins();
-			return Response.status(200).entity("true").build();
+			return Response.status(200).entity(check).build();
 		}
 	}
 	

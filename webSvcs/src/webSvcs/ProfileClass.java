@@ -20,8 +20,7 @@ public class ProfileClass
 			}
 		catch(Throwable ex)
 			{
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
+			return null;
 			}
 		Session session=sessionfactory.openSession();
 		Transaction tx=null;
