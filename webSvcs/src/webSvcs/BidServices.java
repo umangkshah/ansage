@@ -44,21 +44,29 @@ public class BidServices {
 			return Response.status(200).entity(check).build();
 			}
 		}
-	@SuppressWarnings("unchecked")
-	@Path("/retrieve")
-	@Produces(MediaType.APPLICATION_JSON)
-    public Response retbid(@PathParam("bid") String bd)
+	
+	@Path("/retrieve/{qid}")
+	@GET
+    public Response retbid(@PathParam("qid") String qd)
     	{
 		  
 		  BidClass bid=new BidClass();
-		  List<Bidpojo> bidlist=bid.retbids(bd);
-		  GenericEntity<List<Bidpojo>> entity=new GenericEntity<List<Bidpojo>>(bidlist) {};
-		  
+		  List<Bidpojo> bidlist=bid.retbids(qd);
+		  JSONArray ja=new JSONArray();
 		  if(bidlist==null)
 			  return Response.status(202).entity("false").build();
 		  else
 		  {
-		      return  Response.ok(entity).build();
+			 for(Bidpojo b:bidlist)
+			 {
+				 JSONObject json=new JSONObject();
+				 json.put("qid",b.getQid());
+				 json.put("reqid",b.getReqid());
+				 json.put("offer",b.getOffer());
+				 json.put("bidid",b.getBidid());
+				 ja.add(json);
+			 }
+			  return  Response.ok().entity(ja.toString()).build();
 		  }
 		}
 			
