@@ -4,6 +4,7 @@ import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -59,29 +60,33 @@ public class QServices {
 	}
 	
 	@Path("/displayq")
+	@GET
+	
 	public Response displayQuestion()
 	{
 		QuestionClass qc = new QuestionClass();
-		List<JSONObject> jsonlist=null;
+		
 		List<Questionpojo> quslist=qc.displayqus();
+		JSONArray ja=new JSONArray();
 		if(quslist==null)
 		{
 			return Response.status(202).entity("false").build();
 		}
 		else
 		{
-			for(Questionpojo q:quslist)
+			for(Questionpojo u:quslist)
 			{
+				
 				JSONObject json=new JSONObject();
-				json.put("qid",q.getQid());
-				json.put("mainQ",q.getQus());
-				json.put("descrQ",q.getDescr());
-				json.put("ownerid",q.getOwnerid());
-				jsonlist.add(json);
+				json.put("qid",u.getQid());
+				json.put("mainQ",u.getQus());
+				json.put("descrQ",u.getDescr());
+				json.put("ownerid",u.getOwnerid());
+				ja.add(json);
 			}
+			// final GenericEntity<List<JSONObject>> entity=new GenericEntity<List<JSONObject>>(jsonlist){};
 			
-			 
-			 return Response.status(200).entity(jsonlist).build();
+			 return Response.ok().entity(ja.toString()).build();
 			
 		}
 		
