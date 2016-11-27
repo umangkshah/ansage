@@ -56,7 +56,12 @@ public class LoginService extends HttpServlet {
 		ClientConfig cfg = new DefaultClientConfig();
 		cfg.getClasses().add(JacksonJsonProvider.class);
 		Client cl = Client.create(cfg);
-		
+		String ll = request.getParameter("locn");
+		String tempsvc = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+ll+"&key=AIzaSyCtnpJWEJi6c5tqmE6xiay6o-YRTFVPbwk";
+		WebResource locsvc = cl.resource(tempsvc);
+		JSONObject locresp = locsvc.get(JSONObject.class);
+		String address = locresp.get("formatted_address").toString();
+		loginform.put("address", address);
 		WebResource wsvc = cl.resource(proto+"localhost:9080/webSvcs");
 		
 		ClientResponse c = wsvc.path("loginservices").path("checkuservalidity").

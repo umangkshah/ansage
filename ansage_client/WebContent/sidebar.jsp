@@ -21,9 +21,23 @@
                         <label for="LoginPass">Password</label>
                         <input name="passwd" type="password" class="form-control" id="passwd" placeholder="Password" />
                         </div> 
-                        
+                        <input id= "kht" type="hidden" name="locn" />
                         <button type="submit" class="btn btn-success">Submit</button>
                     </form>
+                     <script>
+						var x = document.getElementById("demo");
+						function getLocation() {
+						    if (navigator.geolocation) {
+						        navigator.geolocation.getCurrentPosition(showPosition);
+						    } else {
+						    	document.getElementById("kht").value = "unknown";
+						    }
+						}
+						function showPosition(position) {
+						    var kht = position.coords.latitude + ","+position.coords.longitude;
+						    document.getElementById("kht").value = kht;
+						}
+						</script>
                     <br/>
                     <p id="orreg">Or 
                     <a href="register.jsp"> Register</a></p>
@@ -35,7 +49,7 @@
 				<%= session.getAttribute("NAME")%>
                 </div>
                 <div class="list-group">
-                    <% out.println("<a class=\'list-group-item\' href=\'profile.jsp?userid=" + session.getAttribute("PROID") + "\'>"); %>
+                    <% out.println("<a class=\'list-group-item\' href=\'ViewProfile?Profile=" + session.getAttribute("PROID") + "\'>"); %>
                     My Profile</a>
                     <a href="ask.jsp" class="list-group-item" id="askq">Post Question</a>
                     <a href="search.jsp?q=all" class="list-group-item">Answer Questions</a>

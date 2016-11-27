@@ -34,17 +34,6 @@
 				          <div class="well well-lg">
 				            <div class="caption">
 				              <p>
-				              <%!
-				              /*
-				              out.println("<a href=\'question.jsp?qid=" + ${qid[0]} + "\'>")
-				              ${quesname[]};
-				              </a><br/>
-				              Bids: {qbids[]};
-				              </p><p>
-				              for
-				                <span> </span>
-				                */
-				              %>
 				              <a href="#">What is a good practice to make sure there is enough salt in my food?</a>
 				              <br/>
 				              Bids: 15	      			              

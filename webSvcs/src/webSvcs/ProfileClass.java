@@ -14,23 +14,6 @@ public class ProfileClass
 	private static SessionFactory sessionfactory;
 	
 	
-	/*public static void main(String [] args)
-	{
-		
-		ProfileClass prof=new ProfileClass();
-		JSONObject jon=new JSONObject();
-        jon.put("emailid","qq178@gmail.com");
-    	jon.put("name", "john");
-    	jon.put("tagline", "hjhjh");
-    	jon.put("bio", "ghhh");
-    	jon.put("password", "aqwe");
-    	jon.put("skills", "bssa");
-    	jon.put("profileid","1");
-    	jon.put("coins", "25");
-		String edit=prof.editprofile(jon);
-		System.out.println(edit);
-	}*/
-	
 	public  Registrationpojo profile(String id)
 		{
 		Registrationpojo prof=null;

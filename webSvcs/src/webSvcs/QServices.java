@@ -4,6 +4,8 @@ import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -45,14 +47,45 @@ public class QServices {
 		}
 	}
 	
-	@Path("/getq/{qid}")
+	@Path("/getq")
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
-    public Response getQuestion(@PathParam("qid")int qid) {
-		//some hibernate class calls getQDetails(qid)
+    public Response getQuestion(String qid) {
+		
 		QuestionClass qc = new QuestionClass();
-		JSONObject jo = qc.retrievequs(qid); 
+		JSONObject jo = qc.retrievequs(Integer.parseInt(qid)); 
 		return Response.status(200).entity(jo.toString()).build();
+	}
+	
+	@Path("/displayq")
+	@GET
+	public Response displayQuestion()
+	{
+		QuestionClass qc = new QuestionClass();
+		
+		List<Questionpojo> quslist=qc.displayqus();
+		JSONArray ja=new JSONArray();
+		if(quslist==null)
+		{
+			return Response.status(202).entity("false").build();
+		}
+		else
+		{
+			for(Questionpojo u:quslist)
+			{
+				
+				JSONObject json=new JSONObject();
+				json.put("qid",u.getQid());
+				json.put("mainQ",u.getQus());
+				json.put("descrQ",u.getDescr());
+				json.put("ownerid",u.getOwnerid());
+				ja.add(json);
+			}
+			return Response.ok().entity(ja.toString()).build();
+			
+			
+		}
+		
 	}
 }
 

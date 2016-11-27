@@ -37,6 +37,16 @@
                         <small id="helpQ" class="form-text text-muted">
                         Please be precise and use details for further clarification.
                         </small>
+                        <div class="form-group">
+                          <label for="skills">Select Relevant Categories </label>
+                          <select multiple class="form-control" id="skills" name="skills">
+                          <option value='A'>Algorithms</option>
+                          <option value='B'>Basic Programming</option>
+                          <option value='C'>Cooking</option>
+                          <option value='D'>Databases</option>
+                          <option value='E'>Exam Tips</option>
+                          </select>
+                        </div>
                     </div>
                    
 	

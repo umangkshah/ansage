@@ -46,11 +46,17 @@ public class Question extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String a[] = request.getParameterValues("skills");
+		String skills="";
+		for(int k=0;k<a.length;k++){
+			skills = skills + a[k];
+		}
 		JSONObject qsn = new JSONObject();
 		HttpSession s = request.getSession();
 		qsn.put("ownerid",s.getAttribute("PROID"));
 		qsn.put("mainQ",request.getParameter("mainQ"));
 		qsn.put("descrQ",request.getParameter("descrQ"));
+		qsn.put("skills",skills);
 		//qsn.put("category", value);
 		
 		String proto = "http://";
