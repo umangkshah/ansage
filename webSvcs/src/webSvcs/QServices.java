@@ -61,7 +61,6 @@ public class QServices {
 	
 	@Path("/displayq")
 	@GET
-	
 	public Response displayQuestion()
 	{
 		QuestionClass qc = new QuestionClass();
@@ -84,9 +83,8 @@ public class QServices {
 				json.put("ownerid",u.getOwnerid());
 				ja.add(json);
 			}
-			// final GenericEntity<List<JSONObject>> entity=new GenericEntity<List<JSONObject>>(jsonlist){};
+			return Response.ok().entity(ja.toString()).build();
 			
-			 return Response.ok().entity(ja.toString()).build();
 			
 		}
 		

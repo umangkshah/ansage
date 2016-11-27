@@ -1,9 +1,9 @@
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,13 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
@@ -37,8 +34,9 @@ public class DisplayQuestion extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		Response responsebuild;
-		String proto = "http://";
+		List<QuestionPojo> qulist=new ArrayList<QuestionPojo>();
+		
+		String proto = "httQuestionPojop://";
 		ClientConfig cfg = new DefaultClientConfig();
 		//cfg.getClasses().add(JacksonJsonProvider.class);
 		Client cl = Client.create(cfg);
@@ -64,21 +62,36 @@ public class DisplayQuestion extends HttpServlet {
 			arrayObj=(JSONArray)object;
 			Iterator i = arrayObj.iterator();
 			
-				System.out.println(arrayObj.get(0));
-			/*while(i.hasNext())
+			
+			while(i.hasNext())
 			{
+				QuestionPojo qu=new QuestionPojo();
 				JSONObject jon=(JSONObject)i.next();
-				String qid=jon.get("qid").toString();
-				System.out.println(qid);
-			}*/
+				String qd=jon.get("qid").toString();
+				int qid=Integer.parseInt(qd);
+				String ques=jon.get("mainQ").toString();
+				String descr=jon.get("descrQ").toString();
+				String oid=jon.get("ownerid").toString();
+				int ownerid=Integer.parseInt(oid);
+				qu.setQid(qid);
+				qu.setOid(ownerid);
+				qu.setQuestion(ques);
+				qu.setDescr(descr);
+				qulist.add(qu);
+			}
 			
-			
+			request.setAttribute("rows",qulist);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("displayQuestion.jsp");
+			if(dispatcher != null){
+				dispatcher.forward(request,response);
+			}
 			
 		}
 		
 		
 	}
+}
 
 	
 	
-}
+
