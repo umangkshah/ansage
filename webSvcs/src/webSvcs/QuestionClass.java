@@ -16,22 +16,6 @@ public class QuestionClass {
 	
 	 private static SessionFactory sessionfactory;
 	 
-	/* public static void main(String [] args)
-	 {
-		 
-		 QuestionClass qu=new QuestionClass();
-		 JSONObject jon=qu.retrievequs(1);
-		 String qus=jon.get("question").toString();
-		 String qd=jon.get("qid").toString();
-		 String od=jon.get("oid").toString();
-		 String owner=jon.get("oname").toString();
-		 String descr=jon.get("descr").toString();
-		 System.out.println(qus+" "+qd+" "+od+" "+owner+" "+descr);
-		 
-		 
-		 
-	 }*/
-	 
 	public String quesdetails(JSONObject jsonobj)
 	{
 		
@@ -97,6 +81,44 @@ public class QuestionClass {
 		return sqd;
 		}
 	
+	public List<Questionpojo> displayqus()
+	{
+		
+		Session session=null;
+		Transaction tx=null;
+		List<Questionpojo> queslist=null;
+		try
+		{
+			 sessionfactory=new Configuration().configure().buildSessionFactory();
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
+		try
+		{
+			session=sessionfactory.openSession();
+			tx=session.beginTransaction();
+			Query query=session.createQuery("FROM Questionpojo");
+			query.setMaxResults(5);
+			queslist=query.list();
+			tx.commit();
+		}
+		catch(HibernateException e)
+		{
+			if(tx!=null)
+			tx.rollback();
+			return null;
+		}
+		finally
+		{
+			session.close();
+		}
+		sessionfactory.close();
+		return queslist;
+		
+		
+	}
 	
 	public JSONObject retrievequs(int qid)
 	{
