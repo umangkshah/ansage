@@ -40,6 +40,14 @@ public class ProfileServices {
 		json.put("proid",profileid);
 		return Response.status(200).entity(json.toString()).build();
 	}
+	@Path("/edit")
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response updateprofile(String jon)
+	{
+		
+		
+	}
 
 }
 

@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.json.simple.JSONObject;
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+//import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -54,7 +54,7 @@ public class Registration extends HttpServlet {
 		
 		String proto = "http://";
 		ClientConfig cfg = new DefaultClientConfig();
-		cfg.getClasses().add(JacksonJsonProvider.class);
+		//cfg.getClasses().add(JacksonJsonProvider.class);
 		Client cl = Client.create(cfg);
 		
 		WebResource wsvc = cl.resource(proto+"localhost:9080/webSvcs");
