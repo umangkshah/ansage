@@ -36,12 +36,15 @@ public class BidServices {
 			}
 		BidClass bid = new BidClass();
 		String check = bid.savebid(json); 
+		System.out.println(check);
+		
 		if(check=="false")
 			{
 			   return Response.status(202).entity("false").build();
 			}
 			else
 			{
+				//return Response.status(202).entity("false").build();
 			return Response.status(200).entity(check).build();
 			}
 		}

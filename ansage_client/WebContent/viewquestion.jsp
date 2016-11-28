@@ -78,7 +78,7 @@
                 	</p>
                 </div>
            </c:if>
-           <c:if test="${admin == 1 }">   
+           <c:if test="${admin == 0 }">   
                 <div class="row">
                 	<h4>Accept more bids to get more answers</h4>
                 </div>
@@ -88,13 +88,14 @@
 								<tr>
 									<th>Name</th><th>Coins</th><th>Offer</th><th>Skills Known</th>
 								</tr>
+								<c:forEach var="row" items="${bidrows}">  
 								<tr>
-									<td>Umang</td>
-									<td>900</td>
-									<td>12</td>
+									<td><c:out value="${row.bidid}"/></td>
+									<td><c:out value="${row.reqid}"/></td>
+									<td><c:out value="${row.offer}"/></td>
 									<td>4</td>
 								</tr>
-								
+								</c:forEach>
 							</table>                
 		                </div>
            </c:if>    

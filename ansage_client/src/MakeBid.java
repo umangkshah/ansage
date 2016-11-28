@@ -39,14 +39,15 @@ public class MakeBid extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		JSONObject bidform = new JSONObject();
-		//HttpSession s = request.getSession();
-		Object qid = request.getAttribute("qid");
-		bidform.put("qid", qid);
-		bidform.put("offer", request.getAttribute("offerval"));
-		bidform.put("reqid","23");
+		HttpSession s = request.getSession();
+		Object qid = request.getParameter("qid");
+		bidform.put("qid", request.getParameter("qid"));
+		bidform.put("offer", request.getParameter("offerval"));
+		bidform.put("reqid",s.getAttribute("PROID"));
 		
 		String proto = "http://";
 		ClientConfig cfg = new DefaultClientConfig();
+		cfg.getClasses().add(JacksonJsonProvider.class);
 		Client cl = Client.create(cfg);
 		
 		WebResource wsvc = cl.resource(proto+"localhost:9080/webSvcs");
@@ -56,7 +57,7 @@ public class MakeBid extends HttpServlet {
 				post(ClientResponse.class, bidform.toString());
 		
 		if (c.getStatus() != 200) {
-			response.getOutputStream().print("Error: " + c.getStatus() + " Some Problem while making Bid");
+			response.getOutputStream().print("Error: " +c.getStatus() + " Some Problem while making Bid");
 			}
 			else{
 				String gotopage = "ViewQuestion?question="+ qid.toString();

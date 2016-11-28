@@ -14,6 +14,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
@@ -35,7 +37,7 @@ public class DisplayBids extends HttpServlet {
 		List<BidPojo> bidlist=new ArrayList<BidPojo>();
 		String proto = "http://";
 		ClientConfig cfg = new DefaultClientConfig();
-		//cfg.getClasses().add(JacksonJsonProvider.class);
+		cfg.getClasses().add(JacksonJsonProvider.class);
 		Client cl = Client.create(cfg);
 		WebResource wsvc = cl.resource(proto+"localhost:9080/webSvcs");
 		ClientResponse c = wsvc.path("bidservices").path("retrieve").path(qd).type(MediaType.TEXT_PLAIN).accept(MediaType.TEXT_PLAIN).get(ClientResponse.class);

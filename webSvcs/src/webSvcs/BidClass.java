@@ -23,7 +23,7 @@ public class BidClass
 			}
 		catch(Throwable ex)
 			{
-			return "false";
+			return "false0";
 			}
 		int retid;
 		String reid=null;
@@ -50,13 +50,13 @@ public class BidClass
         tx.commit();
 		Bidpojo qd=(Bidpojo)query.uniqueResult();
 		if(qd!=null)
-			return "false";
+			return "false1";
 		}
 		catch(HibernateException e)
 	 	{
 		 if(tx!=null)
 		 tx.rollback();
-		 return "false";
+		 return "false2";
 	 	}
 		finally
 		{
@@ -71,13 +71,13 @@ public class BidClass
 		tx.commit();
 		Registrationpojo qd=(Registrationpojo)query.uniqueResult();
 		if(qd==null)
-			return "false";
+			return "false3";
 		}
 		catch(HibernateException e)
 	 	{
 		 if(tx!=null)
 		 tx.rollback();
-		 return "false";
+		 return "false4";
 	 	}
 		finally
 		{
@@ -92,13 +92,13 @@ public class BidClass
 			tx.commit();
 			Questionpojo qd=(Questionpojo)query.uniqueResult();
 			if(qd==null)
-				return "false";
+				return "false5";
 			}
 		 catch(HibernateException e)
 		 	{
 			 if(tx!=null)
 			 tx.rollback();
-			 return "false";
+			 return "false6";
 		 	}
 		finally
 			{
@@ -116,7 +116,7 @@ public class BidClass
 			{
 			if(tx!=null)
 			tx.rollback();
-			return "false";
+			return "false7";
 			
 			}
 		finally
