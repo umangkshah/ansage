@@ -171,7 +171,8 @@ public class RegistrationClass {
 		String name=reg.getName();
 		int coin=reg.getCoins();
 		String coins=String.valueOf(coin);
-		logdet.put("date",date);
+	
+		//logdet.put("date",date);
 		logdet.put("profileid",pd);
 		logdet.put("emailid",mail);
 		logdet.put("name",name);

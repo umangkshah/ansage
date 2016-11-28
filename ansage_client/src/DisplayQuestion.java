@@ -36,7 +36,7 @@ public class DisplayQuestion extends HttpServlet {
 	{
 		List<QuestionPojo> qulist=new ArrayList<QuestionPojo>();
 		
-		String proto = "httQuestionPojop://";
+		String proto = "http://";
 		ClientConfig cfg = new DefaultClientConfig();
 		//cfg.getClasses().add(JacksonJsonProvider.class);
 		Client cl = Client.create(cfg);

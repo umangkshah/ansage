@@ -27,6 +27,7 @@ public class BidServices {
 		try 
 			{
 			json = (JSONObject) parser.parse(jon);
+			System.out.println("here printing " + json);
 			} 
 		catch (ParseException e) 
 			{

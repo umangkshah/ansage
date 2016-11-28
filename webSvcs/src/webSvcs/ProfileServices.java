@@ -17,6 +17,7 @@ import javax.ws.rs.PathParam;
 public class ProfileServices {
 	
 	@Path("/getprofile/{id}")
+	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
 	public Response getprofile(@PathParam("id")String id)
 	{

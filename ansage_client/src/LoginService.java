@@ -11,6 +11,9 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.MediaType;
 
 import org.json.simple.*;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import com.fasterxml.jackson.*;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.sun.jersey.api.client.*;
@@ -56,12 +59,14 @@ public class LoginService extends HttpServlet {
 		ClientConfig cfg = new DefaultClientConfig();
 		cfg.getClasses().add(JacksonJsonProvider.class);
 		Client cl = Client.create(cfg);
+		/*
 		String ll = request.getParameter("locn");
 		String tempsvc = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+ll+"&key=AIzaSyCtnpJWEJi6c5tqmE6xiay6o-YRTFVPbwk";
 		WebResource locsvc = cl.resource(tempsvc);
 		JSONObject locresp = locsvc.get(JSONObject.class);
 		String address = locresp.get("formatted_address").toString();
 		loginform.put("address", address);
+		*/
 		WebResource wsvc = cl.resource(proto+"localhost:9080/webSvcs");
 		
 		ClientResponse c = wsvc.path("loginservices").path("checkuservalidity").
@@ -72,13 +77,28 @@ public class LoginService extends HttpServlet {
 		}
 		else{
 			String respn = c.getEntity(String.class);
-			String g[] = respn.split(" ");
+			JSONParser parser = new JSONParser();
+			JSONObject json = new JSONObject();
+			
+			
+			try {
+				json = (JSONObject) parser.parse(respn);
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 			HttpSession s = request.getSession();
-			s.setAttribute("USER",g[2]);
-			s.setAttribute("PROID",g[1]);
-			s.setAttribute("NAME",g[0]);
-			s.setAttribute("COINS",g[3]);
+			s.setAttribute("USER",json.get("emailid").toString());
+			s.setAttribute("PROID",json.get("profileid").toString());
+			s.setAttribute("NAME",json.get("name").toString());
+			s.setAttribute("COINS",json.get("coins").toString());
+			//request.setAttribute("prevdate", json.get("date").toString());
+			
 			response.sendRedirect("index.jsp");
+			
 		}
 		
 	

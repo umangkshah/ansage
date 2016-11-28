@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.MediaType;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.sun.jersey.api.client.Client;
@@ -67,13 +69,23 @@ public class Registration extends HttpServlet {
 		response.getOutputStream().print("Error");
 		}
 		else{
-			String respn = c.getEntity(String.class);
-			String g[] = respn.split(" ");
+			String respn = c.getEntity(String.class);			
+			JSONParser parser = new JSONParser();
+			JSONObject json = new JSONObject();			
+			
+			try {
+				json = (JSONObject) parser.parse(respn);
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			HttpSession s = request.getSession();
-			s.setAttribute("USER",g[2]);
-			s.setAttribute("PROID",g[1]);
-			s.setAttribute("NAME",g[0]);
-			s.setAttribute("COINS",g[3]);
+			s.setAttribute("USER",json.get("emailid").toString());
+			s.setAttribute("PROID",json.get("profileid").toString());
+			s.setAttribute("NAME",json.get("name").toString());
+			s.setAttribute("COINS",json.get("coins").toString());
 			response.sendRedirect("index.jsp");
 		}
 	}

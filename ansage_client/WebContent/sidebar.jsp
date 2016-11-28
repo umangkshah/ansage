@@ -49,7 +49,7 @@
 				<%= session.getAttribute("NAME")%>
                 </div>
                 <div class="list-group">
-                    <% out.println("<a class=\'list-group-item\' href=\'ViewProfile?Profile=" + session.getAttribute("PROID") + "\'>"); %>
+                    <% out.println("<a class=\'list-group-item\' href=\'ViewProfile?profile=" + session.getAttribute("PROID") + "\'>"); %>
                     My Profile</a>
                     <a href="ask.jsp" class="list-group-item" id="askq">Post Question</a>
                     <a href="search.jsp?q=all" class="list-group-item">Answer Questions</a>

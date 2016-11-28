@@ -40,15 +40,16 @@ public class LoginServices {
 		
 		}
 		else
-		{
-			String date=check.get("date").toString();
-			
-			String id=check.get("profileid").toString();
-			
+		{	
+			/*
+			check.get("date").toString();
+					
 			String mail=check.get("emailid").toString();
-			String name=check.get("name").toString();
+			
 			String coin=check.get("coins").toString();
-			return Response.status(200).entity(date + " " +id + " "+mail+ " "+name+" "+coin).build();
+			*/
+			System.out.println(check.toString());
+			return Response.status(200).entity(check.toString()).build();
 			}
 	}
 	

@@ -45,11 +45,9 @@ public class ViewQuestion extends HttpServlet {
 		
 		String proto = "http://";
 		ClientConfig cfg = new DefaultClientConfig();
-		cfg.getClasses().add(JacksonJsonProvider.class);
 		Client cl = Client.create(cfg);
 		
 		WebResource wsvc = cl.resource(proto+"localhost:9080/webSvcs");
-		
 		ClientResponse c = wsvc.path("qservices").path("getq").
 				type(MediaType.TEXT_PLAIN).accept(MediaType.TEXT_PLAIN).
 				post(ClientResponse.class, qid);
@@ -78,10 +76,10 @@ public class ViewQuestion extends HttpServlet {
 			qp.setQid(Integer.parseInt(qid));
 			qp.setOid(Integer.parseInt(json.get("oid").toString()));
 			request.setAttribute("qdets", qp);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("viewquestion.jsp");
-			if(dispatcher != null){
-				dispatcher.forward(request,response);
-			}
-	}
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher("viewquestion.jsp");
+		if(dispatcher != null){
+			dispatcher.forward(request,response);
+		}
 	}
 }
