@@ -90,8 +90,8 @@
 								</tr>
 								<c:forEach var="row" items="${bidrows}">  
 								<tr>
+									<td><a href='ViewProfile?profile=<c:out value="${row.reqid}"/>'> Bidder Name </a></td>
 									<td><c:out value="${row.bidid}"/></td>
-									<td><c:out value="${row.reqid}"/></td>
 									<td><c:out value="${row.offer}"/></td>
 									<td>4</td>
 								</tr>
