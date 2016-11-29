@@ -155,7 +155,7 @@ public class BidClass
 			{
 			int qid=Integer.parseInt(id);
 			List<Bidpojo> bidlist=null;
-			List<JSONObject> jsonlist=null;
+			List<JSONObject> jsonlist=new ArrayList<JSONObject>();
 			JSONObject json=new JSONObject();
 			Registrationpojo reg=null;
 			try

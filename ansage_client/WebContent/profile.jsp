@@ -15,8 +15,8 @@
    <%@ include file="nav.jsp" %>
 	<script>
 	$(document).ready(function(){
-		$('title').text("Ansage | Home");
-		//$('#lisearch').addClass("active"); 
+		$('title').text("Ansage | ${rows.name}");
+		$('#liprof').addClass("active"); 
 		
 		$('#formdet').hide();
 		$('#edit').click(function(){$('#formdet').show();});

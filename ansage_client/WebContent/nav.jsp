@@ -14,20 +14,22 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li id="lisearch">
-                        <a href="search.html">Search</a>
+                        <a href="search.jsp">Search</a>
                     </li>
-                    <li>
-                        <a href="#">Services</a>
+                    <li id="liqs">
+                        <a href="DisplayQuestion">View Questions</a>
                     </li>
-                    <li>
-                        <a href="#">Contact</a>
-                    </li>
+                   
                     <% if(session.getAttribute("USER") != null) { %>  
+                     <li>
+                        <a href="MyQuestions">My Questions</a>
+                    </li>
                     <li class="dropdown navbar-right">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
                       <ul class="dropdown-menu">
                         <li><a href="#"></a></li>
-                        <li id="liprof"><a href="profile.html">Profile</a></li>
+                        <li id="liprof"><% out.println("<a href=\'ViewProfile?profile=" + session.getAttribute("PROID") + "\'>"); %>
+                    Profile</a></li>
                         <li><a href="cart.jsp">My Cart <span class="badge"> 0</span></a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="logout.jsp">Sign Out</a></li>
