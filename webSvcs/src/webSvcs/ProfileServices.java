@@ -41,6 +41,34 @@ public class ProfileServices {
 		json.put("proid",profileid);
 		return Response.status(200).entity(json.toString()).build();
 	}
+	
+	@Path("/edit")
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response editprofile(String jon)
+	{
+		JSONParser parser = new JSONParser();
+		JSONObject json = new JSONObject();
+		try {
+			json = (JSONObject) parser.parse(jon);
+			} 
+		catch (ParseException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ProfileClass prof=new ProfileClass();
+		String check=prof.editprofile(json);
+		 if(check==null)
+			{
+			   return Response.status(202).entity("false").build();
+			
+			}
+		 else
+		 	{
+			 return Response.status(200).entity("true").build();
+		 	}
+	}
 
 }
 
