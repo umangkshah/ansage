@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,8 +25,10 @@
 	});	
 	</script>
 	
-	
-
+	<c:set var = "admin" value="0" scope="session" />
+	<c:if test="${rows.proid == sessionScope.PROID}">
+					<c:set var = "admin" value="1" scope="session" />
+	</c:if>   
     <header class="image-bg-fluid-height">
         <img class="img-responsive img-center" src="images/dp.jpg" alt="">
     </header>
@@ -34,19 +37,26 @@
     <section>
         <div class="container">
             <div class="row">
-                <div class="col-md-12" id="org">
-                   <h4 class="section-heading" id="username">${rows.name}</h4>
+                    <div class="col-md-12" id="org">
+                    <h4 class="section-heading" id="username">${rows.name}</h4>
                     <p class="lead section-lead" id="usercoins">Coins: <b>204</b></p>
                     <p class="lead section-lead" id="usertagline">${rows.tagline}</p>
                     <p class="section-paragraph" id="userbio">${rows.bio}</p>
                     <p class="lead section-lead" id="userskills">${rows.skills}</p>
                  </div>
-                 <input type="button" id="edit" onclick="change()" class="btn btn-primary"  value="Edit Profile">
+                 
             </div>
         
         </div>
         
+     
+				
     </section>
+    <c:if test="${admin == 1}">
+    <div class = 'container'>
+    	<input type="button" id="edit" onclick="change()" class="btn btn-primary"  value="Edit Profile">
+    </div>
+    
      <div class="container" id="formdet">
 		 <p class="lead">Update</p>
                 <p>Update Fields</p>
@@ -82,22 +92,14 @@
                     <br/>
                     <button id = "nochanges" type="cancel" class="btn btn-primary">Cancel</button>
                     </div>
-   
+  				</c:if>
     
    
    <hr>
     <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2014</p>
-                </div>
-            </div>
-            <!-- /.row -->
-        </div>
+    <%@ include file="footer.html" %>
         <!-- /.container -->
-    </footer>
+    
  <script>
 function change()
 {
