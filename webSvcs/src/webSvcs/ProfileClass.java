@@ -61,15 +61,15 @@ public class ProfileClass
 		Session session=null;
 		Transaction tx=null;
 		String name=regdata.get("name").toString();
-		String email=regdata.get("emailid").toString();
+		//String email=regdata.get("emailid").toString();
 		String tagline=regdata.get("tagline").toString();
 		String bioinfo=regdata.get("bio").toString();
 		//String password=regdata.get("password").toString();
 		String skills=regdata.get("skills").toString();
-		String profid=regdata.get("profileid").toString();
+		String profid=regdata.get("pid").toString();
 		int profileid=Integer.parseInt(profid);
-		String coin=regdata.get("coins").toString();
-		int coins=Integer.parseInt(coin);
+		//String coin=regdata.get("coins").toString();
+		//int coins=Integer.parseInt(coin);
 		try
 		{
 		sessionfactory=new Configuration().configure().buildSessionFactory();
@@ -82,10 +82,10 @@ public class ProfileClass
 		{
 			session=sessionfactory.openSession();
 		    tx=session.beginTransaction();
-		    Query query=session.createQuery("UPDATE Registrationpojo set name=:name,email=:email,coins=:coins,tagline=:tagline,bioinfo=:bioinfo,skills=:skills where profileid=:profileid");
+		    Query query=session.createQuery("UPDATE Registrationpojo set name=:name,tagline=:tagline,bioinfo=:bioinfo,skills=:skills where profileid=:profileid");
 		    query.setParameter("name",name);
-		    query.setParameter("email",email);
-		    query.setParameter("coins",coins);
+		   // query.setParameter("email",email);
+		    //query.setParameter("coins",coins);
 		    query.setParameter("tagline",tagline);
 		    query.setParameter("bioinfo",bioinfo);
 		    query.setParameter("skills",skills);
