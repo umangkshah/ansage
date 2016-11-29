@@ -13,8 +13,6 @@ public class BidClass
 	{
 	
 	private static SessionFactory sessionfactory;
-	
-	
 	public String savebid(JSONObject biddata)
 		{
 		try
@@ -153,10 +151,13 @@ public class BidClass
 		return reid; 
 		}
 	
-		public List<Bidpojo> retbids(String id)
+		public List<JSONObject> retbids(String id)
 			{
 			int qid=Integer.parseInt(id);
 			List<Bidpojo> bidlist=null;
+			List<JSONObject> jsonlist=null;
+			JSONObject json=new JSONObject();
+			Registrationpojo reg=null;
 			try
 				{
 				sessionfactory=new Configuration().configure().buildSessionFactory();
@@ -174,9 +175,10 @@ public class BidClass
 				Query query=session.createQuery("from Bidpojo where qid=:qid");
 				query.setParameter("qid",qid);
 				 bidlist=query.list();
+				 tx.commit();
 				 if(bidlist==null)
 					 return null;
-				tx.commit();
+				
 				}
 			catch(Exception e)
 				{
@@ -188,7 +190,45 @@ public class BidClass
 				{
 				 session.close();
 				}
-			return bidlist;
+			for(Bidpojo b:bidlist)
+				{
+				 int profileid=b.getReqid();
+				 try
+				 {
+					 session=sessionfactory.openSession();
+					 tx=session.beginTransaction();
+					 Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
+					 query.setParameter("profileid", profileid);
+					  reg=(Registrationpojo)query.uniqueResult();
+					 tx.commit();
+				 }
+				 catch(HibernateException e)
+				 {
+					 if(tx!=null)
+					tx.rollback();
+					return null; 
+				 }
+				 finally
+				 {
+					 session.close();
+				 }
+				json.put("qid",b.getQid());
+				json.put("reqid", b.getReqid());
+				json.put("offer",b.getOffer());
+				json.put("name", reg.getName());
+				json.put("coins",reg.getCoins());
+				json.put("skills",reg.getSkills());
+				json.put("bidid",b.getBidid());
+				jsonlist.add(json);
+				
+				}
+			sessionfactory.close();
+			return jsonlist;
+			
+			
+			
+			
+			
 			}
 }
 	

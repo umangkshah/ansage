@@ -5,6 +5,28 @@ public class BidPojo {
 	private int reqid;
 	private int qid;
 	private int offer;
+	private String name;
+	private int coins;
+	private String skills;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getCoins() {
+		return coins;
+	}
+	public void setCoins(int coins) {
+		this.coins = coins;
+	}
+	public String getSkills() {
+		return skills;
+	}
+	public void setSkills(String skills) {
+		this.skills = skills;
+	}
+	
 	public int getBidid() {
 		return bidid;
 	}

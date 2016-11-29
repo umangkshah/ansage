@@ -55,20 +55,16 @@ public class BidServices {
     	{
 		  
 		  BidClass bid=new BidClass();
-		  List<Bidpojo> bidlist=bid.retbids(qd);
+		  List<JSONObject> bidlist=bid.retbids(qd);
 		  JSONArray ja=new JSONArray();
 		  if(bidlist==null)
 			  return Response.status(202).entity("false").build();
 		  else
 		  {
-			 for(Bidpojo b:bidlist)
+			 for(JSONObject b:bidlist)
 			 {
-				 JSONObject json=new JSONObject();
-				 json.put("qid",b.getQid());
-				 json.put("reqid",b.getReqid());
-				 json.put("offer",b.getOffer());
-				 json.put("bidid",b.getBidid());
-				 ja.add(json);
+				 
+				 ja.add(b);
 			 }
 			  return  Response.ok().entity(ja.toString()).build();
 		  }
