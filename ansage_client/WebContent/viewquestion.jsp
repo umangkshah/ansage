@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +24,7 @@
         <div class="row">
 
             <jsp:include page="sidebar.jsp" />
-			<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+			
 			<c:set var = "oid" value="${qdets.oid}" scope="session" />
 			<c:set var = "admin" value="0" scope="session" />
 			<c:set var = "logged" value="0" scope="session" />
@@ -78,13 +80,17 @@
                 	</p>
                 </div>
            </c:if>
-           <c:if test="${admin == 0 }">   
+           <c:if test="${admin == 1}"> 
+           I am admin
+       
                 <div class="row">
                 	<h4>Accept more bids to get more answers</h4>
                 </div>
+                
                 <h4>Bids:</h4>
 		                <div class="row">
 							<table class="table">
+							
 								<tr>
 									<th>Name</th><th>Coins</th><th>Offer</th><th>Skills Known</th>
 								</tr>
@@ -98,6 +104,7 @@
 								</c:forEach>
 							</table>                
 		                </div>
+           	
            </c:if>    
             </div>
 

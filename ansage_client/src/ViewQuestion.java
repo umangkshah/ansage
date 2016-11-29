@@ -85,43 +85,46 @@ public class ViewQuestion extends HttpServlet {
 		List<BidPojo> bidlist=new ArrayList<BidPojo>();
 		//WebResource bidwsvc = cl.resource(proto+"localhost:9080/webSvcs");
 		ClientResponse bidc = wsvc.path("bidservices").path("retrieve").path(qid).type(MediaType.TEXT_PLAIN).accept(MediaType.TEXT_PLAIN).get(ClientResponse.class);
-		if (bidc.getStatus() != 200) {
-			response.getOutputStream().print("Error");
-			}
-		else{
-			String jsonstring = bidc.getEntity(String.class);
-			Object object=null;
-			JSONParser jsonParser=new JSONParser();
-			try {
-				object=jsonParser.parse(jsonstring);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			JSONArray arrayObj=null;
-			arrayObj=(JSONArray)object;
-			Iterator i = arrayObj.iterator();
-			while(i.hasNext())
-			{
-				BidPojo qu=new BidPojo();
-				JSONObject jon=(JSONObject)i.next();
-				String qud=jon.get("qid").toString();
-				int quid=Integer.parseInt(qud);
-				String reqd=jon.get("reqid").toString();
-				int reqid=Integer.parseInt(reqd);
-				String offr=jon.get("offer").toString();
-				int offer=Integer.parseInt(offr);
-				String bd=jon.get("bidid").toString();
-				int bidid=Integer.parseInt(bd);
-				qu.setBidid(bidid);
-				qu.setOffer(offer);
-				qu.setQid(quid);
-				qu.setReqid(reqid);
-				bidlist.add(qu);
+		if (bidc.getStatus() == 200 || bidc.getStatus() == 202){
+			if(bidc.getStatus() == 202){
 				
 			}
-			
-			request.setAttribute("bidrows",bidlist);
+			else
+			{
+				String jsonstring = bidc.getEntity(String.class);
+				Object object=null;
+				JSONParser jsonParser=new JSONParser();
+				try {
+					object=jsonParser.parse(jsonstring);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				JSONArray arrayObj=null;
+				arrayObj=(JSONArray)object;
+				Iterator i = arrayObj.iterator();
+				while(i.hasNext())
+				{
+					BidPojo qu=new BidPojo();
+					JSONObject jon=(JSONObject)i.next();
+					String qud=jon.get("qid").toString();
+					int quid=Integer.parseInt(qud);
+					String reqd=jon.get("reqid").toString();
+					int reqid=Integer.parseInt(reqd);
+					String offr=jon.get("offer").toString();
+					int offer=Integer.parseInt(offr);
+					String bd=jon.get("bidid").toString();
+					int bidid=Integer.parseInt(bd);
+					qu.setBidid(bidid);
+					qu.setOffer(offer);
+					qu.setQid(quid);
+					qu.setReqid(reqid);
+					bidlist.add(qu);
+					
+				}
+				
+				request.setAttribute("bidrows",bidlist);
+			}
 		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("viewquestion.jsp");
 		if(dispatcher != null){
