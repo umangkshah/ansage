@@ -69,10 +69,17 @@ public class DisplayBids extends HttpServlet {
 				int offer=Integer.parseInt(offr);
 				String bd=jon.get("bidid").toString();
 				int bidid=Integer.parseInt(bd);
+				String name=jon.get("name").toString();
+				String con=jon.get("coins").toString();
+				int coins=Integer.parseInt(con);
+				String skills=jon.get("skills").toString();
 				qu.setBidid(bidid);
 				qu.setOffer(offer);
 				qu.setQid(qid);
 				qu.setReqid(reqid);
+				qu.setName(name);
+				qu.setCoins(coins);
+				qu.setSkills(skills);
 				bidlist.add(qu);
 				
 			}
