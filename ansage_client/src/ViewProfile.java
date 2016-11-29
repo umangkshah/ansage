@@ -73,6 +73,7 @@ public class ViewProfile extends HttpServlet {
 			p.setBio(json.get("bio").toString());
 			p.setTagline(json.get("tagline").toString());
 			p.setSkills(json.get("skills").toString());
+			p.setCoins(json.get("coins").toString());
 			p.setProid(pid);
 			
 			request.setAttribute("rows", p);

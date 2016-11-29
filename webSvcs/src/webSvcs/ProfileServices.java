@@ -33,12 +33,14 @@ public class ProfileServices {
 		String bio=getprof.getBioinfo();
 		String skills=getprof.getSkills();
 		int profileid=getprof.getProfileid();
+		int coins=getprof.getCoins();
 		JSONObject json=new JSONObject();
 		json.put("name",name);
 		json.put("tagline",tagline);
 		json.put("bio",bio);
 		json.put("skills",skills);
 		json.put("proid",profileid);
+		json.put("coins",coins);
 		return Response.status(200).entity(json.toString()).build();
 	}
 	
