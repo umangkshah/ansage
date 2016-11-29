@@ -50,24 +50,13 @@ public class EditProfile extends HttpServlet
 		ProfilePojo p=new ProfilePojo();
 		if (c.getStatus() != 200) {
 			response.getOutputStream().print("Error");
-			}
-			else{
-				String name=updateform.get("name").toString();
-				String tagline=updateform.get("tagline").toString();
-				String bio=updateform.get("bio").toString();
-				String skill=updateform.get("skills").toString();
-				 p=new ProfilePojo();
-				p.setBio(bio);
-				p.setName(name);
-				p.setTagline(tagline);
-				p.setSkills(skill);
-			}
-		request.setAttribute("rows",p);
-		String redlink = "ViewProfile?profile="+pid;
-		RequestDispatcher dispatcher = request.getRequestDispatcher(redlink);
-		if(dispatcher != null){
-		dispatcher.forward(request,response);
 		}
+		else{
+			String redlink = "ViewProfile?profile="+pid;
+			response.sendRedirect(redlink);
+		}
+		//request.setAttribute("rows",p);
+		
 		
 	}	
 }
