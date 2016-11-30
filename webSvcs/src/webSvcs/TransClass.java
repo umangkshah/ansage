@@ -261,6 +261,239 @@ public class TransClass {
 		
 	}
 	
+	public String checkout(String ownerid)
+	{
+		Session session=null;
+		Transaction tx=null;
+		int sum=0;
+		List<Transpojo> translist=new ArrayList<Transpojo>();
+		int oid=Integer.parseInt(ownerid);
+		try
+		{
+		 sessionfactory=new Configuration().configure().buildSessionFactory();
+		}
+		catch(Exception ex)
+		{
+			return null;
+		}
+		try
+		{
+			session=sessionfactory.openSession();
+			tx=session.beginTransaction();
+			Query query=session.createQuery("from Transpojo WHERE oid=:oid");
+			query.setParameter("oid", oid);
+			translist=(List<Transpojo>)query.list();
+			tx.commit();
+		}
+		catch(HibernateException e)
+		{
+			if(tx!=null)
+			tx.rollback();
+			return null;
+			
+		}
+		finally
+		{
+			session.close();
+		}
+		ArrayList reid=colreq(translist);
+		if(reid==null)
+			return null;
+		ArrayList bidoffer=coloffer(translist);
+		if(bidoffer==null)
+			return null;
+		for(int i=0;i<bidoffer.size();i++)
+		{
+			sum=sum+(Integer)bidoffer.get(i);
+			
+		}
+			ArrayList qtylist=colqty(translist);
+			if(qtylist==null)
+				return null;
+			int coin=ownercoins(oid);
+			if(coin==-1)
+				return null;
+			int balance=coin-sum;
+			if(balance<0)
+				return null;
+			ArrayList coinlist=colcoins(reid);
+			
+			for(int i=0;i<reid.size();i++)
+			{
+				int offer=(Integer)bidoffer.get(i);
+				int quantity=(Integer)qtylist.get(i);
+				int coins=(Integer)coinlist.get(i);
+				int profileid=(Integer)reid.get(i);
+				coins=coins+offer*quantity;
+				try
+				{
+					session=sessionfactory.openSession();
+					tx=session.beginTransaction();
+					Query query=session.createQuery("UPDATE Registrationpojo SET coins=coins WHERE profileid=profileid");
+					query.setParameter("coins",coins);
+					query.setParameter("profileid",profileid);
+					query.executeUpdate();
+					tx.commit();
+				}
+				catch(HibernateException e)
+				{
+					if(tx!=null)
+					tx.rollback();
+					return null;
+					
+				}
+				finally
+				{
+					session.close();
+				}
+			}
+					
+				sessionfactory.close();
+				return "true";
+					
+		}
+			
+	public ArrayList colreq(List<Transpojo> translist)
+	{
+		ArrayList reid=new ArrayList();
+		for(Transpojo td:translist)
+		{
+			int reqid=td.getReqid();
+			reid.add(reqid);
+			
+		}
+	return reid;
+	}
+	public ArrayList coloffer(List<Transpojo> translist)
+	{
+		Session session=null;
+		Transaction tx=null;
+		ArrayList bidoffer=new ArrayList();
+		try
+		{
+		 sessionfactory=new Configuration().configure().buildSessionFactory();
+		}
+		catch(Exception ex)
+		{
+			return null;
+		}
+		for(Transpojo td:translist)
+		{
+			int bidid=td.getBidid();
+			try
+			{
+				session=sessionfactory.openSession();
+				tx=session.beginTransaction();
+				Query query=session.createQuery("from Bidpojo where bidid=:bidid");
+				query.setParameter("bidid",bidid);
+				Bidpojo bd=(Bidpojo)query.uniqueResult();
+				tx.commit();
+				int offer=bd.getOffer();
+				bidoffer.add(offer);
+			}
+			catch(HibernateException e)
+			{
+				if(tx!=null)
+				tx.rollback();
+				return null;
+			}
+			finally
+			{
+				session.close();
+			}
+		}
+		sessionfactory.close();
+		return bidoffer;
+	}
+	public ArrayList colqty(List<Transpojo> translist)
+	{
+		ArrayList qtylist=new ArrayList();
+		for(Transpojo td:translist)
+		{
+			int qty=td.getQty();
+			qtylist.add(qty);
+			
+		}
+	return qtylist;
+	}
 	
-
+	public int ownercoins(int oid)
+	{
+		Session session=null;
+		Transaction tx=null;
+		int profileid=oid;
+		int coins=0;
+		try
+		{
+		 sessionfactory=new Configuration().configure().buildSessionFactory();
+		}
+		catch(Exception ex)
+		{
+			return -1;
+		}
+		try
+		{
+			session=sessionfactory.openSession();
+			tx=session.beginTransaction();
+			Query query=session.createQuery("from Registrationpojo WHERE profileid=:profileid");
+			query.setParameter("profileid",profileid);
+			Registrationpojo rd=(Registrationpojo)query.uniqueResult();
+			 coins=rd.getCoins();
+		}
+		catch(HibernateException e)
+		{
+			if(tx!=null)
+			tx.rollback();
+			return -1;
+		}
+		finally
+		{
+			session.close();
+		}
+		return coins;
+		
+	}
+	
+	public ArrayList colcoins(ArrayList reid)
+	{
+		Session session=null;
+		Transaction tx=null;
+		ArrayList coinlist=new ArrayList();
+		try
+		{
+		 sessionfactory=new Configuration().configure().buildSessionFactory();
+		}
+		catch(Exception ex)
+		{
+			return null;
+		}
+		for(int i=0;i<reid.size();i++)
+		{
+			int profileid=(Integer)reid.get(i);
+			try
+			{
+				session=sessionfactory.openSession();
+				tx=session.beginTransaction();
+				Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
+				query.setParameter("profileid",profileid);
+				Registrationpojo rd=(Registrationpojo)query.uniqueResult();
+				tx.commit();
+				int coins=rd.getCoins();
+				coinlist.add(coins);
+			}
+			catch(HibernateException e)
+			{
+				if(tx!=null)
+				tx.rollback();
+				return null;
+			}
+			finally
+			{
+				session.close();
+			}
+		}
+		sessionfactory.close();
+		return coinlist;
+	}
 }
+

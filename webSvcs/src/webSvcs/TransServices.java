@@ -76,6 +76,31 @@ public class TransServices {
 			
 		}
 	}
+	@Path("/checkout")
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response checkout(String oid)
+	{
+		TransClass trans=new TransClass();
+		String check=trans.checkout(oid);
+		if(check==null)
+		{
+			return Response.status(202).entity("false").build();
+		}
+		else
+		{
+			return Response.status(202).entity("true").build();
+			
+		}
+		
+		
+		
+		
+		
+		
+	}
+	
+	
 
 }
 
