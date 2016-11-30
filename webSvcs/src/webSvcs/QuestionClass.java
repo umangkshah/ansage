@@ -49,8 +49,10 @@ public class QuestionClass {
 			Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
 			query.setParameter("profileid",profileid);
 			quid=(Registrationpojo)query.uniqueResult();
+			tx.commit();
 			if(quid==null)
 			return null;
+			
 		}
 		catch(Exception e)
 		{
