@@ -5,7 +5,7 @@ public class ProfilePojo{
 	public String bio;
 	public String skills;
 	public String tagline;
-	public int coins;
+	public String coins;
 	
 	void setName(String x){
 		name = x;
@@ -27,7 +27,7 @@ public class ProfilePojo{
 		tagline = x;
 	}
 	
-	void setCoins(int x){
+	void setCoins(String x){
 		coins = x;
 	}
 	
@@ -51,7 +51,7 @@ public class ProfilePojo{
 		return tagline;
 	}
 	
-	public int getCoins(){
+	public String getCoins(){
 		return coins;
 	}
 }

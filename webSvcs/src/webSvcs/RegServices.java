@@ -32,7 +32,7 @@ public class RegServices {
 		}
 		
 		RegistrationClass htm = new RegistrationClass();
-		Registrationpojo check = htm.registration(json); 
+		JSONObject check = htm.registration(json); 
 		
 		 if(check==null)
 			{
@@ -43,7 +43,7 @@ public class RegServices {
 			{
 				
 				//check.getCoins();
-				return Response.status(200).entity(check.getName() + " " + check.getProfileid() + " "+ check.getEmail()+ " "+ check.getCoins()).build();
+				return Response.status(200).entity(check.toString()).build();
 			}
 	}
 }
