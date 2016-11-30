@@ -154,9 +154,8 @@ public class BidClass
 		public List<JSONObject> retbids(String id)
 			{
 			int qid=Integer.parseInt(id);
-			List<Bidpojo> bidlist=null;
+			List<Bidpojo> bidlist=new ArrayList<Bidpojo>();
 			List<JSONObject> jsonlist=new ArrayList<JSONObject>();
-			JSONObject json=new JSONObject();
 			Registrationpojo reg=null;
 			try
 				{
@@ -192,14 +191,15 @@ public class BidClass
 				}
 			for(Bidpojo b:bidlist)
 				{
+				JSONObject json=new JSONObject();
 				 int profileid=b.getReqid();
-				 try
+				try
 				 {
 					 session=sessionfactory.openSession();
 					 tx=session.beginTransaction();
 					 Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
 					 query.setParameter("profileid", profileid);
-					  reg=(Registrationpojo)query.uniqueResult();
+					 reg=(Registrationpojo)query.uniqueResult();
 					 tx.commit();
 				 }
 				 catch(HibernateException e)
@@ -212,6 +212,7 @@ public class BidClass
 				 {
 					 session.close();
 				 }
+				 
 				json.put("qid",b.getQid());
 				json.put("reqid", b.getReqid());
 				json.put("offer",b.getOffer());
