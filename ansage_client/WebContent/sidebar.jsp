@@ -25,12 +25,15 @@
                         <button type="submit" class="btn btn-success">Submit</button>
                     </form>
                      <script>
-						var x = document.getElementById("demo");
+						$(document).ready(function(){
+							getLocation();
+						});	
+                     
 						function getLocation() {
 						    if (navigator.geolocation) {
 						        navigator.geolocation.getCurrentPosition(showPosition);
 						    } else {
-						    	document.getElementById("kht").value = "unknown";
+						    	document.getElementById("kht").value = "Unknown";
 						    }
 						}
 						function showPosition(position) {
