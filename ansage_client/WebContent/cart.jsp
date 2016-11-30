@@ -49,62 +49,96 @@
                 	<h4>Accept more bids to get more answers</h4>
                 </div>
                 
-                <h4>Bids:</h4>
+                <h4>Cart:</h4>
 		                <div class="row">
 							<table class="table">
 								
 								<tr>
 									<th>Name</th><th>Offer</th><th>Quantity</th><th></th>
 								</tr>
+								
 								<c:forEach var="row" items="${rows}">  
 									<tr>
+									
+									
 										<td><a href='ViewProfile?profile=<c:out value="${row.reqid}"/>'> ${row.name} </a></td>
-										<td><c:out value="${row.offer}"/></td>
-										<td><input type='number' min = '1' max = '10' value ='<c:out value="${row.qty}"/>' /></td>
+										<td class= "offer"><c:out value="${row.offer}"/></td>
+										<td><input class="qty" type='number' min = '1' max = '10' value ='<c:out value="${row.qty}"/>' /></td>
 										<td><button class="removefromcart" id="${row.bidid}">Remove</button></td>
+									
 									</tr>
 								</c:forEach>
-								<td colspan='3'>Total</td>
-								<td id="total"></td>
+								
+								
+								<td colspan='2'>Total</td>
+								<td id="totalo"></td>
+								<td id="totalq"></td>
 							</table>   
-							<button >Save</button>
-							<button>Checkout</button>             
+							<button id="savechanges">Save</button>
+							<button id="checkout">Checkout</button>             
 		                </div>
           	 </c:if>
            </c:if> 
-           <c:if test="${logged == 1 }">
-           	<c:if test="${admin == 0 }">
-           	<c:if test="${bidded == 0}">
-            	<button type="button" class="btn btn-success" id="showbidform">Make Bid</button>	
-             <form id = "biddingform" action="MakeBid" method=POST>
-             	<div class="form=group">
-                       <label for="namepls">Offer:</label>
-                       <input type="number" min = "0" max="50" class="form-control" id="offerval" name="offerval" placeholder="Coins you want" required/>
-                 </div>
-                 <input type="hidden" value="${qdets.qid}" name="qid" />
-                 <button type="submit" class="btn btn-primary">Submit</button>
-             </form>
-            	<button type="button" class="btn btn-default" id="dontbid">Cancel</button>
-            </c:if>
-            </c:if>
-           </c:if>   
+           
             </div>
 
         </div>
 	<script>
+	
+	/*
+	var cusid_ele = document.getElementsByClassName('qty');
+	var sum = 0;
+	for (var i = 0; i < cusid_ele.length; ++i) {
+	    sum = sum + parseInt(cusid_ele[i].value);
+	}
+	var cusid_ele = document.getElementsByClassName('qty');
+	var sum = 0;
+	for (var i = 0; i < cusid_ele.length; ++i) {
+	    sum = sum + parseInt(cusid_ele[i].value);
+	}*/
 	$(document).ready(function(){
+		//$('#total').text(sum);
+		
+		/*$('.qty').change(function(){
+			
+		});*/
 		
 		$('.removefromcart').click(function(){
 			var k = this.id;
-			$.get("RemoveCart?bid="+k, function(responseText) {   // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
-                var no = parseInt(responseText);           // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
-            	var noc = parseInt(document.getElementById("cartcount").innerHTML);
-                var finc = no + noc;
-                $('#cartcount').text(finc);
+			$.get("RemoveCart?bid="+k, function(responseText) {
+                var no = parseInt(responseText);
+            	if(no == 1)
+            		$('.removefromcart').find(k).hide();
+			});
+		});
+		
+		$('#savechanges').click(function(){
+			var qts = document.getElementsByClassName('qty');
+			var bidids = document.getElementsByClassName('removefromcart');
+			var update = '';
+			for(var i = 0;i < bidids.length; i++){
+				update = update + '!' + bidids[i].id + '-' + qts[i].value;
+			}
+			$.ajax({
+			     url:'UpdateCart',
+			     type: 'post',
+			     data: {items: update},
+			     success: function (data) {
+			            $('#totalo').html(data);
+			    }
+			});
+		});
+		
+		$('#checkout').click(function(){
+			$.get("Checkout", function(responseText) {
+                var no = parseInt(responseText);
+            	
 			});
 		});
 		
 	});
+	
+	
 	</script>
     </div>
     <!-- /.container -->

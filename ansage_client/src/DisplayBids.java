@@ -79,7 +79,7 @@ public class DisplayBids extends HttpServlet {
 				qu.setReqid(reqid);
 				qu.setName(name);
 				qu.setCoins(coins);
-				qu.setSkills(skills);
+				//qu.setSkills(skills);
 				bidlist.add(qu);
 				
 			}

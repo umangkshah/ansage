@@ -54,7 +54,7 @@ public class ViewCart extends HttpServlet {
 		
 		WebResource wsvc = cl.resource(proto+"localhost:9080/webSvcs");
 		
-		ClientResponse c = wsvc.path("transervices").path("retrieve").
+		ClientResponse c = wsvc.path("transservices").path("retrieve").
 				type(MediaType.TEXT_PLAIN).accept(MediaType.TEXT_PLAIN).
 				post(ClientResponse.class, oid);
 		
