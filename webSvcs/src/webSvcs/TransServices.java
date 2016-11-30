@@ -3,6 +3,9 @@ package webSvcs;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -48,6 +51,30 @@ public class TransServices {
 			return Response.status(200).entity("true").build();
 		}
 		
+	}
+	@Path("/retrieve")
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response retcart(String oid)
+	{
+		TransClass trans=new TransClass();
+		List<JSONObject>translist=trans.retcart(oid);
+		JSONArray ja=new JSONArray();
+		if(translist==null)
+		{
+			return Response.status(202).entity("false").build();
+			
+		}
+		else
+		{
+			
+			for(JSONObject td:translist)
+			{
+				ja.add(td);
+			}
+			return  Response.ok().entity(ja.toString()).build();
+			
+		}
 	}
 
 }
