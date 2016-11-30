@@ -103,6 +103,8 @@ public class ViewQuestion extends HttpServlet {
 				JSONArray arrayObj=null;
 				arrayObj=(JSONArray)object;
 				Iterator i = arrayObj.iterator();
+				int theyhavebid=0;
+				
 				while(i.hasNext())
 				{
 					BidPojo qu=new BidPojo();
@@ -115,15 +117,22 @@ public class ViewQuestion extends HttpServlet {
 					int offer=Integer.parseInt(offr);
 					String bd=jon.get("bidid").toString();
 					int bidid=Integer.parseInt(bd);
+					String name=jon.get("name").toString();
+					String con=jon.get("coins").toString();
+					int coins=Integer.parseInt(con);
+					String skills=jon.get("skills").toString();
 					qu.setBidid(bidid);
 					qu.setOffer(offer);
 					qu.setQid(quid);
 					qu.setReqid(reqid);
+					qu.setName(name);
+					qu.setCoins(coins);
+					qu.setSkills(skills.length());
 					bidlist.add(qu);
-					
 				}
 				
 				request.setAttribute("bidrows",bidlist);
+				
 			}
 		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("viewquestion.jsp");

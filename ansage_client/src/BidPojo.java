@@ -7,7 +7,7 @@ public class BidPojo {
 	private int offer;
 	private String name;
 	private int coins;
-	private String skills;
+	private int skills;
 	public String getName() {
 		return name;
 	}
@@ -20,10 +20,10 @@ public class BidPojo {
 	public void setCoins(int coins) {
 		this.coins = coins;
 	}
-	public String getSkills() {
+	public int getSkills() {
 		return skills;
 	}
-	public void setSkills(String skills) {
+	public void setSkills(int skills) {
 		this.skills = skills;
 	}
 	

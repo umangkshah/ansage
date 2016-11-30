@@ -17,9 +17,10 @@ public class RegistrationClass {
 
     private static SessionFactory sessionfactory;    
    
-	public  Registrationpojo registration(JSONObject regdata)
+	public  JSONObject registration(JSONObject regdata)
 	{
-		
+		JSONObject jon=new JSONObject();
+		int id=0;
 		try
 		{
 		 sessionfactory=new Configuration().configure().buildSessionFactory();
@@ -48,12 +49,13 @@ public class RegistrationClass {
 		reg.setBioinfo(bio);
 	    reg.setCoins(coins);
 	    reg.setSkills(skills);
+
 	    Session session=sessionfactory.openSession();
 		Transaction tx=null;
 		try
 		{
 		tx = session.beginTransaction();
-		int id=(Integer)session.save(reg);
+		id=(Integer)session.save(reg);
 		logdet.setProfileid(id);
 		session.save(logdet);
 		tx.commit();
@@ -70,8 +72,14 @@ public class RegistrationClass {
 		{
 			session.close();
 		}
+		
+
+	    jon.put("name",reg.getName());
+	    jon.put("emailid",reg.getEmail());
+	    jon.put("profileid",id);
+	    jon.put("coins",reg.getCoins());
 		sessionfactory.close();
-		return reg;
+		return jon;
 	}
 	
 	@SuppressWarnings("deprecation")

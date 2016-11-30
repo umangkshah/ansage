@@ -56,8 +56,7 @@ public class Question extends HttpServlet {
 		qsn.put("ownerid",s.getAttribute("PROID"));
 		qsn.put("mainQ",request.getParameter("mainQ"));
 		qsn.put("descrQ",request.getParameter("descrQ"));
-		qsn.put("skills",skills);
-		//qsn.put("category", value);
+		qsn.put("category", skills);
 		
 		String proto = "http://";
 		ClientConfig cfg = new DefaultClientConfig();

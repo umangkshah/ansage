@@ -39,7 +39,7 @@
             <div class="row">
                     <div class="col-md-12" id="org">
                     <h4 class="section-heading" id="username">${rows.name}</h4>
-                    <p class="lead section-lead" id="usercoins">Coins: <b>204</b></p>
+                    <p class="lead section-lead" id="usercoins">Coins: <b>${rows.coins}</b></p>
                     <p class="lead section-lead" id="usertagline">${rows.tagline}</p>
                     <p class="section-paragraph" id="userbio">${rows.bio}</p>
                     <p class="lead section-lead" id="userskills">${rows.skills}</p>

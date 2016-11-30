@@ -30,7 +30,7 @@
                         <li><a href="#"></a></li>
                         <li id="liprof"><% out.println("<a href=\'ViewProfile?profile=" + session.getAttribute("PROID") + "\'>"); %>
                     Profile</a></li>
-                        <li><a href="cart.jsp">My Cart <span class="badge"> 0</span></a></li>
+                        <li><a href="cart.jsp">My Cart <span class="badge" id="cartcount"> 0</span></a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="logout.jsp">Sign Out</a></li>
                         
