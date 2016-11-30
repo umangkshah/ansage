@@ -53,7 +53,7 @@
         <mapping class="webSvcs.Bidpojo"/>
         <mapping class="webSvcs.Permissionpojo"/>
         <mapping class="webSvcs.Answerpojo"/>
-
+		<mapping class="webSvcs.Transpojo"/>
     </session-factory>
  
 </hibernate-configuration>
