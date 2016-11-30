@@ -261,7 +261,7 @@ public class TransClass {
 		
 	}
 	
-	public String checkout(String ownerid)
+	public ArrayList checkout(String ownerid)
 	{
 		Session session=null;
 		Transaction tx=null;
@@ -296,18 +296,22 @@ public class TransClass {
 		{
 			session.close();
 		}
+		
 		ArrayList reid=colreq(translist);
 		if(reid==null)
 			return null;
 		ArrayList bidoffer=coloffer(translist);
 		if(bidoffer==null)
 			return null;
-		for(int i=0;i<bidoffer.size();i++)
-		{
-			sum=sum+(Integer)bidoffer.get(i);
-			
-		}
+		
 			ArrayList qtylist=colqty(translist);
+			for(int i=0;i<bidoffer.size();i++)
+			{
+				int offervalue=(Integer)bidoffer.get(i);
+				int qtyvalue=(Integer)qtylist.get(i);
+				sum=sum+(offervalue*qtyvalue);
+			}
+			
 			if(qtylist==null)
 				return null;
 			int coin=ownercoins(oid);
@@ -316,8 +320,34 @@ public class TransClass {
 			int balance=coin-sum;
 			if(balance<0)
 				return null;
-			ArrayList coinlist=colcoins(reid);
 			
+		ArrayList coinlist=colcoins(reid);
+			ArrayList emaillist=colemail(reid);
+			if(emaillist==null)
+				return null;
+			
+			try
+			{ 	int profileid=oid;
+				int coins=balance;
+				session=sessionfactory.openSession();
+				tx=session.beginTransaction();
+				Query query=session.createQuery("UPDATE Registrationpojo SET coins=:coins where profileid=:profileid");
+				query.setParameter("coins",coins);
+				query.setParameter("profileid",profileid);
+				query.executeUpdate();
+				tx.commit();
+			}
+			catch(HibernateException e)
+			{
+				if(tx!=null)
+				tx.rollback();
+				return null;
+				
+			}
+			finally
+			{
+				session.close();
+			}
 			for(int i=0;i<reid.size();i++)
 			{
 				int offer=(Integer)bidoffer.get(i);
@@ -329,7 +359,7 @@ public class TransClass {
 				{
 					session=sessionfactory.openSession();
 					tx=session.beginTransaction();
-					Query query=session.createQuery("UPDATE Registrationpojo SET coins=coins WHERE profileid=profileid");
+					Query query=session.createQuery("UPDATE Registrationpojo SET coins=:coins WHERE profileid=:profileid");
 					query.setParameter("coins",coins);
 					query.setParameter("profileid",profileid);
 					query.executeUpdate();
@@ -347,9 +377,15 @@ public class TransClass {
 					session.close();
 				}
 			}
-					
+			String delbd=deletebids(translist);
+			if(delbd==null)
+				return null;
+				String check=delbid(oid);
+				if(check==null)
+					return null;
+				
 				sessionfactory.close();
-				return "true";
+				return emaillist;
 					
 		}
 			
@@ -380,6 +416,7 @@ public class TransClass {
 		for(Transpojo td:translist)
 		{
 			int bidid=td.getBidid();
+			
 			try
 			{
 				session=sessionfactory.openSession();
@@ -402,8 +439,7 @@ public class TransClass {
 				session.close();
 			}
 		}
-		sessionfactory.close();
-		return bidoffer;
+	return bidoffer;
 	}
 	public ArrayList colqty(List<Transpojo> translist)
 	{
@@ -492,8 +528,136 @@ public class TransClass {
 				session.close();
 			}
 		}
-		sessionfactory.close();
+		
 		return coinlist;
 	}
+	
+	public ArrayList colemail(ArrayList reid)
+	{
+		Session session=null;
+		Transaction tx=null;
+		ArrayList emaillist=new ArrayList();
+		try
+		{
+		 sessionfactory=new Configuration().configure().buildSessionFactory();
+		}
+		catch(Exception ex)
+		{
+			return null;
+		}
+		for(int i=0;i<reid.size();i++)
+		{
+			int profileid=(Integer)reid.get(i);
+			try
+			{
+				session=sessionfactory.openSession();
+				tx=session.beginTransaction();
+				Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
+				query.setParameter("profileid",profileid);
+				Registrationpojo rd=(Registrationpojo)query.uniqueResult();
+				tx.commit();
+				String mail=rd.getEmail();
+				emaillist.add(mail);
+			}
+			catch(HibernateException e)
+			{
+				if(tx!=null)
+				tx.rollback();
+				return null;
+			}
+			finally
+			{
+				session.close();
+			}
+		}
+		
+		return emaillist;
+	}
+	public String delbid(int oid)
+	{
+		Session session=null;
+		Transaction tx=null;
+		try
+		{
+			 sessionfactory=new Configuration().configure().buildSessionFactory();
+		}
+		catch(Exception e)
+		{
+			
+			return null;
+		}
+		try
+		{
+			session=sessionfactory.openSession();
+			tx=session.beginTransaction();
+			Query query=session.createQuery("DELETE FROM Transpojo where oid=:oid");
+			query.setParameter("oid",oid);
+			int m=query.executeUpdate();
+			if(m==0)
+				return null;
+			tx.commit();
+			
+		}
+		catch(HibernateException e)
+		{
+			if(tx!=null)
+			tx.rollback();
+			return null;
+		}
+		finally
+		{
+			session.close();
+		}
+		
+		return "true";
+	}
+	
+	public String deletebids(List<Transpojo> translist)
+	{
+		
+		Session session=null;
+		Transaction tx=null;
+		try
+		{
+			 sessionfactory=new Configuration().configure().buildSessionFactory();
+		}
+		catch(Exception e)
+		{
+			
+			return null;
+		}
+		for(Transpojo td:translist)
+			{
+				int bidid=td.getBidid();
+				try
+				{
+					session=sessionfactory.openSession();
+					tx=session.beginTransaction();
+					Query query=session.createQuery("DELETE FROM Bidpojo where bidid=:bidid");
+					query.setParameter("bidid",bidid);
+					int m=query.executeUpdate();
+					if(m==0)
+						return null;
+					tx.commit();
+				}
+				catch(HibernateException e)
+				{
+					if(tx!=null)
+					tx.rollback();
+					return null;
+				}
+				finally
+				{
+					session.close();
+				}
+			}
+		return "true";
+	}
+				
 }
+	
+	
+	
+	
+
 
