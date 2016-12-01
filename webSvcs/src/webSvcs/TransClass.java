@@ -13,6 +13,7 @@ import org.json.simple.*;
 public class TransClass {
 	
 	private static SessionFactory sessionfactory;
+	
 	public String inscart(String bdid)
 	{
 		Session session=null;
@@ -653,8 +654,64 @@ public class TransClass {
 			}
 		return "true";
 	}
-				
+	
+	public String updateqty(JSONArray arrayobj)
+	{
+		Session session=null;
+		Transaction tx=null;
+		try
+		{
+			 sessionfactory=new Configuration().configure().buildSessionFactory();
+		}
+		catch(Exception e)
+		{
+			
+			return null;
+		}
+		Iterator i = arrayobj.iterator();
+		while(i.hasNext())
+		{
+			
+			JSONObject jon=(JSONObject)i.next();
+			int bidid=Integer.parseInt(jon.get("bidid").toString());
+			int qty=Integer.parseInt(jon.get("qty").toString());
+			try
+			{
+				session=sessionfactory.openSession();
+				tx=session.beginTransaction();
+				Query query=session.createQuery("UPDATE Transpojo set qty=:qty where bidid=:bidid");
+				query.setParameter("qty", qty);
+				query.setParameter("bidid", bidid);
+				int m=query.executeUpdate();
+				tx.commit();
+			}
+			catch(HibernateException e)
+			{
+				if(tx!=null)
+				tx.rollback();
+				return null;
+			}
+			finally
+			{
+				session.close();
+			}
+		}
+		return "true";
+			
+	}
+			
+			
 }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
 	
 	
 	
