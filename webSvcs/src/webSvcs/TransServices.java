@@ -4,6 +4,7 @@ import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -76,6 +77,34 @@ public class TransServices {
 			
 		}
 	}
+	@Path("/checkout")
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response checkout(String oid)
+	{
+		TransClass trans=new TransClass();
+		ArrayList emaillist=trans.checkout(oid);
+		String maillist=new String();
+		int i;
+		if(emaillist==null)
+		{
+			return Response.status(202).entity("false").build();
+		}
+		else
+		{
+			
+			for(i=0;i<emaillist.size()-1;i++)
+			{
+				
+				String k=(String)emaillist.get(i);
+				maillist=maillist+k+" ";
+			}
+			maillist=maillist+(String)emaillist.get(i);
+			return Response.status(200).entity(maillist).build();
+		}
+	}
+	
+	
 
 }
 
