@@ -130,7 +130,7 @@
 		});
 		
 		$('#checkout').click(function(){
-			$.get("Checkout", function(responseText) {
+			$.get("Transaction", function(responseText) {
                 var no = parseInt(responseText);
             	
 			});
