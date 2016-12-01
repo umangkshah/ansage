@@ -1,4 +1,8 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -43,7 +47,54 @@ public class LoginService extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
-
+	
+	
+	protected String findLoc(String ll){
+		String tempsvc = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+ll+"&key=AIzaSyCtnpJWEJi6c5tqmE6xiay6o-YRTFVPbwk";
+		try{
+			URL url = new URL(tempsvc);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("Host", "googleapis.com");
+			connection.setRequestProperty("Content-Type", 
+			        "application/json");
+			connection.setDoOutput(true);
+			
+			BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String op="";
+			StringBuilder resp = new StringBuilder(); // or StringBuffer if Java version 5+
+		    String line;
+		    while ((line = rd.readLine()) != null) {
+		      resp.append(line);
+		      resp.append('\r');
+		    }
+		    rd.close();
+		    op = op + resp.toString();
+		    
+		    if (connection != null) 
+		    	  connection.disconnect();
+		
+		JSONParser parser = new JSONParser();
+		JSONObject json = new JSONObject();
+		try {
+			json = (JSONObject) parser.parse(op);
+			
+		} catch (ParseException e) {}
+		
+		String printop =json.toString();
+		
+		int k = printop.indexOf("formatted_address");
+		k = k + 19;
+		int x = printop.indexOf("\"",k);
+		int y = printop.indexOf("\"",k+1);
+		String z = printop.substring(x+1,y);
+		
+		return z;
+		}
+		catch(Exception e){
+			return "Unkown";
+		}
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -59,14 +110,13 @@ public class LoginService extends HttpServlet {
 		ClientConfig cfg = new DefaultClientConfig();
 		cfg.getClasses().add(JacksonJsonProvider.class);
 		Client cl = Client.create(cfg);
-		/*
+		
 		String ll = request.getParameter("locn");
-		String tempsvc = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+ll+"&key=AIzaSyCtnpJWEJi6c5tqmE6xiay6o-YRTFVPbwk";
-		WebResource locsvc = cl.resource(tempsvc);
-		JSONObject locresp = locsvc.get(JSONObject.class);
-		String address = locresp.get("formatted_address").toString();
-		loginform.put("address", address);
-		*/
+		String locn="";
+		//LoginService ls = new LoginService();
+		//locn = ls.findLoc(ll);
+		//loginform.put("address", locn);
+		
 		WebResource wsvc = cl.resource(proto+"localhost:9080/webSvcs");
 		
 		ClientResponse c = wsvc.path("loginservices").path("checkuservalidity").
