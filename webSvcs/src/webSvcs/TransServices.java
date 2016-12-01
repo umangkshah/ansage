@@ -5,6 +5,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -103,7 +104,35 @@ public class TransServices {
 			return Response.status(200).entity(maillist).build();
 		}
 	}
-	
+	@Path("/updateqty")
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response updateqty(String jsonobj)
+	{
+		TransClass trans=new TransClass();
+		Object object=null;
+		JSONParser jsonParser=new JSONParser();
+		try {
+			object=jsonParser.parse(jsonobj);
+			} 
+		catch (ParseException e)
+		{
+			
+			e.printStackTrace();
+		}
+		JSONArray arrayobj=new JSONArray();
+		arrayobj=(JSONArray)object;
+		String check=trans.updateqty(arrayobj);
+		if(check==null)
+		{
+			 return Response.status(202).entity("false").build();
+		}
+		else
+		{
+			return Response.status(200).entity("true").build();
+		}
+		
+	}
 	
 
 }
