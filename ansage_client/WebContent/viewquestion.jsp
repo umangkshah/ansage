@@ -8,6 +8,8 @@
 <%@ include file="header.html" %>
 
 <body>
+	
+   
     <!-- Navigation -->
     <%@ include file="nav.jsp" %>
 	<script>
@@ -48,16 +50,14 @@
                     
                     <h4> ${qdets.question}</h4>
                     <p>${qdets.descr}</p>
-                    <c:if test="${admin == 1 }">
-	                    <a class="btn btn-success" href="http://localhost:9080/webSvcs/QServices/close/161">Close</a>
-	                	
-                	</c:if>
+                    
                 </div>
            
            <c:if test="${logged == 0 }">
            	<h4> Login to Bid and View Answers</h4>
            </c:if>
            <c:if test="${logged == 1 }">
+           <!-- 
                 <h4>Answers:</h4>
                 <br/>
                 <div class="row">
@@ -66,6 +66,7 @@
                 	Hold your hands at an 40 degree angle and use the chopsticks to eat food
                 	</p>
                 </div>
+                 -->
            </c:if>
            <c:if test="${admin == 1}"> 
           	<c:if test="${fn:length(bidrows) > 0}">
@@ -75,21 +76,25 @@
                 </div>
                 
                 <h4>Bids:</h4>
+                <small>Click to sort bids lowest to highest based on header.</small>
 		                <div class="row">
-							<table class="table">
-								
+							<table class="table tablesorter">
+								<thead>
 								<tr>
 									<th>Name</th><th>Coins</th><th>Offer</th><th>Skills Known</th><th></th>
 								</tr>
+								</thead>
+								<tbody>
 								<c:forEach var="row" items="${bidrows}">  
 									<tr>
 										<td><a href='ViewProfile?profile=<c:out value="${row.reqid}"/>'> ${row.name} </a></td>
 										<td><c:out value="${row.coins}"/></td>
 										<td><c:out value="${row.offer}"/></td>
 										<td><c:out value="${row.skills}" /></td>
-										<td><button class="addtocart" id="${row.bidid}">Add</button></td>
+										<td><button class="addtocart" id="${row.bidid}">Accept</button></td>
 									</tr>
 								</c:forEach>
+								</tbody>
 							</table>                
 		                </div>
            	</c:if>
@@ -138,6 +143,17 @@
 			});
 		});
 		
+		$("table").tablesorter({ 
+	        // pass the headers argument and assing a object 
+	        headers: { 
+	            // assign the secound column (we start counting zero) 
+	            4: { 
+	                // disable it by setting the property sorter to false 
+	                sorter: false 
+	            }
+	        } 
+	    }); 
+		
 	});
 	</script>
     </div>
@@ -152,9 +168,6 @@
 
     </div>
     <!-- /.container -->
-
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>

@@ -92,6 +92,7 @@ public class LoginService extends HttpServlet {
 		return z;
 		}
 		catch(Exception e){
+			System.out.println(e);
 			return "Unkown";
 		}
 	}
@@ -113,9 +114,9 @@ public class LoginService extends HttpServlet {
 		
 		String ll = request.getParameter("locn");
 		String locn="";
-		//LoginService ls = new LoginService();
-		//locn = ls.findLoc(ll);
-		//loginform.put("address", locn);
+		LoginService ls = new LoginService();
+		locn = ls.findLoc(ll);
+		loginform.put("address", locn);
 		
 		WebResource wsvc = cl.resource(proto+"localhost:9080/webSvcs");
 		
@@ -145,7 +146,8 @@ public class LoginService extends HttpServlet {
 			s.setAttribute("PROID",json.get("profileid").toString());
 			s.setAttribute("NAME",json.get("name").toString());
 			s.setAttribute("COINS",json.get("coins").toString());
-			//request.setAttribute("prevdate", json.get("date").toString());
+			s.setAttribute("DATE", "time date");
+			s.setAttribute("LOCN", locn);
 			
 			response.sendRedirect("index.jsp");
 			

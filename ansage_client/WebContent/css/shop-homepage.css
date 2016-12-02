@@ -71,7 +71,11 @@ body {
 	padding: 5px;
 	font-size:13px;
 }
-
+/** **/
+.tablesorter > thead > tr > th:hover{
+	color: red;
+	cursor: pointer;
+}
 /*  Profile */
 
 .image-bg-fluid-height,

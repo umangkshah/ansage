@@ -8,8 +8,11 @@
 <%@ include file="header.html" %>
 
 <body>
+
+    
     <!-- Navigation -->
     <%@ include file="nav.jsp" %>
+    
 	<script>
 	$(document).ready(function(){
 		$('title').text("Ansage | Shopping Cart");
@@ -51,7 +54,7 @@
                 
                 <h4>Cart:</h4>
 		                <div class="row">
-							<table class="table">
+							<table class="table" id="cart">
 								
 								<tr>
 									<th>Name</th><th>Offer</th><th>Quantity</th><th></th>
@@ -74,8 +77,10 @@
 								<td id="totalo"></td>
 								<td id="totalq"></td>
 							</table>   
-							<button id="savechanges">Save</button>
-							<button id="checkout">Checkout</button>             
+							<div class="row" id="#cartcontrols">
+								<button id="savechanges">Save</button>
+								<button id="checkout">Checkout</button>
+							</div>             
 		                </div>
           	 </c:if>
            </c:if> 
@@ -109,31 +114,47 @@
                 var no = parseInt(responseText);
             	if(no == 1)
             		$('.removefromcart').find(k).hide();
+            		
 			});
 		});
 		
 		$('#savechanges').click(function(){
 			var qts = document.getElementsByClassName('qty');
 			var bidids = document.getElementsByClassName('removefromcart');
-			var update = '';
-			for(var i = 0;i < bidids.length; i++){
-				update = update + '!' + bidids[i].id + '-' + qts[i].value;
+			var update = bidids[0].id + '=' + qts[0].value;
+			for(var i = 1;i < bidids.length; i++){
+				update = update + '!' + bidids[i].id + '=' + qts[i].value;
 			}
 			$.ajax({
 			     url:'UpdateCart',
 			     type: 'post',
 			     data: {items: update},
 			     success: function (data) {
-			            $('#totalo').html(data);
+			    	 if (data == "1")
+			            $('#totalo').html("Updated!");
 			    }
 			});
 		});
 		
 		$('#checkout').click(function(){
-			$.get("Transaction", function(responseText) {
-                var no = parseInt(responseText);
-            	
-			});
+			$( "#savechanges" ).trigger( "click" );
+			var offs = document.getElementsByClassName('offer');
+			var sum = 0;
+			for(var i = 0;i < offs.length; i++){
+				sum = sum + parseInt(offs[i].innerHTML);
+			}
+			if(sum <= ${sessionScope.COINS}){
+				$.get("Transaction", function(responseText) {
+	                if(responseText == "1"){
+	                	$('#totalo').html("Successful.");
+	                	$('#cart').hide();
+	                	$('#cartcontrols').hide();
+	                }
+	            		
+				});
+			}else{
+            	$('#totalo').html("Not Enough Coins.");
+            }
 		});
 		
 	});
