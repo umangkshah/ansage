@@ -12,11 +12,17 @@
   	<%@ include file="nav.jsp" %>
 	<script>
 	$(document).ready(function(){
+		$('head').append('<meta http-equiv="refresh" content="900">');
 		
-			$.get("Refresh", function(responseText) {   // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
-	            
-	            
-			});
+		/*window.setTimeout(
+				$.get("Refresh", function(responseText) {
+					window.location.href = responseText;
+		            
+				})
+				, 15000);*/
+			
+		
+			
 		
 		
 	});		

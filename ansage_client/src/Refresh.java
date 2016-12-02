@@ -29,7 +29,7 @@ public class Refresh extends HttpServlet {
 		// TODO Auto-generated method stub
 		String src = request.getHeader("Referer");
 		if(src.contains("index2.jsp")){
-			response.sendRedirect("index.jsp");
+			response.getWriter().print("index2.jsp");
 		}
 	}
 
