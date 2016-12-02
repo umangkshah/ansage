@@ -25,13 +25,19 @@ public class Loginpojo {
 		@Column(unique=true)
 		private String email;
 		private String password;
-		private Date logindate;
+		private String logindate;
+		private String address;
+		public String getAddress() {
+			return address;
+		}
+		public void setAddress(String address) {
+			this.address = address;
+		}
 		
-		
-		public Date getLogindate() {
+		public String getLogindate() {
 			return logindate;
 		}
-		public void setLogindate(Date logindate) {
+		public void setLogindate(String logindate) {
 			this.logindate = logindate;
 		}
 		public int getProfileid() {

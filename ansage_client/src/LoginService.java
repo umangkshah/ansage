@@ -146,8 +146,8 @@ public class LoginService extends HttpServlet {
 			s.setAttribute("PROID",json.get("profileid").toString());
 			s.setAttribute("NAME",json.get("name").toString());
 			s.setAttribute("COINS",json.get("coins").toString());
-			s.setAttribute("DATE", "time date");
-			s.setAttribute("LOCN", locn);
+			s.setAttribute("DATE",json.get("date").toString());
+			s.setAttribute("LOCN",json.get("address").toString());
 			
 			response.sendRedirect("index.jsp");
 			
