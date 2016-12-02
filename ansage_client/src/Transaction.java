@@ -1,6 +1,8 @@
 
 
 import java.io.IOException;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,13 +53,42 @@ public class Transaction extends HttpServlet {
 				response.getOutputStream().print(c.getStatus());
 			}
 			else{
+				/*
+				String owner = request.getSession().getAttribute("USER").toString();
 				String resp = c.getEntity(String.class);
 				String emails[] = resp.split(" ");
+				int done = sendEmail(owner,emails);
+				*/
+				response.setContentType("text/plain");
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().write("1");
 			}
 	}
-	int sendEmail(String a[]){
+	
+	int sendEmail(String o,String a[]){
+		ServletContext context = getServletContext();
+        String host = context.getInitParameter("host");
+        String port = context.getInitParameter("port");
+        String user = context.getInitParameter("user");
+        String pass = context.getInitParameter("pass");
 		
-		return 1;
+        
+        String subject = "Successful Transaction Notice";
+        String content1 = "Bid Accepted. Yours coins are credited.";
+        String content2 = "Bid Accepted. Yours coins are debited.";
+        String resultMessage = "";
+        
+        EmailUtility eu = new EmailUtility();
+        try {
+            eu.sendEmail(host, port, user, pass, a, o, subject,
+                    content1, content2);
+            resultMessage = "The e-mail was sent successfully";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            resultMessage = "There was an error: " + ex.getMessage();
+        } 
+        
+        return 1;
 	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

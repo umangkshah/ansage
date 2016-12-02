@@ -12,9 +12,13 @@
   	<%@ include file="nav.jsp" %>
 	<script>
 	$(document).ready(function(){
-		$('title').text("Ansage | Home");
-		//$('#lisearch').addClass("active"); 
-		$('.navbar-brand').addClass("brand-home").attr("href","#");
+		
+			$.get("Refresh", function(responseText) {   // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+	            
+	            
+			});
+		
+		
 	});		
 	</script>
     <!-- Page Content -->
@@ -27,13 +31,9 @@
             
             <div class="col-md-9">
                 
-            	<c:if test="${sessionScope.PROID != null}">
-					<div class="row">
-						<h4>Your Last Login Was on: ${sessionScope.DATE} from: ${sessionScope.LOCN}</h4>
-					</div>
-				</c:if>
+            	
                 <div class="row">
-                <p class="lead">See our <a href="DisplayQuestion">Questions</a></p>
+                <p class="lead" id="txt">See our <a id="bttn">Questions</a></p>
                 </div>
 
                 </div>

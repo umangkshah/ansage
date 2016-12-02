@@ -50,8 +50,10 @@ public class UpdateCart extends HttpServlet {
 		String op="";
 		JSONArray ja = new JSONArray();
 		
+		
 		for(int i=0;i < pairs.length;i++){
-			String two[] = pairs[i].split("-");
+			String two[] = pairs[i].split("=");
+			
 			JSONObject jo = new JSONObject();
 			jo.put("bidid",two[0]);
 			jo.put("qty", two[1]);
