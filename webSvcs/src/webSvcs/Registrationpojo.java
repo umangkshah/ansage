@@ -22,8 +22,7 @@ import javax.persistence.Column;
 import javax.persistence.Temporal;
 
 	@Entity
-	@Cacheable
-	@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+	@Cache(usage=CacheConcurrencyStrategy.READ_ONLY,region="ansagecache")
 	@Table(name="registration")
 	
 	public class Registrationpojo{
