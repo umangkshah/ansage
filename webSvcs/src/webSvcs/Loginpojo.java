@@ -21,7 +21,8 @@ import javax.persistence.Column;
 import javax.persistence.Temporal;
 
 	@Entity
-	@Cache(usage=CacheConcurrencyStrategy.READ_ONLY,region="ansagecache")
+	@Cacheable
+	@Cache(usage=CacheConcurrencyStrategy.READ_WRITE,region="ansagecache")
 	
 	@Table(name="login")
 
