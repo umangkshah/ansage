@@ -12,10 +12,17 @@ import javax.persistence.SecondaryTables;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Temporal;
 
 	@Entity
+	@Cacheable
+	@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 	@Table(name="login")
 
 				
@@ -25,13 +32,19 @@ public class Loginpojo {
 		@Column(unique=true)
 		private String email;
 		private String password;
-		private Date logindate;
+		private String logindate;
+		private String address;
+		public String getAddress() {
+			return address;
+		}
+		public void setAddress(String address) {
+			this.address = address;
+		}
 		
-		
-		public Date getLogindate() {
+		public String getLogindate() {
 			return logindate;
 		}
-		public void setLogindate(Date logindate) {
+		public void setLogindate(String logindate) {
 			this.logindate = logindate;
 		}
 		public int getProfileid() {

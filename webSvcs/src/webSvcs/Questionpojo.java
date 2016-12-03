@@ -11,10 +11,17 @@ import javax.persistence.SecondaryTables;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Temporal;
 
 @Entity
+@Cacheable
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 @Table(name="question")
 
 

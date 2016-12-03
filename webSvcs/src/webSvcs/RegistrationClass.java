@@ -15,9 +15,8 @@ import org.json.simple.*;
 
 public class RegistrationClass {
 
-    private static SessionFactory sessionfactory;    
-   
-	public  JSONObject registration(JSONObject regdata)
+    private static SessionFactory sessionfactory;  
+    public  JSONObject registration(JSONObject regdata)
 	{
 		JSONObject jon=new JSONObject();
 		int id=0;
@@ -41,8 +40,11 @@ public class RegistrationClass {
 		Loginpojo logdet=new Loginpojo();
 		logdet.setEmail(email);
 		logdet.setPassword(password);
-		Date date=new Date();
-		logdet.setLogindate(date);
+		
+		String dat="Welcome";
+		String adr="First time login";
+		logdet.setLogindate(dat);
+		logdet.setAddress(adr);
 		reg.setName(name);
 		reg.setEmail(email);
 		reg.setTagline(tagline);
@@ -89,8 +91,10 @@ public class RegistrationClass {
 		 Loginpojo prof=null;
 		String email=logindet.get("username").toString();
 		String password=logindet.get("password").toString();
+		String address=logindet.get("address").toString();
 		JSONObject logdet=new JSONObject();
-		Date date=null;
+		String dat=null;
+		String adr=null;
 		
 		try
 		{
@@ -100,10 +104,6 @@ public class RegistrationClass {
 		{
 			return null;
 		}
-		
-		
-		
-		
 		Session session=sessionfactory.openSession();
 		Transaction tx=null;
 		try
@@ -113,14 +113,12 @@ public class RegistrationClass {
 		     Query query=session.createQuery("from Loginpojo where email=:email and password=:password");
 		    query.setParameter("email",email);
 		    query.setParameter("password",password);
-		    
-		     prof=(Loginpojo)query.uniqueResult();
-		     
+		   prof=(Loginpojo)query.uniqueResult();
 		     tx.commit();
 		     if(prof==null)
 		    	 return null;
-		      date=prof.getLogindate();
-		     
+		      dat=prof.getLogindate();
+		      adr=prof.getAddress();
 		}
 		catch(HibernateException e)
 		{
@@ -136,15 +134,17 @@ public class RegistrationClass {
 			
 		}
 		try
-		{  Date logindate=new Date();
+		{  Date logindat=new Date();
+		String logindate=logindat.toString();
 		System.out.println(logindate);
 			session=sessionfactory.openSession();
 			tx=session.beginTransaction();
 		     @SuppressWarnings("rawtypes")
-		     Query query=session.createQuery("UPDATE Loginpojo set logindate=:logindate WHERE email=:email and password=:password");
+		     Query query=session.createQuery("UPDATE Loginpojo set logindate=:logindate,address=:address WHERE email=:email and password=:password");
 		    query.setParameter("email",email);
 		    query.setParameter("password",password);
 		    query.setParameter("logindate",logindate);
+		    query.setParameter("address",address);
 			query.executeUpdate();
 			tx.commit();
 		 }
@@ -180,7 +180,8 @@ public class RegistrationClass {
 		int coin=reg.getCoins();
 		String coins=String.valueOf(coin);
 	
-		//logdet.put("date",date);
+		logdet.put("date",dat);
+		logdet.put("address",adr);
 		logdet.put("profileid",pd);
 		logdet.put("emailid",mail);
 		logdet.put("name",name);
