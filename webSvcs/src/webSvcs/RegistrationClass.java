@@ -110,7 +110,7 @@ public class RegistrationClass {
 		{
 			tx=session.beginTransaction();
 		     @SuppressWarnings("rawtypes")
-		     Query query=session.createQuery("from Loginpojo where email=:email and password=:password");
+		     Query query=session.createQuery("from Loginpojo where email=:email and password=:password").setCacheable(true);
 		    query.setParameter("email",email);
 		    query.setParameter("password",password);
 		   prof=(Loginpojo)query.uniqueResult();
@@ -140,7 +140,7 @@ public class RegistrationClass {
 			session=sessionfactory.openSession();
 			tx=session.beginTransaction();
 		     @SuppressWarnings("rawtypes")
-		     Query query=session.createQuery("UPDATE Loginpojo set logindate=:logindate,address=:address WHERE email=:email and password=:password");
+		     Query query=session.createQuery("UPDATE Loginpojo set logindate=:logindate,address=:address WHERE email=:email and password=:password").setCacheable(true);
 		    query.setParameter("email",email);
 		    query.setParameter("password",password);
 		    query.setParameter("logindate",logindate);
@@ -167,7 +167,7 @@ public class RegistrationClass {
 		session=sessionfactory.openSession();
 		tx=session.beginTransaction();
 		@SuppressWarnings("rawtypes")
-		Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
+		Query query=session.createQuery("from Registrationpojo where profileid=:profileid").setCacheable(true);
 		query.setParameter("profileid",profileid);
 		reg=(Registrationpojo)query.uniqueResult();
 		tx.commit();
@@ -197,7 +197,8 @@ public class RegistrationClass {
 		}
 		finally
 		{
-			
+			System.out.println(sessionfactory.getStatistics().getEntityFetchCount());
+			System.out.println(sessionfactory.getStatistics().getSecondLevelCacheHitCount());
 			session.close();
 			
 		}
