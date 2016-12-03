@@ -28,9 +28,11 @@ public class Refresh extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String src = request.getHeader("Referer");
-		if(src.contains("index2.jsp")){
+		System.out.println(src);
+		/*if(src.contains("index2.jsp")){
 			response.getWriter().print("index2.jsp");
-		}
+		}*/
+		response.getWriter().print("index2.jsp");
 	}
 
 }

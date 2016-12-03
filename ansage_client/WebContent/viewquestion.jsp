@@ -120,6 +120,14 @@
         </div>
 	<script>
 	$(document).ready(function(){
+		setTimeout(function(){
+			setTimeout(function(){
+				$.get("Refresh",function(responseText){
+					window.location.href=responseText;
+				});
+			},5000);
+		},5000);
+		
 		$('#biddingform').hide();
 		$('#dontbid').hide();
 		

@@ -12,19 +12,13 @@
   	<%@ include file="nav.jsp" %>
 	<script>
 	$(document).ready(function(){
-		$('head').append('<meta http-equiv="refresh" content="900">');
-		
-		/*window.setTimeout(
-				$.get("Refresh", function(responseText) {
-					window.location.href = responseText;
-		            
-				})
-				, 15000);*/
-			
-		
-			
-		
-		
+		setTimeout(function(){
+			setTimeout(function(){
+				$.get("Refresh",function(responseText){
+					window.location.href=responseText;
+				});
+			},5000);
+		},15000);
 	});		
 	</script>
     <!-- Page Content -->
