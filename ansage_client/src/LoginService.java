@@ -102,7 +102,7 @@ public class LoginService extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
-		
+		String src = request.getHeader("Referer");
 		JSONObject loginform = new JSONObject();
 		loginform.put("username", request.getParameter("emailid"));
 		loginform.put("password", request.getParameter("passwd"));
@@ -148,8 +148,10 @@ public class LoginService extends HttpServlet {
 			s.setAttribute("COINS",json.get("coins").toString());
 			s.setAttribute("DATE",json.get("date").toString());
 			s.setAttribute("LOCN",json.get("address").toString());
-			
-			response.sendRedirect("index.jsp");
+			if(src.contains("register"))
+				response.sendRedirect("index.jsp");
+			else
+				response.sendRedirect(src);
 			
 		}
 		

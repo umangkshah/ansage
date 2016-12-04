@@ -60,8 +60,8 @@ public class MakeBid extends HttpServlet {
 			response.getOutputStream().print("Error: " +c.getStatus() + " Some Problem while making Bid");
 			}
 			else{
-				String gotopage = "ViewQuestion?question="+ qid.toString();
-				response.getOutputStream().print("Checking error");
+				System.out.println("response from webSvc "+c.getStatus());
+				String gotopage = "bidsubmitted.jsp";
 				response.sendRedirect(gotopage);
 			}
 		

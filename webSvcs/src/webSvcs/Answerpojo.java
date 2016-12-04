@@ -22,8 +22,7 @@ import javax.persistence.Temporal;
 
 
 @Entity
-@Cacheable
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE,region="ansagecache")
+
 @Table(name="answer")
 public class Answerpojo {
 	@Id

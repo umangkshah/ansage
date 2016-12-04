@@ -35,7 +35,7 @@ public class ProfileClass
 			 tx=null;
 			tx = session.beginTransaction();
 			@SuppressWarnings("rawtypes")
-			Query query=session.createQuery("from Registrationpojo where profileid=:profileid").setCacheable(true);
+			Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
 			query.setParameter("profileid",profileid);
 			prof=(Registrationpojo)query.uniqueResult();
 			
@@ -51,9 +51,7 @@ public class ProfileClass
 			}
 		finally
 			{
-			System.out.println(sessionfactory.getStatistics().getEntityFetchCount());
-			System.out.println(sessionfactory.getStatistics().getSecondLevelCacheHitCount());
-			System.out.println(sessionfactory.getStatistics().getSecondLevelCacheMissCount());
+			
 			session.close();
 			}
 		sessionfactory.close();
@@ -86,7 +84,7 @@ public class ProfileClass
 		{
 			session=sessionfactory.openSession();
 		    tx=session.beginTransaction();
-		    Query query=session.createQuery("UPDATE Registrationpojo set name=:name,tagline=:tagline,bioinfo=:bioinfo,skills=:skills where profileid=:profileid").setCacheable(true);
+		    Query query=session.createQuery("UPDATE Registrationpojo set name=:name,tagline=:tagline,bioinfo=:bioinfo,skills=:skills where profileid=:profileid");
 		    query.setParameter("name",name);
 		   // query.setParameter("email",email);
 		    //query.setParameter("coins",coins);

@@ -2,6 +2,8 @@
 
 import java.io.IOException;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -53,12 +55,12 @@ public class Transaction extends HttpServlet {
 				response.getOutputStream().print(c.getStatus());
 			}
 			else{
-				/*
+				
 				String owner = request.getSession().getAttribute("USER").toString();
 				String resp = c.getEntity(String.class);
 				String emails[] = resp.split(" ");
 				int done = sendEmail(owner,emails);
-				*/
+				
 				response.setContentType("text/plain");
 				response.setCharacterEncoding("UTF-8");
 				response.getWriter().write("1");
@@ -74,13 +76,23 @@ public class Transaction extends HttpServlet {
 		
         
         String subject = "Successful Transaction Notice";
-        String content1 = "Bid Accepted. Yours coins are credited.";
-        String content2 = "Bid Accepted. Yours coins are debited.";
+        String content1 = "Dear User, Bid Accepted. You have more coins. Kindly return and ans the question.";
+        String content2 = "Dear User, Bids Accepted. Yours coins are debited. Bidders have been notified to answer the question.";
         String resultMessage = "";
+        
+        InternetAddress[] bcc = new InternetAddress[a.length];
+		for(int i=0;i<a.length;i++){
+			try {
+				bcc[i] = new InternetAddress(a[i]);
+			} catch (AddressException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
         
         EmailUtility eu = new EmailUtility();
         try {
-            eu.sendEmail(host, port, user, pass, a, o, subject,
+            eu.sendEmail(host, port, user, pass, bcc, o, subject,
                     content1, content2);
             resultMessage = "The e-mail was sent successfully";
         } catch (Exception ex) {

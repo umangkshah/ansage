@@ -71,10 +71,23 @@ body {
 	padding: 5px;
 	font-size:13px;
 }
-/** **/
+/** View Question and bids and filters**/
 .tablesorter > thead > tr > th:hover{
 	color: red;
 	cursor: pointer;
+}
+
+.Filters label{
+	display: inline;
+	white-space: nowrap;
+}
+.Filters select{
+	display: inline;
+	max-width: 150px;
+}
+.Filters input{
+	max-width: 150px;
+	display: inline;
 }
 /*  Profile */
 

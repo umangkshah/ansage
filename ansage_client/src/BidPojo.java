@@ -8,6 +8,8 @@ public class BidPojo {
 	private String name;
 	private int coins;
 	private int skills;
+	private String skilllist;
+	
 	public String getName() {
 		return name;
 	}
@@ -52,5 +54,12 @@ public class BidPojo {
 		this.qid = qid;
 	}
 	
+	public void setSkilllist(String x){
+		skilllist = x;
+	}
+	
+	public String getSkilllist(){
+		return skilllist;
+	}
 
 }

@@ -38,7 +38,6 @@ public class DisplayQuestion extends HttpServlet {
 		
 		String proto = "http://";
 		ClientConfig cfg = new DefaultClientConfig();
-		//cfg.getClasses().add(JacksonJsonProvider.class);
 		Client cl = Client.create(cfg);
 		WebResource wsvc = cl.resource(proto+"localhost:9080/webSvcs");
 		

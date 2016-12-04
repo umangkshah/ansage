@@ -2,7 +2,9 @@
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
+import javax.mail.Address;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,28 +31,40 @@ public class TestEmail extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ServletContext context = getServletContext();
-        String host = context.getInitParameter("host");
-        String port = context.getInitParameter("port");
-        String user = context.getInitParameter("user");
-        String pass = context.getInitParameter("pass");
-		
-        String recipient = "umang.k.shah@gmail.com";
-        String subject = "Successful Transaction";
-        String content = "Dear User, You have been credited with coins as your question bid has been accepted.";
- 
-        String resultMessage = "";
-        EmailUtility eu = new EmailUtility();
-        try {
-            eu.sendEmail(host, port, user, pass, recipient, subject,
-                    content);
-            resultMessage = "The e-mail was sent successfully";
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            resultMessage = "There was an error: " + ex.getMessage();
-        } 
-        
+		EmailUtility eu = new EmailUtility();
+		String a[] = {"sreeni.venki@gmail.com","uks160030@utdallas.edu","umang.k.shah@gmail.com","sreenivenki@gmail.com"};
+		InternetAddress[] bcc = new InternetAddress[a.length];
+		for(int i=0;i<a.length;i++){
+			try {
+				
+				bcc[i] = new InternetAddress(a[i]);
+				response.getWriter().append(a[i]+"  ").append(bcc[i].toString()+"\n");
+			} catch (AddressException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		String o = "umangkshah@gmail.com";
+		String sub ="Test";
+		String c1 = "hi owner";
+		String c2 = "hi bidder";
+		String host="smtp.gmail.com";
+		String user="ansage.tsvc@gmail.com";
+		String pass="ansage123";
+		try{
+			eu.sendEmail(host,"587",user,pass,bcc,o,sub,c2,c1);	
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }

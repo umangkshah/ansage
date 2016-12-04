@@ -18,7 +18,7 @@ import javax.mail.internet.MimeMessage;
  */
 public class EmailUtility {
     public static void sendEmail(String host, String port,
-            final String userName, final String password, String reqs[], String owner,
+            final String userName, final String password, InternetAddress reqs[], String owner,
             String subject, String message1, String message2) throws AddressException,
             MessagingException {
  
@@ -40,10 +40,11 @@ public class EmailUtility {
         //Email Bidders
         Message msg = new MimeMessage(session);
         msg.setFrom(new InternetAddress(userName));
-        for(int i=0;i < reqs.length; i++){
+        msg.setRecipients(Message.RecipientType.BCC, reqs);
+        /*for(int i=0;i < reqs.length; i++){
         	InternetAddress[] toAddresses = { new InternetAddress(reqs[i]) };
-            msg.setRecipients(Message.RecipientType.BCC, toAddresses);
-        }
+            
+        }*/
         msg.setSubject(subject);
         msg.setSentDate(new Date());
         msg.setText(message1);

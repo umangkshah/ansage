@@ -138,7 +138,7 @@ public class BidClass
 		{
 		if(tx!=null)
 		tx.rollback();
-		System.out.println(e.getMessage()+"kklkl");
+		System.out.println(e.getMessage());
 		
 		
 		}

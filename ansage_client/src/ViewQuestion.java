@@ -128,6 +128,7 @@ public class ViewQuestion extends HttpServlet {
 					qu.setName(name);
 					qu.setCoins(coins);
 					qu.setSkills(skills.length());
+					qu.setSkilllist(skills);
 					bidlist.add(qu);
 				}
 				

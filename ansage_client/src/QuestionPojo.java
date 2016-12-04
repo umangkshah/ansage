@@ -7,6 +7,7 @@ public class QuestionPojo{
 	public String oname;
 	public int nbids;
 	
+	
 	void setQuestion(String x){
 		question = x;
 	}
@@ -55,5 +56,5 @@ public class QuestionPojo{
 	public int getNbids(){
 		return nbids;
 	}
-	
+
 }
