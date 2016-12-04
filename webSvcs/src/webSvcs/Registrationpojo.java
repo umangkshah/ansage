@@ -5,6 +5,8 @@ package webSvcs;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+
+import java.io.Serializable;
 import java.util.*;
 import javax.persistence.Id;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -22,11 +24,10 @@ import javax.persistence.Column;
 import javax.persistence.Temporal;
 
 	@Entity
-	@Cacheable
-	@Cache(usage=CacheConcurrencyStrategy.READ_ONLY,region="ansagecache")
-	@Table(name="registration")
 	
-	public class Registrationpojo{
+	@Table(name="registration")
+
+	public class Registrationpojo {
 	    
 		@Id
 		@GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -20,8 +20,7 @@ import javax.persistence.Column;
 import javax.persistence.Temporal;
 
 @Entity
-@Cacheable
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE,region="ansagecache")
+
 @Table(name="question")
 
 
@@ -35,12 +34,18 @@ public class Questionpojo {
 	private String qus;
 	private String descr;
 	private String catg;
-	
+	private int bidcount;
 	public int getOwnerid() {
 		return ownerid;
 	}
 	public void setOwnerid(int ownerid) {
 		this.ownerid = ownerid;
+	}
+	public int getBidcount() {
+		return bidcount;
+	}
+	public void setBidcount(int bidcount) {
+		this.bidcount = bidcount;
 	}
 	public int getQid() {
 		return qid;

@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.stat.Statistics;
 import org.json.simple.JSONObject;
 
 
@@ -20,22 +21,18 @@ public class ProfileClass
 		Transaction tx=null;
 		Session session=null;
 		int profileid=Integer.parseInt(id);
-		try
-			{
-			sessionfactory=new Configuration().configure().buildSessionFactory();
-			}
-		catch(Exception ex)
-			{
-			return null;
-			}
 		
+		sessionfactory = HibernateUtil.getSessionFactory();
+		Statistics stats = sessionfactory.getStatistics();
+		stats.setStatisticsEnabled(true);
 		try
 			{
 			 session=sessionfactory.openSession();
 			 tx=null;
 			tx = session.beginTransaction();
 			@SuppressWarnings("rawtypes")
-			Query query=session.createQuery("from Registrationpojo where profileid=:profileid").setCacheable(true);
+			Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
+			
 			query.setParameter("profileid",profileid);
 			prof=(Registrationpojo)query.uniqueResult();
 			
@@ -56,7 +53,6 @@ public class ProfileClass
 			System.out.println(sessionfactory.getStatistics().getSecondLevelCacheMissCount());
 			session.close();
 			}
-		sessionfactory.close();
 		return prof;
 		}
 	
@@ -74,19 +70,12 @@ public class ProfileClass
 		int profileid=Integer.parseInt(profid);
 		//String coin=regdata.get("coins").toString();
 		//int coins=Integer.parseInt(coin);
-		try
-		{
-		sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-	catch(Exception ex)
-		{
-		return null;
-		}
+		sessionfactory = HibernateUtil.getSessionFactory();
 		try
 		{
 			session=sessionfactory.openSession();
 		    tx=session.beginTransaction();
-		    Query query=session.createQuery("UPDATE Registrationpojo set name=:name,tagline=:tagline,bioinfo=:bioinfo,skills=:skills where profileid=:profileid").setCacheable(true);
+		    Query query=session.createQuery("UPDATE Registrationpojo set name=:name,tagline=:tagline,bioinfo=:bioinfo,skills=:skills where profileid=:profileid");
 		    query.setParameter("name",name);
 		   // query.setParameter("email",email);
 		    //query.setParameter("coins",coins);
@@ -111,7 +100,6 @@ public class ProfileClass
 			session.close();
 			
 		}
-		sessionfactory.close();
 		return "true";
 	}
 	

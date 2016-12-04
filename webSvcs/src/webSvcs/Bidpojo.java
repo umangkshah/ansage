@@ -24,7 +24,7 @@ import javax.persistence.Temporal;
 
 @Entity
 
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE,region="ansagecache")
+
 @Table(name="bid")
 
 public class Bidpojo {

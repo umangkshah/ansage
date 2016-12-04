@@ -9,20 +9,32 @@ import java.util.*;
 import org.hibernate.*;
 import org.json.simple.*;
 
+
+
 public class BidClass 
 	{
+	
+	public static void main(String [] args)
+	{
+		
+		BidClass bd=new BidClass();
+		JSONObject jon=new JSONObject();
+		jon.put("qid",1);
+		jon.put("reqid",3);
+		jon.put("offer",5);
+		bd.savebid(jon);
+		
+	}
+
+	
+	
+	
 	
 	private static SessionFactory sessionfactory;
 	public String savebid(JSONObject biddata)
 		{
-		try
-			{
-			sessionfactory=new Configuration().configure().buildSessionFactory();
-			}
-		catch(Throwable ex)
-			{
-			return "false0";
-			}
+		sessionfactory = HibernateUtil.getSessionFactory();
+		
 		int retid;
 		String reid=null;
 		String id=biddata.get("qid").toString();
@@ -37,6 +49,7 @@ public class BidClass
 		bid.setOffer(offer);
 		Session session=null;
 		Transaction tx=null;
+		Questionpojo md=null;
 		int reqid=profileid;
 		try
 		{
@@ -48,13 +61,13 @@ public class BidClass
         tx.commit();
 		Bidpojo qd=(Bidpojo)query.uniqueResult();
 		if(qd!=null)
-			return "false1";
+			return null;
 		}
 		catch(HibernateException e)
 	 	{
 		 if(tx!=null)
 		 tx.rollback();
-		 return "false2";
+		 return null;
 	 	}
 		finally
 		{
@@ -69,13 +82,13 @@ public class BidClass
 		tx.commit();
 		Registrationpojo qd=(Registrationpojo)query.uniqueResult();
 		if(qd==null)
-			return "false3";
+			return null;
 		}
 		catch(HibernateException e)
 	 	{
 		 if(tx!=null)
 		 tx.rollback();
-		 return "false4";
+		 return null;
 	 	}
 		finally
 		{
@@ -88,20 +101,45 @@ public class BidClass
 			Query query=session.createQuery("from Questionpojo where qid=:qid");
 			query.setParameter("qid",qid);
 			tx.commit();
-			Questionpojo qd=(Questionpojo)query.uniqueResult();
-			if(qd==null)
-				return "false5";
+			 md=(Questionpojo)query.uniqueResult();
+			if(md==null)
+				return null;
 			}
 		 catch(HibernateException e)
 		 	{
 			 if(tx!=null)
 			 tx.rollback();
-			 return "false6";
+			 return null;
 		 	}
 		finally
 			{
 			session.close();
 			}
+		try
+		{ 
+			session=sessionfactory.openSession();
+			int bidcount=md.getBidcount();
+			bidcount=bidcount+1;
+			session=sessionfactory.openSession();
+			tx=session.beginTransaction();
+			Query query=session.createQuery("UPDATE Questionpojo set bidcount=:bidcount where qid=:qid");
+			query.setParameter("bidcount",bidcount);
+			query.setParameter("qid",qid);
+			query.executeUpdate();
+			tx.commit();
+		}
+		catch(HibernateException e)
+	 	{
+		 if(tx!=null)
+		 tx.rollback();
+		 return null;
+	 	}
+	finally
+		{
+		session.close();
+		}
+		
+		
 		try
 			{
 			session=sessionfactory.openSession();
@@ -114,7 +152,7 @@ public class BidClass
 			{
 			if(tx!=null)
 			tx.rollback();
-			return "false7";
+			return null;
 			
 			}
 		finally
@@ -138,7 +176,7 @@ public class BidClass
 		{
 		if(tx!=null)
 		tx.rollback();
-		System.out.println(e.getMessage()+"kklkl");
+		return null;
 		
 		
 		}
@@ -147,7 +185,7 @@ public class BidClass
 		session.close();
 		}
 			
-		sessionfactory.close();
+		
 		return reid; 
 		}
 	
@@ -157,14 +195,8 @@ public class BidClass
 			List<Bidpojo> bidlist=new ArrayList<Bidpojo>();
 			List<JSONObject> jsonlist=new ArrayList<JSONObject>();
 			Registrationpojo reg=null;
-			try
-				{
-				sessionfactory=new Configuration().configure().buildSessionFactory();
-				}
-			catch(Throwable ex)
-				{
-				return null;
-				}
+			sessionfactory = HibernateUtil.getSessionFactory();
+			
 			Session session=null;
 			Transaction tx=null;
 			try
@@ -223,7 +255,7 @@ public class BidClass
 				jsonlist.add(json);
 				
 				}
-			sessionfactory.close();
+			
 			return jsonlist;
 			
 			

@@ -5,6 +5,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.stat.Statistics;
+
 import java.util.*;
 import org.hibernate.*;
 import org.json.simple.JSONObject;
@@ -16,18 +18,16 @@ import org.json.simple.*;
 public class RegistrationClass {
 
     private static SessionFactory sessionfactory;  
+    
+    
     public  JSONObject registration(JSONObject regdata)
 	{
 		JSONObject jon=new JSONObject();
 		int id=0;
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Throwable ex)
-		{
-			return null;
-		}
+		 sessionfactory = HibernateUtil.getSessionFactory();
+		
+		
+		
 		String name=regdata.get("name").toString();
 		String email=regdata.get("emailid").toString();
 		String tagline=regdata.get("tagline").toString();
@@ -80,9 +80,16 @@ public class RegistrationClass {
 	    jon.put("emailid",reg.getEmail());
 	    jon.put("profileid",id);
 	    jon.put("coins",reg.getCoins());
-		sessionfactory.close();
-		return jon;
+	    
+	    session.close();
+	    return jon;
 	}
+    
+   
+    
+    
+    
+    
 	
 	@SuppressWarnings("deprecation")
 	public  JSONObject  login(JSONObject logindet)
@@ -95,22 +102,14 @@ public class RegistrationClass {
 		JSONObject logdet=new JSONObject();
 		String dat=null;
 		String adr=null;
-		
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Throwable ex)
-		{
-			return null;
-		}
+		SessionFactory sessionfactory = HibernateUtil.getSessionFactory();
 		Session session=sessionfactory.openSession();
 		Transaction tx=null;
 		try
 		{
 			tx=session.beginTransaction();
 		     @SuppressWarnings("rawtypes")
-		     Query query=session.createQuery("from Loginpojo where email=:email and password=:password").setCacheable(true);
+		     Query query=session.createQuery("from Loginpojo where email=:email and password=:password");
 		    query.setParameter("email",email);
 		    query.setParameter("password",password);
 		   prof=(Loginpojo)query.uniqueResult();
@@ -204,7 +203,7 @@ public class RegistrationClass {
 		}
 		
 		
-		sessionfactory.close();
+		
 		return logdet;
 	}
 	
@@ -212,14 +211,7 @@ public class RegistrationClass {
 	public String usercheck(String email)
 	{  
 		Registrationpojo check=null;
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Throwable ex)
-		{
-			return "false";
-		}
+		SessionFactory sessionfactory = HibernateUtil.getSessionFactory();
 		Session session=sessionfactory.openSession();
 		Transaction tx=null;
 		try
@@ -246,7 +238,7 @@ public class RegistrationClass {
 		session.close();
 			
 		}
-		sessionfactory.close();
+		
 		return "true";
 	}
 	
@@ -254,15 +246,7 @@ public class RegistrationClass {
 	public static  void retrieve()
 	{
 		JSONArray jsonobj=new JSONArray();
-		
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Throwable ex)
-		{
-			
-		}
+		SessionFactory sessionfactory = HibernateUtil.getSessionFactory();
 		Session session=sessionfactory.openSession();
 		Transaction tx=null;
 		try
@@ -301,7 +285,7 @@ public class RegistrationClass {
 			
 		}
 		
-		sessionfactory.close();
+	
 
 		
 	}

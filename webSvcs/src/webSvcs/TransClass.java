@@ -24,14 +24,7 @@ public class TransClass {
 		Questionpojo qd=null;
 		int qid=0;
 		int bidid=Integer.parseInt(bdid);
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Exception ex)
-		{
-			return null;
-		}
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		try
 		{
 			session=sessionfactory.openSession();
@@ -134,14 +127,7 @@ public class TransClass {
 		Session session=null;
 		Transaction tx=null;
 		int bidid=Integer.parseInt(bdid);
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Exception ex)
-		{
-			return null;
-		}
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		try
 		{
 			session=sessionfactory.openSession();
@@ -175,14 +161,7 @@ public class TransClass {
 		Bidpojo bd=new Bidpojo();
 		Registrationpojo rd=new Registrationpojo();
 		int oid=Integer.parseInt(ownerid);
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Exception ex)
-		{
-			return null;
-		}
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		try
 		{
 			session=sessionfactory.openSession();
@@ -257,7 +236,7 @@ public class TransClass {
 			json.put("offer",bd.getOffer());
 			jsonlist.add(json);
 		}
-		sessionfactory.close();
+		
 		return jsonlist;
 		
 	}
@@ -269,14 +248,7 @@ public class TransClass {
 		int sum=0;
 		List<Transpojo> translist=new ArrayList<Transpojo>();
 		int oid=Integer.parseInt(ownerid);
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Exception ex)
-		{
-			return null;
-		}
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		try
 		{
 			session=sessionfactory.openSession();
@@ -385,7 +357,7 @@ public class TransClass {
 				if(check==null)
 					return null;
 				
-				sessionfactory.close();
+				
 				return emaillist;
 					
 		}
@@ -406,14 +378,7 @@ public class TransClass {
 		Session session=null;
 		Transaction tx=null;
 		ArrayList bidoffer=new ArrayList();
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Exception ex)
-		{
-			return null;
-		}
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		for(Transpojo td:translist)
 		{
 			int bidid=td.getBidid();
@@ -460,14 +425,7 @@ public class TransClass {
 		Transaction tx=null;
 		int profileid=oid;
 		int coins=0;
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Exception ex)
-		{
-			return -1;
-		}
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		try
 		{
 			session=sessionfactory.openSession();
@@ -496,14 +454,7 @@ public class TransClass {
 		Session session=null;
 		Transaction tx=null;
 		ArrayList coinlist=new ArrayList();
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Exception ex)
-		{
-			return null;
-		}
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		for(int i=0;i<reid.size();i++)
 		{
 			int profileid=(Integer)reid.get(i);
@@ -538,14 +489,7 @@ public class TransClass {
 		Session session=null;
 		Transaction tx=null;
 		ArrayList emaillist=new ArrayList();
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Exception ex)
-		{
-			return null;
-		}
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		for(int i=0;i<reid.size();i++)
 		{
 			int profileid=(Integer)reid.get(i);
@@ -578,15 +522,7 @@ public class TransClass {
 	{
 		Session session=null;
 		Transaction tx=null;
-		try
-		{
-			 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Exception e)
-		{
-			
-			return null;
-		}
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		try
 		{
 			session=sessionfactory.openSession();
@@ -618,15 +554,7 @@ public class TransClass {
 		
 		Session session=null;
 		Transaction tx=null;
-		try
-		{
-			 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Exception e)
-		{
-			
-			return null;
-		}
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		for(Transpojo td:translist)
 			{
 				int bidid=td.getBidid();
@@ -659,15 +587,7 @@ public class TransClass {
 	{
 		Session session=null;
 		Transaction tx=null;
-		try
-		{
-			 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Exception e)
-		{
-			
-			return null;
-		}
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Iterator i = arrayobj.iterator();
 		while(i.hasNext())
 		{

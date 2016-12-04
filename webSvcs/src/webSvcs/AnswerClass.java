@@ -10,17 +10,7 @@ public class AnswerClass {
 	private static SessionFactory sessionfactory;
 	
 	
-/*public static void main(String [] args)
-	{
-		JSONObject jon=new JSONObject();
-		jon.put("qid", "1");
-		jon.put("reqid", "1");
-		//jon.put("answer","fggfgf");
-		AnswerClass an=new AnswerClass();
-		Answerpojo k=an.viewans(jon);
-		System.out.println(k.getAnswer());
-		
-	}*/
+
 	
 	
 	
@@ -28,14 +18,8 @@ public class AnswerClass {
 	{
 		Session session=null;
 		Transaction tx=null;
-	    try
-		{
-		sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-	catch(Exception ex)
-		{
-		return null;
-		}
+		sessionfactory = HibernateUtil.getSessionFactory();
+		
 		String qd=permjson.get("qid").toString();
 		int qid=Integer.parseInt(qd);
 		String rqid=permjson.get("reqid").toString();
@@ -66,7 +50,7 @@ public class AnswerClass {
 			session.close();
 		}
 		
-		sessionfactory.close();
+		
 		return "true";
 
 	}
@@ -77,15 +61,8 @@ public String saveans(JSONObject ans)
 {
 	Session session=null;
 	Transaction tx=null;
-	try
-	{
-		sessionfactory=new Configuration().configure().buildSessionFactory();
-
-	}
-	catch(Exception ex)
-	{
-		return null;
-	}
+	sessionfactory = HibernateUtil.getSessionFactory();
+	
 	String qd=ans.get("qid").toString();
 	int qid=Integer.parseInt(qd);
 	String reqd=ans.get("reqid").toString();
@@ -139,7 +116,7 @@ public String saveans(JSONObject ans)
 	{
 		session.close();
 	}
-	sessionfactory.close();
+	
 	return "true";
 	
 	}
@@ -155,14 +132,8 @@ public Answerpojo viewans(JSONObject jon)
 	Session session=null;
 	Transaction tx=null;
 	Answerpojo ans=new Answerpojo();
-	try
-	{
-	sessionfactory=new Configuration().configure().buildSessionFactory();
-	}
-catch(Exception ex)
-	{
-	return null;
-	}
+	sessionfactory = HibernateUtil.getSessionFactory();
+	
 	try
 	{
 		session=sessionfactory.openSession();
@@ -185,100 +156,10 @@ catch(Exception ex)
 	{
 	  session.close();	
 	}
-		sessionfactory.close();
+		
 		return ans;
 	}
 
-/*public void transaction(JSONObject jon)
-{
-	Session session=null;
-	Transaction tx=null;
-	Bidpojo biddet=new Bidpojo();
-	Registrationpojo regdet=new Registrationpojo();
-	String qd=jon.get("qid").toString();
-	int qid=Integer.parseInt(qd);
-	String reqd=jon.get("reqid").toString();
-	int reqid=Integer.parseInt(reqd);
-	try
-	{
-		sessionfactory=new Configuration().configure().buildSessionFactory();
-
-	}
-	catch(Exception ex)
-	{
-		//return null;
-	}
-	try
-	{
-		session=sessionfactory.openSession();
-		tx=session.beginTransaction();
-		Query query=session.createQuery("from Bidpojo WHERE qid=:qid and reqid=:reqid");
-		query.setParameter("qid",qid);
-		query.setParameter("reqid",reqid);
-		biddet=(Bidpojo)query.uniqueResult();
-		tx.commit();
-		//if(biddet==null)
-			//return null;
-	}
-	catch(HibernateException e)
-	{
-		if(tx!=null)
-			tx.rollback();
-			//return null;
-	}
-	finally
-	{
-		session.close();
-	}
-	int offer=biddet.getOffer();
-	int profileid=reqid;
-	try
-	{
-		session=sessionfactory.openSession();
-		tx=session.beginTransaction();
-		Query query=session.createQuery("from Registrationpojo WHERE profileid=:profileid");
-		query.setParameter("profileid",profileid);
-		regdet=(Registrationpojo)query.uniqueResult();
-		tx.commit();
-		//if(regdet==null)
-			//return null;
-	}
-	catch(HibernateException e)
-	{
-		if(tx!=null)
-		tx.rollback();
-			//return null;
-	}
-	finally
-	{
-		session.close();
-	}
-	int coins=regdet.getCoins();
-	coins=coins+offer;
-	try
-	{
-		session=sessionfactory.openSession();
-		tx=session.beginTransaction();
-		Query query=session.createQuery("UPDATE Registrationpojo SET coins=:coins WHERE profileid=:profileid");
-		query.setParameter("coins",coins);
-		query.setParameter("profileid", profileid);
-		int result=query.executeUpdate();
-		tx.commit();
-		//if(result==0)
-			//return null;
-	}
-	catch(HibernateException e)
-	{
-		if(tx!=null)
-		tx.rollback();
-				//return null;
-	}
-	finally
-	{
-		session.close();
-	}
-	
-}*/
 	
 }
 
