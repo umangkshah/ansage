@@ -21,10 +21,6 @@ public class ProfileClass
 		Transaction tx=null;
 		Session session=null;
 		int profileid=Integer.parseInt(id);
-		
-		sessionfactory = HibernateUtil.getSessionFactory();
-		Statistics stats = sessionfactory.getStatistics();
-		stats.setStatisticsEnabled(true);
 		try
 			{
 			 session=sessionfactory.openSession();
@@ -48,9 +44,7 @@ public class ProfileClass
 			}
 		finally
 			{
-			System.out.println(sessionfactory.getStatistics().getEntityFetchCount());
-			System.out.println(sessionfactory.getStatistics().getSecondLevelCacheHitCount());
-			System.out.println(sessionfactory.getStatistics().getSecondLevelCacheMissCount());
+			
 			session.close();
 			}
 		return prof;
@@ -102,6 +96,41 @@ public class ProfileClass
 		}
 		return "true";
 	}
+	
+	public String getcoins(String owid)
+	{
+		Session session=null;
+		Transaction tx=null;
+		String coins=null;
+		int profileid=Integer.parseInt(owid);
+		try
+		{
+			session=sessionfactory.openSession();
+			tx=session.beginTransaction();
+			Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
+			query.setParameter("profileid",profileid);
+			Registrationpojo rd=(Registrationpojo)query.uniqueResult();
+			tx.commit();
+			int coin=rd.getCoins();
+			coins=String.valueOf(coin);
+		}
+		catch(HibernateException e)
+		{
+		if(tx!=null)
+		tx.rollback();
+		return null;
+		}
+	finally
+		{
+		
+		session.close();
+		}
+		return coins;
+		
+		
+		
+	}
+	
 	
 }
 	
