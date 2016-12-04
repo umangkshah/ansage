@@ -6,7 +6,8 @@ public class QuestionPojo{
 	public String descr;
 	public String oname;
 	public int nbids;
-	
+	public String category;
+	public int ocoins;
 	
 	void setQuestion(String x){
 		question = x;
@@ -32,7 +33,14 @@ public class QuestionPojo{
 		nbids = x;
 	}
 	
+	void setOcoins(int x){
+		ocoins = x;
+	}
 
+	void setCategory(String x){
+		category = x;
+	}
+	
 	public String getQuestion(){
 		return question;
 	}
@@ -56,5 +64,12 @@ public class QuestionPojo{
 	public int getNbids(){
 		return nbids;
 	}
-
+	
+	public int getOcoins(){
+		return ocoins;
+	}
+	
+	public String getCategory(){
+		return category;
+	}
 }

@@ -4,6 +4,7 @@ import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -28,8 +29,8 @@ public class QServices {
 			json = (JSONObject) parser.parse(jon);
 			
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			   return Response.status(202).entity("false").build();
+
 		}
 		
 		QuestionClass qc = new QuestionClass();
@@ -46,6 +47,54 @@ public class QServices {
 			return Response.status(200).entity(check).build();
 		}
 	}
+	
+	@Path("/search")
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response searchQuestion(String jon)
+	{	
+		
+		
+		JSONParser parser = new JSONParser();
+		JSONObject json=new JSONObject();
+		try
+		{
+			json = (JSONObject) parser.parse(jon);
+
+		}
+		catch (ParseException e) {
+			   return Response.status(202).entity("false").build();
+
+		}
+		String input=json.get("query").toString();
+		String api=json.get("apikey").toString();
+		String searchstring[]=input.split(" ");
+		ArrayList<String> quslist=new ArrayList<String>();
+		for(int i=0;i<searchstring.length;i++)
+		{	
+			if(searchstring[i].length() > 2){
+				quslist.add(searchstring[i]);
+			}
+			
+		}
+		QuestionClass qs=new QuestionClass();
+		JSONArray jsonlist=qs.searchlist(quslist);
+		if(jsonlist==null)
+		{
+			return Response.status(202).entity("false").build();
+
+		}
+		else
+		{
+			return Response.ok().entity(jsonlist.toString()).build();
+
+			
+		}
+		
+	}
+	
+	
+	
 	
 	@Path("/getq")
 	@POST

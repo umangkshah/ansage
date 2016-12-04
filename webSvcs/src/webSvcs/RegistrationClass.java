@@ -20,14 +20,8 @@ public class RegistrationClass {
 	{
 		JSONObject jon=new JSONObject();
 		int id=0;
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Throwable ex)
-		{
-			return null;
-		}
+	    sessionfactory=HibernateUtil.getSessionFactory();
+
 		String name=regdata.get("name").toString();
 		String email=regdata.get("emailid").toString();
 		String tagline=regdata.get("tagline").toString();
@@ -66,7 +60,7 @@ public class RegistrationClass {
 		{
 			if(tx!=null)
 			tx.rollback();
-			e.printStackTrace();
+			
 			return null;
 			
 		}
@@ -80,7 +74,7 @@ public class RegistrationClass {
 	    jon.put("emailid",reg.getEmail());
 	    jon.put("profileid",id);
 	    jon.put("coins",reg.getCoins());
-		sessionfactory.close();
+		
 		return jon;
 	}
 	
@@ -96,14 +90,8 @@ public class RegistrationClass {
 		String dat=null;
 		String adr=null;
 		
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Throwable ex)
-		{
-			return null;
-		}
+	    sessionfactory=HibernateUtil.getSessionFactory();
+
 		Session session=sessionfactory.openSession();
 		Transaction tx=null;
 		try
@@ -204,7 +192,6 @@ public class RegistrationClass {
 		}
 		
 		
-		sessionfactory.close();
 		return logdet;
 	}
 	
@@ -212,14 +199,8 @@ public class RegistrationClass {
 	public String usercheck(String email)
 	{  
 		Registrationpojo check=null;
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Throwable ex)
-		{
-			return "false";
-		}
+	    sessionfactory=HibernateUtil.getSessionFactory();
+
 		Session session=sessionfactory.openSession();
 		Transaction tx=null;
 		try
@@ -246,7 +227,7 @@ public class RegistrationClass {
 		session.close();
 			
 		}
-		sessionfactory.close();
+		
 		return "true";
 	}
 	
@@ -255,14 +236,8 @@ public class RegistrationClass {
 	{
 		JSONArray jsonobj=new JSONArray();
 		
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Throwable ex)
-		{
-			
-		}
+	    sessionfactory=HibernateUtil.getSessionFactory();
+
 		Session session=sessionfactory.openSession();
 		Transaction tx=null;
 		try
@@ -301,7 +276,7 @@ public class RegistrationClass {
 			
 		}
 		
-		sessionfactory.close();
+		
 
 		
 	}

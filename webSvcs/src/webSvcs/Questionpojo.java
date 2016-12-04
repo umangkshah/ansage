@@ -34,6 +34,7 @@ public class Questionpojo {
 	private String qus;
 	private String descr;
 	private String catg;
+	private int bidcount;
 	
 	public int getOwnerid() {
 		return ownerid;
@@ -66,7 +67,12 @@ public class Questionpojo {
 		this.catg = catg;
 	}
 	
-	
-	
+	public int getBidcount() {
+				return bidcount;
+			}
+	public void setBidcount(int bidcount) {
+		this.bidcount = bidcount;
+	}
+
 
 }

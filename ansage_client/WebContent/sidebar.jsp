@@ -56,11 +56,21 @@
                     My Profile</a>
                     <a href="ask.jsp" class="list-group-item" id="askq">Post Question</a>
                     <a href="search.jsp?q=all" class="list-group-item">Answer Questions</a>
-                    <a href="#" class="list-group-item">My Coins: 
+                    <a href="#" class="list-group-item" id="dispcoin">My Coins: 
                     <%= session.getAttribute("COINS")%>                   
                     </a>
                     <!--a href='profile.jsp?userid=12' class="list-group-item"-->
                 </div>
+                <script>
+                $(document).ready(function(){
+                	setInterval(function(){
+                		$.get("CoinUpdate",function(respText){
+    						$('#dispcoin').text("My Coins: " + respText);
+    					});
+                	},30000);
+					
+				});	
+                </script>
                 <% } %>
             </div>
             

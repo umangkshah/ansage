@@ -20,15 +20,8 @@ public class ProfileClass
 		Transaction tx=null;
 		Session session=null;
 		int profileid=Integer.parseInt(id);
-		try
-			{
-			sessionfactory=new Configuration().configure().buildSessionFactory();
-			}
-		catch(Exception ex)
-			{
-			return null;
-			}
-		
+	    sessionfactory=HibernateUtil.getSessionFactory();
+
 		try
 			{
 			 session=sessionfactory.openSession();
@@ -54,7 +47,7 @@ public class ProfileClass
 			
 			session.close();
 			}
-		sessionfactory.close();
+		
 		return prof;
 		}
 	
@@ -72,14 +65,8 @@ public class ProfileClass
 		int profileid=Integer.parseInt(profid);
 		//String coin=regdata.get("coins").toString();
 		//int coins=Integer.parseInt(coin);
-		try
-		{
-		sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-	catch(Exception ex)
-		{
-		return null;
-		}
+	    sessionfactory=HibernateUtil.getSessionFactory();
+
 		try
 		{
 			session=sessionfactory.openSession();
@@ -109,9 +96,44 @@ public class ProfileClass
 			session.close();
 			
 		}
-		sessionfactory.close();
+		
 		return "true";
 	}
+	
+	public String getcoins(String owid)
+	{
+		Session session=null;
+		Transaction tx=null;
+		String coins=null;
+		int profileid=Integer.parseInt(owid);
+		sessionfactory=HibernateUtil.getSessionFactory();
+		try
+		{
+			session=sessionfactory.openSession();
+			tx=session.beginTransaction();
+			Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
+			query.setParameter("profileid",profileid);
+			Registrationpojo rd=(Registrationpojo)query.uniqueResult();
+			tx.commit();
+			int coin=rd.getCoins();
+			coins=String.valueOf(coin);
+		}
+		catch(HibernateException e)
+		{
+		if(tx!=null)
+		tx.rollback();
+		return null;
+		}
+	finally
+		{
+		
+		session.close();
+		}
+		return coins;
+		
+		
+		
+}
 	
 }
 	
