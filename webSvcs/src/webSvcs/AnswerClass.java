@@ -33,6 +33,7 @@ public class AnswerClass {
 		query.setParameter("qid",qid);
 		query.setParameter("reqid",reqid);
 		query.setParameter("permissionvalue",permissionvalue);
+		query.setCacheable(true);
 		query.executeUpdate();
 		tx.commit();
 		}
@@ -75,6 +76,7 @@ public String saveans(JSONObject ans)
 	     Query query=session.createQuery("from Permissionpojo where qid=:qid and reqid=:reqid");
 	     query.setParameter("qid",qid);
 	     query.setParameter("reqid",reqid);
+	     query.setCacheable(true);
 	     Permissionpojo perm=(Permissionpojo)query.uniqueResult();
 	     if(perm.getPermissionvalue()=="false")
 		 return "false";
@@ -141,6 +143,7 @@ public Answerpojo viewans(JSONObject jon)
 		Query query=session.createQuery("from Answerpojo WHERE qid=:qid and reqid=:reqid");
 		query.setParameter("qid",qid);
 		query.setParameter("reqid", reqid);
+		query.setCacheable(true);
 		ans=(Answerpojo)query.uniqueResult();
 		tx.commit();
 		if(ans==null)

@@ -21,6 +21,8 @@ public class ProfileClass
 		Transaction tx=null;
 		Session session=null;
 		int profileid=Integer.parseInt(id);
+		sessionfactory = HibernateUtil.getSessionFactory();
+
 		try
 			{
 			 session=sessionfactory.openSession();
@@ -28,7 +30,7 @@ public class ProfileClass
 			tx = session.beginTransaction();
 			@SuppressWarnings("rawtypes")
 			Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
-			
+			query.setCacheable(true);
 			query.setParameter("profileid",profileid);
 			prof=(Registrationpojo)query.uniqueResult();
 			
@@ -46,6 +48,12 @@ public class ProfileClass
 			{
 			
 			session.close();
+			System.out.println(HibernateUtil.getSessionFactory().getStatistics().getEntityFetchCount()); 
+	           System.out.println(HibernateUtil.getSessionFactory().getStatistics().getSecondLevelCacheHitCount());
+			
+			
+			
+			
 			}
 		return prof;
 		}
@@ -77,6 +85,7 @@ public class ProfileClass
 		    query.setParameter("bioinfo",bioinfo);
 		    query.setParameter("skills",skills);
 		    query.setParameter("profileid",profileid);
+		    query.setCacheable(true);
 		    int result=query.executeUpdate();
 		    if(result==0)
 		    	return "false";
@@ -109,6 +118,7 @@ public class ProfileClass
 			tx=session.beginTransaction();
 			Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
 			query.setParameter("profileid",profileid);
+			query.setCacheable(true);
 			Registrationpojo rd=(Registrationpojo)query.uniqueResult();
 			tx.commit();
 			int coin=rd.getCoins();

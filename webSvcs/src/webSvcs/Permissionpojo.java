@@ -21,7 +21,8 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Temporal;
 
 @Entity
-
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE,region="infocache")	
 @Table(name="permission")
 public class Permissionpojo {
 	
