@@ -3,9 +3,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.cert.X509Certificate;
 import java.util.Map;
 
+import javax.net.ssl.*;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -96,18 +101,48 @@ public class LoginService extends HttpServlet {
 			return "Unkown";
 		}
 	}
+	
+	 public static void disableCertificateValidation() {
+		    // Create a trust manager that does not validate certificate chains
+		    TrustManager[] trustAllCerts = new TrustManager[] { 
+		      new X509TrustManager() {
+		        public X509Certificate[] getAcceptedIssuers() { 
+		          return new X509Certificate[0]; 
+		        }
+		        public void checkClientTrusted(X509Certificate[] certs, String authType) {}
+		        public void checkServerTrusted(X509Certificate[] certs, String authType) {}
+		    }};
+
+		    // Ignore differences between given hostname and certificate hostname
+		    /*HostnameVerifier hv = new HostnameVerifier() {
+		      public boolean verify(String hostname, SSLSession session) { return true; }
+		    };*/
+
+		    // Install the all-trusting trust manager
+		    try {
+		      SSLContext sc = SSLContext.getInstance("SSL");
+		      sc.init(null, trustAllCerts, new SecureRandom());
+		      HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+		      //HttpsURLConnection.setDefaultHostnameVerifier(hv);
+		    } catch (Exception e) {}
+		  }
+		
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
+		LoginService.disableCertificateValidation();
+		
 		String src = request.getHeader("Referer");
+		
 		JSONObject loginform = new JSONObject();
 		loginform.put("username", request.getParameter("emailid"));
 		loginform.put("password", request.getParameter("passwd"));
 		
-		String proto = "http://";
+		String proto = "https://";
 		ClientConfig cfg = new DefaultClientConfig();
 		cfg.getClasses().add(JacksonJsonProvider.class);
 		Client cl = Client.create(cfg);
@@ -118,7 +153,11 @@ public class LoginService extends HttpServlet {
 		locn = ls.findLoc(ll);
 		loginform.put("address", locn);
 		
-		WebResource wsvc = cl.resource(proto+"localhost:9080/webSvcs");
+		ServletContext context = getServletContext();
+		String apikey = context.getInitParameter("apipass");
+		
+		loginform.put("apikey", apikey);
+		WebResource wsvc = cl.resource(proto+"localhost:9443/webSvcs");
 		
 		ClientResponse c = wsvc.path("loginservices").path("checkuservalidity").
 				type(MediaType.TEXT_PLAIN).accept(MediaType.TEXT_PLAIN).

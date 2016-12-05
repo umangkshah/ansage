@@ -29,28 +29,32 @@ public class LoginServices {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		RegistrationClass hmethod=new RegistrationClass();
-		JSONObject check = hmethod.login(json);
-		
-	
-	   if(check==null)
-		{
-		   return Response.status(202).entity("false").build();
-		
-		}
-		else
-		{	
-			/*
-			check.get("date").toString();
-					
-			String mail=check.get("emailid").toString();
+		String apikey = json.get("apikey").toString();
+		if(apikey.equals("2tansage68y")){
+			RegistrationClass hmethod=new RegistrationClass();
+			JSONObject check = hmethod.login(json);
+		   if(check==null)
+			{
+			   return Response.status(202).entity("false").build();
 			
-			String coin=check.get("coins").toString();
-			*/
-			System.out.println(check.toString());
-			return Response.status(200).entity(check.toString()).build();
 			}
+			else
+			{	
+				/*
+				check.get("date").toString();
+						
+				String mail=check.get("emailid").toString();
+				
+				String coin=check.get("coins").toString();
+				*/
+				System.out.println(check.toString());
+				return Response.status(200).entity(check.toString()).build();
+				}
+	}
+	else{
+		return Response.status(200).entity("Unauthorized Access").build();
+	}
+	
 	}
 	
 	@Path("/availableusername/{username}")

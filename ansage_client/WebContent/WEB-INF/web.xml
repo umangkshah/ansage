@@ -37,6 +37,10 @@
     <param-name>pass</param-name>
     <param-value>ansage123</param-value>
   </context-param>
+   <context-param>
+    <param-name>apipass</param-name>
+    <param-value>2tansage68y</param-value>
+  </context-param>
   <filter>
     <filter-name>CompressingFilter</filter-name>
     <filter-class>com.github.ziplet.filter.compression.CompressingFilter</filter-class>
