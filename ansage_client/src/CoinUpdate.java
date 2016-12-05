@@ -1,6 +1,14 @@
 
 
 import java.io.IOException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,20 +38,40 @@ public class CoinUpdate extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+    public static void dCV() {
+	    // Create a trust manager that does not validate certificate chains
+	    TrustManager[] trustAllCerts = new TrustManager[] { 
+	      new X509TrustManager() {
+	        public X509Certificate[] getAcceptedIssuers() { 
+	          return new X509Certificate[0]; 
+	        }
+	        public void checkClientTrusted(X509Certificate[] certs, String authType) {}
+	        public void checkServerTrusted(X509Certificate[] certs, String authType) {}
+	    }};
 
+	    try {
+	      SSLContext sc = SSLContext.getInstance("SSL");
+	      sc.init(null, trustAllCerts, new SecureRandom());
+	      HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+	      //HttpsURLConnection.setDefaultHostnameVerifier(hv);
+	    } catch (Exception e) {}
+	  }
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		CoinUpdate.dCV();
+		ServletContext context = getServletContext();
+		String apikey = context.getInitParameter("apipass");
 		String owd=request.getSession().getAttribute("PROID").toString();
-		String proto = "http://";
+		String proto = "https://";
 		ClientConfig cfg = new DefaultClientConfig();
 //		cfg.getClasses().add(JacksonJsonProvider.class);
 		Client cl = Client.create(cfg);
 		
-		WebResource wsvc = cl.resource(proto+"localhost:9080/webSvcs");
-		ClientResponse c = wsvc.path("updatecoin").path("coins").path(owd).type(MediaType.TEXT_PLAIN).accept(MediaType.TEXT_PLAIN).get(ClientResponse.class);
+		WebResource wsvc = cl.resource(proto+"localhost:9443/webSvcs");
+		ClientResponse c = wsvc.path("updatecoin").path("coins").path(owd).path(apikey).type(MediaType.TEXT_PLAIN).accept(MediaType.TEXT_PLAIN).get(ClientResponse.class);
 		if (c.getStatus() != 200)
 		{
 		response.getOutputStream().print("Error");

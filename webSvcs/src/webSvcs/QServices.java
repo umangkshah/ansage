@@ -32,7 +32,8 @@ public class QServices {
 			   return Response.status(202).entity("false").build();
 
 		}
-		
+		String g = json.get("apikey").toString();
+		if(g.equals("2tansage68y")){
 		QuestionClass qc = new QuestionClass();
 		String check = qc.quesdetails(json);
 	
@@ -46,6 +47,9 @@ public class QServices {
 			
 			return Response.status(200).entity(check).build();
 		}
+		}
+		else
+			return Response.status(204).entity("Auth false").build();
 	}
 	
 	@Path("/search")
@@ -68,6 +72,7 @@ public class QServices {
 		}
 		String input=json.get("query").toString();
 		String api=json.get("apikey").toString();
+		if(api.equals("2tansage68y")){
 		String searchstring[]=input.split(" ");
 		ArrayList<String> quslist=new ArrayList<String>();
 		for(int i=0;i<searchstring.length;i++)
@@ -90,7 +95,8 @@ public class QServices {
 
 			
 		}
-		
+		}else
+			return Response.status(204).entity("Atuh false").build();
 	}
 	
 	
@@ -100,13 +106,17 @@ public class QServices {
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
     public Response getQuestion(String qid) {
-		
+		String ip[] = qid.split(" ");
+		if(ip[1].equals("2tansage68y")){
 		QuestionClass qc = new QuestionClass();
-		JSONObject jo = qc.retrievequs(Integer.parseInt(qid)); 
+		JSONObject jo = qc.retrievequs(Integer.parseInt(ip[0])); 
 		return Response.status(200).entity(jo.toString()).build();
+		}
+		else
+			return Response.status(204).entity("Auth Failure").build();
 	}
 	
-	@Path("/displayq")
+	@Path("/displayq/2tansage68y")
 	@GET
 	public Response displayQuestion()
 	{

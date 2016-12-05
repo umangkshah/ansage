@@ -16,8 +16,14 @@
 	<script>
 	$(document).ready(function(){
 		$('title').text("Ansage | View Question");
-		//$('#askq').addClass("active"); 
 		
+		setTimeout(function(){
+			setTimeout(function(){
+				$.get("Refresh",function(responseText){
+					window.location.href=responseText;
+				});
+			},30000);
+		},30000);
 	});		
 	</script>
 
@@ -70,7 +76,7 @@
                  -->
            </c:if>
            <c:if test="${admin == 1}"> 
-        
+        	<p id='nobid'>No Bids</p>
           	<c:if test="${fn:length(bidrows) > 0}">
        			<c:set var = "bidded" value="0" scope="session" />
                 <div class="row">
@@ -152,7 +158,8 @@
 						</tr>
 						</c:forEach>
 						</tbody>
-					</table>                
+					</table>   
+					<p id='tell'>Add Bids</p>             
                 </div>
            	</c:if>
            </c:if> 
@@ -311,14 +318,15 @@
 			$('#biddingform').hide();
 			$(this).hide();
 		});
-		
+		$('#nobid').text("Add Bids to Cart.");
 		$('.addtocart').click(function(){
 			var k = this.id;
 			$.get("AddToCart?bid="+k, function(responseText) {   // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
                 var no = parseInt(responseText);           // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
-            	var noc = parseInt(document.getElementById("cartcount").innerHTML);
-                var finc = no + noc;
-                $('#cartcount').text(finc);
+            	if(no == 1)
+                $('#tell').text("Bid Added added.");
+            	else
+            		$('#tell').text("Bid Already added. Go to cart to change quantity");
 			});
 		});
 		

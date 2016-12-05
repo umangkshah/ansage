@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,11 +12,9 @@
   	<%@ include file="nav.jsp" %>
 	<script>
 	$(document).ready(function(){
-		$('title').text("Ansage | Questions");
-		//$('#liqs').addClass("active"); 
-		//var doid = "#"+"\""${aci}+"\"";
-		$('#${aci}').addClass("active"); 
-		
+		$('title').text("Ansage | Home");
+		//$('#lisearch').addClass("active"); 
+		$('.navbar-brand').addClass("brand-home").attr("href","#");
 	});		
 	</script>
     <!-- Page Content -->
@@ -28,31 +27,13 @@
             
             <div class="col-md-9">
                 
-            
-				
+            	<c:if test="${sessionScope.PROID != null}">
+					<div class="row">
+						<h4>Your Last Login Was on: ${sessionScope.DATE} from: ${sessionScope.LOCN}</h4>
+					</div>
+				</c:if>
                 <div class="row">
-                <p class="lead">Questions</a></p>
-                <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-				<c:forEach var="row" items="${rows}">  
-					<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="well well-lg">
-					<div class="caption">
-					  <p>
-					  
-					  <a href="ViewQuestion?question=<c:out value='${row.qid}'/>">
-					<c:out value="${row.question}"/>
-					</a>
-					<br/>
-					Bids: <c:out value="${row.nbids}"/>	      			              
-					     </p>
-					     <p>
-					    <span class="label label-success">Cooking</span>
-					    <span class="label label-success">Household</span>
-					    </p>
-					  </div>
-					</div>
-					</div>
-				</c:forEach>
+                <p class="lead">Invalid Username or password. Try Again.</p>
                 </div>
 
                 </div>
@@ -83,3 +64,4 @@
 </body>
 
 </html>
+    

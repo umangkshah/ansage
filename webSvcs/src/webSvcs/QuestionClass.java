@@ -22,19 +22,12 @@ public class QuestionClass {
 	 private static SessionFactory sessionfactory;
 	public String quesdetails(JSONObject jsonobj)
 	{
-		
+		sessionfactory = HibernateUtil.getSessionFactory();
 		Session session=null;
 		Registrationpojo quid=null;
 		String sqd;
 		int id;
-		try
-		{
-		 sessionfactory=new Configuration().configure().buildSessionFactory();
-		}
-		catch(Exception ex)
-		{
-			return null;
-		}
+		
 		Questionpojo que=new Questionpojo();
 		String owid=jsonobj.get("ownerid").toString();
 		int profileid=Integer.parseInt(owid);
@@ -54,6 +47,7 @@ public class QuestionClass {
 			tx=session.beginTransaction();
 			Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
 			query.setParameter("profileid",profileid);
+			//query.setCacheable(true);
 			quid=(Registrationpojo)query.uniqueResult();
 			tx.commit();
 			if(quid==null)
@@ -85,9 +79,9 @@ public class QuestionClass {
 		}
         sqd=String.valueOf(id);
 		
-		sessionfactory.close();
+		
 		return sqd;
-		}
+	}
 	
 	public List<Questionpojo> displayqus()
 	{
@@ -102,6 +96,7 @@ public class QuestionClass {
 			session=sessionfactory.openSession();
 			tx=session.beginTransaction();
 			Query query=session.createQuery("FROM Questionpojo");
+			query.setCacheable(true);
 			query.setMaxResults(5);
 			queslist=query.list();
 			tx.commit();
@@ -136,6 +131,7 @@ public class QuestionClass {
 			tx=session.beginTransaction();
 			Query query=session.createQuery("from Questionpojo where qid=:qid");
 			query.setParameter("qid",qid);
+			query.setCacheable(true);
 			qus=(Questionpojo)query.uniqueResult();
 			tx.commit();
 			if(qus==null)
@@ -158,6 +154,7 @@ public class QuestionClass {
 			tx=session.beginTransaction();
 			Query query=session.createQuery("SELECT name from Registrationpojo where profileid=:profileid");
 			query.setParameter("profileid",profileid);
+			query.setCacheable(true);
 			 name=(String)query.uniqueResult();
 			tx.commit();
 			if(name==null)
@@ -231,6 +228,7 @@ public class QuestionClass {
 				  Criterion desc=Restrictions.ilike("descr","%"+qus+"%"+addt+"%",MatchMode.ANYWHERE);
 				  LogicalExpression orExp = Restrictions.or(qust, desc);
 				  cr.add(orExp);
+				  cr.setCacheable(true);
 				  result=cr.list();
 				  if(!result.isEmpty())
 				  {
@@ -246,6 +244,7 @@ public class QuestionClass {
 				desc=Restrictions.ilike("descr","%"+addt+"%"+qus+"%",MatchMode.ANYWHERE);
 				orExp = Restrictions.or(qust, desc);
 				cr1.add(orExp);
+				 cr1.setCacheable(true);
 				result1=cr1.list();
 				
 				if(!result1.isEmpty())
@@ -264,6 +263,7 @@ public class QuestionClass {
 				 desc=Restrictions.ilike("descr","%"+qus+"%",MatchMode.ANYWHERE);
 				 orExp=Restrictions.or(qust,desc);
 				 cr3.add(orExp);
+				 cr3.setCacheable(true);
 				  result2=cr3.list();
 				 if(!result2.isEmpty())
 					{
@@ -301,6 +301,7 @@ public class QuestionClass {
 						tx=session.beginTransaction();
 						Query query=session.createQuery("from Registrationpojo WHERE profileid=:profileid");
 						query.setParameter("profileid", profileid);
+						query.setCacheable(true);
 						rd=(Registrationpojo)query.uniqueResult();
 						tx.commit();
 					}

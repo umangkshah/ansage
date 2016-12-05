@@ -21,7 +21,7 @@
                     </li>
                    
                     <% if(session.getAttribute("USER") != null) { %>  
-                     <li>
+                     <li id="myqs">
                         <a href="MyQuestions">My Questions</a>
                     </li>
                     <li class="dropdown navbar-right">

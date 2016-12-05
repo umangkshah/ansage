@@ -16,11 +16,11 @@ import javax.ws.rs.PathParam;
 @Path("/profservices")
 public class ProfileServices {
 	
-	@Path("/getprofile/{id}")
+	@Path("/getprofile/{id}/{key}")
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
-	public Response getprofile(@PathParam("id")String id)
-	{
+	public Response getprofile(@PathParam("id")String id,@PathParam("key")String key)
+	{	if(key.equals("2tansage68y")){
 		ProfileClass prof=new ProfileClass();
 		Registrationpojo getprof=prof.profile(id);
 		if(getprof==null)
@@ -42,6 +42,8 @@ public class ProfileServices {
 		json.put("proid",profileid);
 		json.put("coins",coins);
 		return Response.status(200).entity(json.toString()).build();
+	}else
+		return Response.status(200).entity("Auth Fail").build();
 	}
 	
 	@Path("/edit")
@@ -59,8 +61,11 @@ public class ProfileServices {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		String g = json.get("apikey").toString();
+		if(g.equals("2tansage68y")){
 		ProfileClass prof=new ProfileClass();
 		String check=prof.editprofile(json);
+		
 		 if(check==null)
 			{
 			   return Response.status(202).entity("false").build();
@@ -70,6 +75,8 @@ public class ProfileServices {
 		 	{
 			 return Response.status(200).entity("true").build();
 		 	}
+		}else
+			return Response.status(204).entity("Auth false").build();
 	}
 
 }

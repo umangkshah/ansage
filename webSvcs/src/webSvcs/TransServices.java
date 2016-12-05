@@ -24,9 +24,11 @@ public class TransServices {
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	public Response addCart(String bidid)
-	{
+	{	
+		String ip[] = bidid.split(" ");
+		if(ip[1].equals("2tansage68y")){
 		TransClass trans=new TransClass();
-		String check=trans.inscart(bidid);
+		String check=trans.inscart(ip[0]);
 		if(check==null)
 		{
 			 return Response.status(202).entity("false").build();
@@ -35,15 +37,18 @@ public class TransServices {
 		{
 			return Response.status(200).entity("true").build();
 		}
-		
+		}
+		else
+		 return Response.status(204).entity("Auth Failed").build();
 	}
 	@Path("/remove")
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	public Response removecart(String bidid)
-	{
+	{	String ip[] = bidid.split(" ");
+		if(ip[1].equals("2tansage68y")){
 		TransClass trans=new TransClass();
-		String check=trans.removecart(bidid);
+		String check=trans.removecart(ip[0]);
 		if(check==null)
 		{
 			 return Response.status(202).entity("false").build();
@@ -52,15 +57,19 @@ public class TransServices {
 		{
 			return Response.status(200).entity("true").build();
 		}
-		
+		}else
+			return Response.status(204).entity("Auth Fail").build();
 	}
 	@Path("/retrieve")
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	public Response retcart(String oid)
-	{
+	{	
+		String ip[] = oid.split(" ");
+		if(ip[1].equals("2tansage68y")){
+		
 		TransClass trans=new TransClass();
-		List<JSONObject>translist=trans.retcart(oid);
+		List<JSONObject>translist=trans.retcart(ip[0]);
 		JSONArray ja=new JSONArray();
 		if(translist==null)
 		{
@@ -77,14 +86,17 @@ public class TransServices {
 			return  Response.ok().entity(ja.toString()).build();
 			
 		}
+		}else
+			return Response.status(204).entity("Auth false").build();
 	}
 	@Path("/checkout")
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	public Response checkout(String oid)
-	{
+	{	String ip[] = oid.split(" ");
+		if(ip[1].equals("2tansage68y")){
 		TransClass trans=new TransClass();
-		ArrayList emaillist=trans.checkout(oid);
+		ArrayList emaillist=trans.checkout(ip[0]);
 		String maillist=new String();
 		int i;
 		if(emaillist==null)
@@ -103,8 +115,10 @@ public class TransServices {
 			maillist=maillist+(String)emaillist.get(i);
 			return Response.status(200).entity(maillist).build();
 		}
+		}else
+			return Response.status(204).entity("Auth Fail").build();
 	}
-	@Path("/updateqty")
+	@Path("/updateqty/2tansage68y")
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	public Response updateqty(String jsonobj)
@@ -122,6 +136,7 @@ public class TransServices {
 		}
 		JSONArray arrayobj=new JSONArray();
 		arrayobj=(JSONArray)object;
+		
 		String check=trans.updateqty(arrayobj);
 		if(check==null)
 		{

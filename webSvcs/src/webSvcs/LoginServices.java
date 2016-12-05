@@ -57,17 +57,21 @@ public class LoginServices {
 	
 	}
 	
-	@Path("/availableusername/{username}")
+	@Path("/availableusername/{username}/{key}")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	public String availableUsername(@PathParam("username") String username) {
+	public String availableUsername(@PathParam("username") String username, @PathParam("key") String apikey) {
 		//hibernatemethod htm = new hibernatemethod();
+		if(apikey.equals("2tansage68y")){
 		String check = "false";
 		//check=htm.checkUser(username);
 		if(check.equals("true"))
 			return "true";
 		else
 			return "false";
+	}
+		else
+			return "unauth";
 	}
 }
 

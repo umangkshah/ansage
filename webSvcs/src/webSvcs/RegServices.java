@@ -30,7 +30,8 @@ public class RegServices {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		String key = json.get("apikey").toString();
+		if(key.equals("2tansage68y")){
 		RegistrationClass htm = new RegistrationClass();
 		JSONObject check = htm.registration(json); 
 		
@@ -45,5 +46,7 @@ public class RegServices {
 				//check.getCoins();
 				return Response.status(200).entity(check.toString()).build();
 			}
+		}else
+			return Response.status(204).entity("Auth false").build();
 	}
 }

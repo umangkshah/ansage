@@ -17,9 +17,9 @@ import javax.ws.rs.PathParam;
 public class UpdateServices {
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
-	@Path("/coins/{oid}")
-	public Response updatecoins(@PathParam("oid") String oid)
-	{
+	@Path("/coins/{oid}/{key}")
+	public Response updatecoins(@PathParam("oid") String oid,@PathParam("key") String key)
+	{	if(key.equals("2tansage68y")){
 		ProfileClass prof=new ProfileClass();
 		String coins=prof.getcoins(oid);
 		if(coins==null)
@@ -32,7 +32,8 @@ public class UpdateServices {
 			return Response.status(200).entity(coins).build();
 
 		}
-		
+	}else
+		return Response.status(204).entity("Auth false").build();
 	}
-
 }
+

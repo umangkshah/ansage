@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+//import org.hibernate.stat.
 import org.json.simple.JSONObject;
 
 
@@ -14,6 +15,7 @@ public class ProfileClass
 	private static SessionFactory sessionfactory;
 	
 	
+	@SuppressWarnings("deprecation")
 	public  Registrationpojo profile(String id)
 		{
 		Registrationpojo prof=null;
@@ -30,6 +32,7 @@ public class ProfileClass
 			@SuppressWarnings("rawtypes")
 			Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
 			query.setParameter("profileid",profileid);
+			query.setCacheable(true);
 			prof=(Registrationpojo)query.uniqueResult();
 			
 			tx.commit();
@@ -73,12 +76,14 @@ public class ProfileClass
 		    tx=session.beginTransaction();
 		    Query query=session.createQuery("UPDATE Registrationpojo set name=:name,tagline=:tagline,bioinfo=:bioinfo,skills=:skills where profileid=:profileid");
 		    query.setParameter("name",name);
+		    
 		   // query.setParameter("email",email);
 		    //query.setParameter("coins",coins);
 		    query.setParameter("tagline",tagline);
 		    query.setParameter("bioinfo",bioinfo);
 		    query.setParameter("skills",skills);
 		    query.setParameter("profileid",profileid);
+		    query.setCacheable(true);
 		    int result=query.executeUpdate();
 		    if(result==0)
 		    	return "false";
@@ -113,6 +118,7 @@ public class ProfileClass
 			tx=session.beginTransaction();
 			Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
 			query.setParameter("profileid",profileid);
+			query.setCacheable(true);
 			Registrationpojo rd=(Registrationpojo)query.uniqueResult();
 			tx.commit();
 			int coin=rd.getCoins();

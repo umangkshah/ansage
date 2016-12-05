@@ -13,19 +13,7 @@ import org.json.simple.*;
 
 public class BidClass 
 	{
-	/*
-	public static void main(String [] args)
-	{
-		
-		BidClass bd=new BidClass();
-		JSONObject jon=new JSONObject();
-		jon.put("qid",1);
-		jon.put("reqid",3);
-		jon.put("offer",5);
-		bd.savebid(jon);
-		
-	}*/
-
+	
 	
 	
 	
@@ -58,6 +46,7 @@ public class BidClass
 		Query query=session.createQuery("from Bidpojo WHERE qid=:qid AND reqid=:reqid");
 		query.setParameter("qid",qid);
 		query.setParameter("reqid",reqid);
+		query.setCacheable(true);
         tx.commit();
 		Bidpojo qd=(Bidpojo)query.uniqueResult();
 		if(qd!=null)
@@ -79,6 +68,8 @@ public class BidClass
 		tx=session.beginTransaction();
 		Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
 		query.setParameter("profileid",profileid);
+		query.setCacheable(true);
+
 		tx.commit();
 		Registrationpojo qd=(Registrationpojo)query.uniqueResult();
 		if(qd==null)
@@ -100,6 +91,8 @@ public class BidClass
 			tx=session.beginTransaction();
 			Query query=session.createQuery("from Questionpojo where qid=:qid");
 			query.setParameter("qid",qid);
+			query.setCacheable(true);
+
 			tx.commit();
 			 md=(Questionpojo)query.uniqueResult();
 			if(md==null)
@@ -126,6 +119,8 @@ public class BidClass
 			query.setParameter("bidcount",bidcount);
 			query.setParameter("qid",qid);
 			query.executeUpdate();
+			query.setCacheable(true);
+
 			tx.commit();
 		}
 		catch(HibernateException e)
@@ -205,6 +200,8 @@ public class BidClass
 				tx=session.beginTransaction();
 				Query query=session.createQuery("from Bidpojo where qid=:qid");
 				query.setParameter("qid",qid);
+				query.setCacheable(true);
+
 				 bidlist=query.list();
 				 tx.commit();
 				 if(bidlist==null)
@@ -231,6 +228,8 @@ public class BidClass
 					 tx=session.beginTransaction();
 					 Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
 					 query.setParameter("profileid", profileid);
+						query.setCacheable(true);
+
 					 reg=(Registrationpojo)query.uniqueResult();
 					 tx.commit();
 				 }

@@ -27,13 +27,15 @@ public class BidServices {
 		try 
 			{
 			json = (JSONObject) parser.parse(jon);
-			System.out.println("here printing " + json);
+			//System.out.println("here printing " + json);
 			} 
 		catch (ParseException e) 
 			{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			}
+		String gh = json.get("apikey").toString();
+		if(gh.equals("2tansage68y")){
 		BidClass bid = new BidClass();
 		String check = bid.savebid(json); 
 		System.out.println(check);
@@ -47,13 +49,15 @@ public class BidServices {
 				//return Response.status(202).entity("false").build();
 			return Response.status(200).entity(check).build();
 			}
+		}else
+			return Response.status(202).entity("Auth false").build();
 		}
 	
-	@Path("/retrieve/{qid}")
+	@Path("/retrieve/{qid}/{key}")
 	@GET
-    public Response retbid(@PathParam("qid") String qd)
+    public Response retbid(@PathParam("qid") String qd,@PathParam("key") String key)
     	{
-		  
+		  if(key.equals("2tansage68y")){
 		  BidClass bid=new BidClass();
 		  List<JSONObject> bidlist=bid.retbids(qd);
 		  JSONArray ja=new JSONArray();
@@ -68,7 +72,10 @@ public class BidServices {
 			 }
 			  return  Response.ok().entity(ja.toString()).build();
 		  }
-		}
+		}else
+			return Response.status(204).entity("Auth false").build();
+    	}
+    	
 			
 }
 	

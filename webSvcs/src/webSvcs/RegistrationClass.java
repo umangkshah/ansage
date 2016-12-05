@@ -101,6 +101,7 @@ public class RegistrationClass {
 		     Query query=session.createQuery("from Loginpojo where email=:email and password=:password");
 		    query.setParameter("email",email);
 		    query.setParameter("password",password);
+		    query.setCacheable(true);
 		   prof=(Loginpojo)query.uniqueResult();
 		     tx.commit();
 		     if(prof==null)
@@ -133,6 +134,7 @@ public class RegistrationClass {
 		    query.setParameter("password",password);
 		    query.setParameter("logindate",logindate);
 		    query.setParameter("address",address);
+		    query.setCacheable(true);
 			query.executeUpdate();
 			tx.commit();
 		 }
@@ -157,6 +159,7 @@ public class RegistrationClass {
 		@SuppressWarnings("rawtypes")
 		Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
 		query.setParameter("profileid",profileid);
+		query.setCacheable(true);
 		reg=(Registrationpojo)query.uniqueResult();
 		tx.commit();
 		if(reg==null)

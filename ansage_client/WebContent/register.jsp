@@ -49,12 +49,12 @@
                           <label for="Password1">Password *</label>
                           <input type="password" class="form-control" id="pass" name="pass" placeholder="Password" required/>
                         </div> 
-
+<!--
                         <div class="form-group">
                           <label for="Password2">Confirm Password *</label>
                           <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Reenter Password" required/>
                         </div>
-
+-->
                         <div class="form-group">
                           <label for="skills">I  Can Answer </label>
                           <select multiple class="form-control" id="skills" name="skills">

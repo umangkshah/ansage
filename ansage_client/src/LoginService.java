@@ -102,7 +102,7 @@ public class LoginService extends HttpServlet {
 		}
 	}
 	
-	 public static void disableCertificateValidation() {
+	 public static void dCV() {
 		    // Create a trust manager that does not validate certificate chains
 		    TrustManager[] trustAllCerts = new TrustManager[] { 
 		      new X509TrustManager() {
@@ -134,7 +134,7 @@ public class LoginService extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
-		LoginService.disableCertificateValidation();
+		LoginService.dCV();
 		
 		String src = request.getHeader("Referer");
 		
@@ -163,7 +163,8 @@ public class LoginService extends HttpServlet {
 				type(MediaType.TEXT_PLAIN).accept(MediaType.TEXT_PLAIN).
 				post(ClientResponse.class, loginform.toString());
 		if (c.getStatus() != 200) {
-			response.getOutputStream().print("Error");
+			//response.getOutputStream().print("Error");
+			response.sendRedirect("login.jsp");
 		}
 		else{
 			String respn = c.getEntity(String.class);
@@ -187,7 +188,7 @@ public class LoginService extends HttpServlet {
 			s.setAttribute("COINS",json.get("coins").toString());
 			s.setAttribute("DATE",json.get("date").toString());
 			s.setAttribute("LOCN",json.get("address").toString());
-			if(src.contains("register"))
+			if(src.contains("register") || src.contains("login.jsp"))
 				response.sendRedirect("index.jsp");
 			else
 				response.sendRedirect(src);

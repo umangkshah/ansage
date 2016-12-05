@@ -17,6 +17,15 @@
 	$(document).ready(function(){
 		$('title').text("Ansage | Shopping Cart");
 		$('#licart').addClass("active"); 
+	
+			setTimeout(function(){
+				setTimeout(function(){
+					$.get("Refresh",function(responseText){
+						window.location.href=responseText;
+					});
+				},5000);
+			},30000);
+		
 		
 	});		
 	</script>
@@ -45,14 +54,18 @@
            </c:if>
            
            <c:if test="${logged == 1 }">
-                
+                <p class='lead'>Cart is Empty. Add bids.</p>
            <c:if test="${fn:length(rows) > 0}">
        			<c:set var = "bidded" value="0" scope="session" />
-                <div class="row">
-                	<h4>Accept more bids to get more answers</h4>
-                </div>
+                
                 
                 <h4>Cart:</h4>
+				<div class="alert alert-success alert-dismissible fade in" role="alert" id="alrt">
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong>Success!</strong> Transaction successfully completed.
+				</div>
 		                <div class="row">
 							<table class="table" id="cart">
 								
@@ -77,7 +90,7 @@
 								<td id="totalo"></td>
 								<td id="totalq"></td>
 							</table>   
-							<div class="row" id="#cartcontrols">
+							<div class="row" id="cartcontrols">
 								<button id="savechanges">Save</button>
 								<button id="checkout">Checkout</button>
 							</div>             
@@ -90,24 +103,13 @@
         </div>
 	<script>
 	
-	/*
-	var cusid_ele = document.getElementsByClassName('qty');
-	var sum = 0;
-	for (var i = 0; i < cusid_ele.length; ++i) {
-	    sum = sum + parseInt(cusid_ele[i].value);
-	}
-	var cusid_ele = document.getElementsByClassName('qty');
-	var sum = 0;
-	for (var i = 0; i < cusid_ele.length; ++i) {
-	    sum = sum + parseInt(cusid_ele[i].value);
-	}*/
 	$(document).ready(function(){
 		//$('#total').text(sum);
 		
 		/*$('.qty').change(function(){
 			
 		});*/
-		
+		$('#ismt').hide();
 		$('.removefromcart').click(function(){
 			var k = this.id;
 			$.get("RemoveCart?bid="+k, function(responseText) {
@@ -136,6 +138,8 @@
 			});
 		});
 		
+		$('#alrt').hide();
+		
 		$('#checkout').click(function(){
 			$( "#savechanges" ).trigger( "click" );
 			var offs = document.getElementsByClassName('offer');
@@ -149,6 +153,7 @@
 	                	$('#totalo').html("Successful.");
 	                	$('#cart').hide();
 	                	$('#cartcontrols').hide();
+	                	$('#alrt').show();
 	                }
 	            		
 				});

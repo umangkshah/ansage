@@ -32,6 +32,8 @@ public class TransClass {
 			tx=session.beginTransaction();
 			Query query=session.createQuery("from Bidpojo where bidid=:bidid");
 			query.setParameter("bidid",bidid);
+			query.setCacheable(true);
+
 			bd=(Bidpojo)query.uniqueResult();
 			if(bd==null)
 			return null;
@@ -53,6 +55,8 @@ public class TransClass {
 			tx=session.beginTransaction();
 			Query query=session.createQuery("from Transpojo where bidid=:bidid");
 			query.setParameter("bidid",bidid);
+			query.setCacheable(true);
+
 			td=(Transpojo)query.uniqueResult();
 			if(td!=null)
 			return null;
@@ -75,6 +79,8 @@ public class TransClass {
 			tx=session.beginTransaction();
 			Query query=session.createQuery("from Questionpojo where qid=:qid");
 			query.setParameter("qid",qid);
+			query.setCacheable(true);
+
 			qd=(Questionpojo)query.uniqueResult();
 			if(qd==null)
 				return null;
@@ -136,6 +142,8 @@ public class TransClass {
 			tx=session.beginTransaction();
 			Query query=session.createQuery("DELETE FROM Transpojo WHERE bidid=:bidid");
 			query.setParameter("bidid", bidid);
+			query.setCacheable(true);
+
 			query.executeUpdate();
 			tx.commit();
 		}
@@ -171,6 +179,8 @@ public class TransClass {
 			tx=session.beginTransaction();
 			Query query=session.createQuery("from Transpojo WHERE oid=:oid");
 			query.setParameter("oid", oid);
+			query.setCacheable(true);
+
 			translist=(List<Transpojo>)query.list();
 			tx.commit();
 		}
@@ -196,6 +206,8 @@ public class TransClass {
 				tx=session.beginTransaction();
 				Query query=session.createQuery("from Bidpojo WHERE bidid=:bidid");
 				query.setParameter("bidid", bidid);
+				query.setCacheable(true);
+
 				bd=(Bidpojo)query.uniqueResult();
 				tx.commit();
 			}
@@ -217,6 +229,8 @@ public class TransClass {
 				tx=session.beginTransaction();
 				Query query=session.createQuery("from Registrationpojo WHERE profileid=:profileid");
 				query.setParameter("profileid", profileid);
+				query.setCacheable(true);
+
 				rd=(Registrationpojo)query.uniqueResult();
 				tx.commit();
 			}
@@ -259,6 +273,8 @@ public class TransClass {
 			tx=session.beginTransaction();
 			Query query=session.createQuery("from Transpojo WHERE oid=:oid");
 			query.setParameter("oid", oid);
+			query.setCacheable(true);
+
 			translist=(List<Transpojo>)query.list();
 			tx.commit();
 		}
@@ -311,6 +327,8 @@ public class TransClass {
 				Query query=session.createQuery("UPDATE Registrationpojo SET coins=:coins where profileid=:profileid");
 				query.setParameter("coins",coins);
 				query.setParameter("profileid",profileid);
+				query.setCacheable(true);
+
 				query.executeUpdate();
 				tx.commit();
 			}
@@ -339,6 +357,8 @@ public class TransClass {
 					Query query=session.createQuery("UPDATE Registrationpojo SET coins=:coins WHERE profileid=:profileid");
 					query.setParameter("coins",coins);
 					query.setParameter("profileid",profileid);
+					query.setCacheable(true);
+
 					query.executeUpdate();
 					tx.commit();
 				}
@@ -394,6 +414,8 @@ public class TransClass {
 				tx=session.beginTransaction();
 				Query query=session.createQuery("from Bidpojo where bidid=:bidid");
 				query.setParameter("bidid",bidid);
+				query.setCacheable(true);
+
 				Bidpojo bd=(Bidpojo)query.uniqueResult();
 				tx.commit();
 				int offer=bd.getOffer();
@@ -438,6 +460,8 @@ public class TransClass {
 			tx=session.beginTransaction();
 			Query query=session.createQuery("from Registrationpojo WHERE profileid=:profileid");
 			query.setParameter("profileid",profileid);
+			query.setCacheable(true);
+
 			Registrationpojo rd=(Registrationpojo)query.uniqueResult();
 			 coins=rd.getCoins();
 		}
@@ -471,6 +495,7 @@ public class TransClass {
 				tx=session.beginTransaction();
 				Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
 				query.setParameter("profileid",profileid);
+				query.setCacheable(true);
 				Registrationpojo rd=(Registrationpojo)query.uniqueResult();
 				tx.commit();
 				int coins=rd.getCoins();
@@ -507,6 +532,8 @@ public class TransClass {
 				tx=session.beginTransaction();
 				Query query=session.createQuery("from Registrationpojo where profileid=:profileid");
 				query.setParameter("profileid",profileid);
+				query.setCacheable(true);
+
 				Registrationpojo rd=(Registrationpojo)query.uniqueResult();
 				tx.commit();
 				String mail=rd.getEmail();
@@ -538,7 +565,9 @@ public class TransClass {
 			tx=session.beginTransaction();
 			Query query=session.createQuery("DELETE FROM Transpojo where oid=:oid");
 			query.setParameter("oid",oid);
+			query.setCacheable(true);
 			int m=query.executeUpdate();
+
 			if(m==0)
 				return null;
 			tx.commit();
@@ -574,6 +603,8 @@ public class TransClass {
 					tx=session.beginTransaction();
 					Query query=session.createQuery("DELETE FROM Bidpojo where bidid=:bidid");
 					query.setParameter("bidid",bidid);
+					query.setCacheable(true);
+
 					int m=query.executeUpdate();
 					if(m==0)
 						return null;
@@ -613,6 +644,8 @@ public class TransClass {
 				Query query=session.createQuery("UPDATE Transpojo set qty=:qty where bidid=:bidid");
 				query.setParameter("qty", qty);
 				query.setParameter("bidid", bidid);
+				query.setCacheable(true);
+
 				int m=query.executeUpdate();
 				tx.commit();
 			}

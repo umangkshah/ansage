@@ -48,7 +48,7 @@
                 <% } else { %>
                 <!-- Else this -->
                 <div class="well">
-                Welcome, 
+                Hey, 
 				<%= session.getAttribute("NAME")%>
                 </div>
                 <div class="list-group">
@@ -67,7 +67,7 @@
                 		$.get("CoinUpdate",function(respText){
     						$('#dispcoin').text("My Coins: " + respText);
     					});
-                	},30000);
+                	},1000000);
 					
 				});	
                 </script>

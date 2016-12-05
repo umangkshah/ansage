@@ -20,7 +20,8 @@ import javax.persistence.Column;
 import javax.persistence.Temporal;
 
 @Entity
-
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE ,region="infocache") 
 @Table(name="question")
 
 
